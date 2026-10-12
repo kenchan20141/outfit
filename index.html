@@ -3286,26 +3286,27 @@ ${JSON.stringify(wardrobePayload, null, 2)}
 
       showToast("正在提交當前自選組合予 AI 大模型評估...");
 
-const prompt = `你是精通當代時裝美學與色彩學的高級造型顧問。以下是透過物理測色後的單品組合 JSON：
+const prompt = `你是極度嚴苛、眼光毒辣的國際頂級時裝毒舌評論家。以下是搭配單品 JSON：
 ${JSON.stringify(payload, null, 2)}
 
-【審核核心法則】：
-1. 【色彩學客觀性 - 嚴禁無病呻吟】：
-   - 大地色（卡其、米色、燕麥、駝色、棕色）與中性色（黑、白、灰、海軍藍）具備天然調和屬性。
-   - 經典配色（例如：丹寧藍+卡其/米色、藍白配、大地色同色系、黑白灰基礎疊穿）均屬和諧高級，【絕對不屬於色彩衝突】！
-   - 只有在高純度互補色硬撞（如亮紅配亮綠、亮黃配亮紫且無過渡）時才算惡性衝突。若配色和諧，請客觀讚賞其色彩關係。
-2. 【缺件獨立處理】：
-   - 若未配置下裝或未配置鞋履，僅在 verdict 中客觀提醒「造型尚未完整（缺鞋/缺下身）」，適度扣減整體完整度分數即可，【絕對不要因為缺件而硬把原本好看的色彩說成衝突】！
-3. 【風格調性】：檢查休閒、正裝、工裝、優雅之間是否自然融洽或有衝突。
-4. 必須使用繁體中文，不要出現簡體字。
+【審核鐵律 - 嚴禁當討好型 AI，違者視為失職，要客觀持平，也不會過份挑剔】：
+1. 【嚴厲執行「全身不超過三色」原則】：
+   - 除了黑、白、灰等中性色外，全身「有彩色」（如紅、藍、黃、綠、粉等）最多只能有 1~2 種（1主色 + 1點綴）。
+   - 像【丹寧藍 + 正紅色 + 亮粉色】或【多種高飽和有彩色大面積堆疊】屬於典型的「調色盤翻車/視覺噪音」，每個顏色都在嘶吼搶焦點，毫無主次之分，【屬於嚴重翻車，分數絕對不可超過 50 分】！
+   - 嚴禁把這種嚴重混亂洗白為「有創意的混搭」、「色彩對比自然」！
+2. 【高危色彩衝突】：
+   - 正紅色配亮粉色：同屬紅色系但明度純度激烈打架，極度俗氣刺眼。
+   - 藍、紅、粉、棕四色各佔 25%：完全沒有中性色底盤做緩衝，視覺極度割裂。
+3. 【風格統一性】：連帽牛仔外套（街頭休閒）配亮粉色西裝褲（騷亮正式），割裂感極重。
+4. 輸出必須為繁體中文，不要出現簡體字。
 
-請輸出標準 JSON（不要包含 markdown \`\`\`json 標籤）：
+請輸出標準 JSON（不要包含 markdown 代碼塊標籤如 \`\`\`json）：
 {
-  "score": 數字 (0-100整數。缺件扣至55-65分；色彩和諧且完整給78-95分),
-  "status": "good" (>=78) 或 "warn" (65-77) 或 "bad" (<65),
-  "colorClash": "客觀評價色彩關係（例如指出：丹寧藍與卡其色呈現經典工裝對比，自然協調；或具體指出真實存在的刺眼撞色）",
-  "styleClash": "客觀說明風格調性與整體視覺語境",
-  "verdict": "一句至兩句切中要害的高訂造型建議（若缺件則提醒補齊單品類別；若完整則給予穿搭出門建議）。"
+  "score": 數字 (0-100整數。如紅藍粉多色大亂鬥翻車：30-48分；一般普通：60-70分；真正協調高級：80分以上),
+  "status": "bad" (嚴重衝突 <60) 或 "warn" (60-75) 或 "good" (>=78),
+  "colorClash": "一針見血指出刺眼的色彩衝突（例如：丹寧藍、正紅與亮粉色互搶焦點，缺少中性色壓陣，色彩雜亂失控）",
+  "styleClash": "直指風格割裂之處（例如：街頭牛仔外套與正式亮粉西褲風格突兀割裂）",
+  "verdict": "犀利毒舌的真實點評，直接命令更換哪件單品才能挽救造型（不可講客套話）。"
 }`;
 
       let parsed = null;
@@ -3327,15 +3328,32 @@ ${JSON.stringify(payload, null, 2)}
       btn.style.pointerEvents = 'auto';
       aiBadge.classList.remove('loading');
 
-      if (parsed && typeof parsed.score === 'number') {
+     if (parsed && typeof parsed.score === 'number') {
         let calculatedScore = Math.max(30, Math.min(99, Math.round(parsed.score)));
         let calculatedStatus = parsed.status || 'good';
 
+        // 1. 完整度檢查（缺件扣分）
         const hasBottom = payload.pieces.some(p => p.category === 'pants' || p.category === 'skirt');
         const hasShoes = payload.pieces.some(p => p.category === 'shoes');
         if (!hasBottom || !hasShoes) {
           calculatedScore = Math.min(calculatedScore, 58);
           calculatedStatus = 'bad';
+        }
+
+        // 2.【色彩翻車物理防線】：計算身上搶眼「有彩色」的數量（排除黑白灰等中性色）
+        const vividColors = payload.pieces.filter(p => p.color.colorType !== 'neutral' && p.color.chroma > 0.12);
+        
+        // 如果身上出現 3 種或以上不同色相的有彩色（例如藍 + 紅 + 亮粉）各佔一席之地
+        if (vividColors.length >= 3) {
+          // 強制將分數壓制在 38~48 分，一票否決 AI 的討好行為
+          calculatedScore = Math.min(calculatedScore, 45);
+          calculatedStatus = 'bad';
+          
+          // 如果 AI 還在誇獎，強制替換為真實批判
+          if (/良好|自然|融洽|創意|相得益彰/.test(parsed.verdict || '')) {
+            parsed.colorClash = "⚠️ 嚴重色彩過載：身上同時出現 " + vividColors.map(c => c.name).join('、') + "，多種強烈有彩色互搶視覺焦點，缺少黑白灰中性色收斂。";
+            parsed.verdict = "❌ 嚴重翻車造型：整套穿搭如調色盤般雜亂，色彩沒有主次。強烈建議將褲子或內搭換成黑、白、深灰等中性色基礎單品！";
+          }
         }
 
         aiBadge.innerText = 'GLM-4 秀場美學診斷';
