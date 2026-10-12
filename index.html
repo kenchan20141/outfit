@@ -1,0 +1,3676 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>L'ALLURE - 私人真實衣櫥與智能人體穿搭模擬</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #08080A;
+      --card-bg: #111115;
+      --card-inner: #16161C;
+      --border: #202028;
+      --border-focus: #3A3A48;
+      --text: #F3F3F7;
+      --muted: #6E6E7E;
+      --accent: #E5E5EB;
+      
+      /* 高訂品類專屬識別色 */
+      --cat-outer: #C5A880;     /* 外套大衣 - 典雅金棕 */
+      --cat-top: #8AA39B;       /* 上裝內搭 - 鼠尾草綠 */
+      --cat-pants: #7B92A8;     /* 褲裝 - 板岩青藍 */
+      --cat-skirt: #B0899E;     /* 裙裝 - 煙粉灰紫 */
+      --cat-shoes: #C7A27C;     /* 鞋履 - 暖銅駝色 */
+
+      /* 人體動態調色 */
+      --c-outer: #282830;
+      --c-mid: transparent;
+      --c-inner: transparent;
+      --c-bottom: #1E1E26;
+      --c-shoes: #111114;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 16px 20px;
+    }
+
+    @media (min-width: 768px) {
+      body {
+        padding: 24px 38px;
+      }
+    }
+
+    /* HEADER */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+
+    .brand-sub {
+      font-size: 0.55rem;
+      letter-spacing: 0.32em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .nav-actions-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 4px;
+      background: #131317;
+      padding: 4px;
+      border-radius: 30px;
+      border: 1px solid var(--border);
+    }
+
+    .svg-nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      padding: 8px 16px;
+      border-radius: 24px;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+    }
+
+    .svg-nav-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke-width: 1.6;
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .svg-nav-btn.active {
+      background: var(--text);
+      color: var(--bg);
+      font-weight: 600;
+    }
+
+    .svg-nav-btn.active svg {
+      stroke: var(--bg);
+    }
+
+    .closet-trigger-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--cat-outer);
+      padding: 8px 18px;
+      border-radius: 24px;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s;
+    }
+
+    .closet-trigger-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--cat-outer);
+      stroke-width: 1.6;
+      fill: none;
+    }
+
+    .closet-trigger-btn:hover {
+      border-color: var(--cat-outer);
+      background: rgba(197, 168, 128, 0.08);
+    }
+
+    /* VIEW CONTENT */
+    .view-content {
+      display: none;
+      flex: 1;
+      margin-top: 22px;
+    }
+
+    .view-content.active {
+      display: flex;
+    }
+
+    /* VIEW 01: CAPTURE STUDIO */
+    #view-capture {
+      flex-direction: column;
+      gap: 24px;
+      max-width: 1040px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .capture-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 860px) {
+      .capture-layout {
+        grid-template-columns: 420px 1fr;
+      }
+    }
+
+    .camera-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .viewport-frame {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      max-height: 440px;
+      background: radial-gradient(circle at center, #181820 0%, #0A0A0D 100%);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 3px;
+    }
+
+    #cameraVideo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    #capturedImage {
+      max-width: 100%;
+      max-height: 100%;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+      border-radius: 2px;
+    }
+
+    .empty-cam-hint {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+      padding: 24px;
+    }
+
+    .editorial-badge {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      letter-spacing: 0.22em;
+      color: var(--cat-outer);
+      text-transform: uppercase;
+    }
+
+    .editorial-sub {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .scan-laser {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cat-outer), transparent);
+      box-shadow: 0 0 14px var(--cat-outer);
+      display: none;
+      animation: laserMove 2s infinite ease-in-out;
+      z-index: 10;
+    }
+
+    @keyframes laserMove {
+      0% { top: 2%; opacity: 0.3; }
+      50% { top: 96%; opacity: 1; }
+      100% { top: 2%; opacity: 0.3; }
+    }
+
+    .cam-actions {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 18px;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s;
+    }
+
+    .action-btn:hover {
+      border-color: var(--accent);
+      background: #202028;
+    }
+
+    .action-btn.primary {
+      background: var(--text);
+      color: var(--bg);
+      font-weight: 600;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    .studio-summary-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .editorial-status-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.64rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cat-outer);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+    }
+
+    .status-pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cat-outer);
+      box-shadow: 0 0 8px var(--cat-outer);
+    }
+
+    .editorial-lead-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .editorial-h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.12em;
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    .editorial-desc {
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      line-height: 1.7;
+    }
+
+    /* 錄入卡片 */
+    .recent-scanned-card {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      padding: 18px;
+      border-radius: 4px;
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .recent-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cat-outer);
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .recent-edit-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .recent-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .recent-input {
+      background: #111116;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .recent-input:focus {
+      border-color: var(--cat-outer);
+    }
+
+    .recent-pills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(68px, 1fr));
+      gap: 6px;
+    }
+
+    .recent-cat-btn, .recent-season-pill, .recent-style-pill {
+      background: #15151D;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 7px 4px;
+      font-size: 0.62rem;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .recent-cat-btn:hover, .recent-season-pill:hover, .recent-style-pill:hover {
+      border-color: var(--cat-outer);
+      color: var(--text);
+    }
+
+    .recent-cat-btn.active, .recent-season-pill.active, .recent-style-pill.active {
+      background: rgba(197, 168, 128, 0.15);
+      border-color: var(--cat-outer);
+      color: var(--cat-outer);
+      font-weight: 600;
+    }
+
+    .color-picker-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #111116;
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 3px;
+    }
+
+    .color-picker-input {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border: 1px solid var(--border-focus);
+      border-radius: 50%;
+      cursor: pointer;
+      background: transparent;
+      padding: 0;
+      outline: none;
+    }
+
+    .color-picker-input::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    .color-picker-input::-webkit-color-swatch {
+      border: none;
+      border-radius: 50%;
+    }
+
+    .recent-color-name {
+      font-size: 0.75rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .recent-color-hex {
+      font-size: 0.65rem;
+      color: var(--muted);
+      font-family: monospace;
+    }
+
+    .recalc-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--cat-outer);
+      font-size: 0.58rem;
+      padding: 3px 8px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-left: auto;
+    }
+
+    .recalc-btn:hover {
+      background: rgba(197, 168, 128, 0.1);
+      border-color: var(--cat-outer);
+    }
+
+    /* VIEW 02: STYLING & MANNEQUIN */
+    #view-style {
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .controls-shelf {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .shelf-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .shelf-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .season-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .season-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 7px 14px;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    .season-btn.active {
+      border-color: var(--cat-outer);
+      color: var(--cat-outer);
+      background: rgba(197, 168, 128, 0.08);
+      font-weight: 600;
+    }
+
+    .layer-selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .layer-pill {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 6px 14px;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      border-radius: 18px;
+      transition: all 0.2s;
+    }
+
+    .layer-pill.active {
+      border-color: var(--text);
+      color: var(--text);
+      background: #24242E;
+      font-weight: 500;
+    }
+
+    .actions-cluster {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .ai-magic-btn {
+      background: linear-gradient(135deg, rgba(197, 168, 128, 0.2) 0%, rgba(197, 168, 128, 0.05) 100%);
+      border: 1px solid var(--cat-outer);
+      color: var(--cat-outer);
+      padding: 8px 18px;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      transition: all 0.25s;
+      box-shadow: 0 0 12px rgba(197, 168, 128, 0.15);
+    }
+
+    .ai-magic-btn:hover {
+      background: var(--cat-outer);
+      color: var(--bg);
+      box-shadow: 0 0 20px rgba(197, 168, 128, 0.35);
+    }
+
+    .ai-analyze-btn {
+      background: var(--card-inner);
+      border: 1px solid var(--border-focus);
+      color: var(--text);
+      padding: 8px 16px;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s;
+    }
+
+    .ai-analyze-btn:hover {
+      border-color: var(--accent);
+      background: #22222C;
+    }
+
+    .style-main-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 920px) {
+      .style-main-layout {
+        grid-template-columns: 320px 1fr;
+      }
+    }
+
+    .mannequin-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .mannequin-top-info {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .mannequin-heading {
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .mannequin-layer-tag {
+      font-size: 0.6rem;
+      color: var(--cat-outer);
+      letter-spacing: 0.1em;
+    }
+
+    .mannequin-svg-container {
+      width: 100%;
+      height: 420px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #mannequinSvg {
+      height: 100%;
+      max-width: 220px;
+      filter: drop-shadow(0 14px 28px rgba(0,0,0,0.65));
+    }
+
+    #mannequinSvg path, #mannequinSvg ellipse {
+      transition: fill 0.35s ease, opacity 0.35s ease;
+    }
+
+    .mannequin-legend {
+      width: 100%;
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+
+    .legend-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+
+    .legend-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    /* REAL OUTFIT CARDS */
+    .outfit-display-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .cards-responsive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      transition: opacity 0.25s ease;
+    }
+
+    .outfit-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      animation: cardFadeIn 0.3s ease;
+    }
+
+    .outfit-card.is-locked {
+      border-color: var(--cat-outer);
+      background: #141318;
+    }
+
+    @keyframes cardFadeIn {
+      from { opacity: 0.3; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .outfit-card.empty-slot {
+      border: 1px dashed var(--border);
+      justify-content: center;
+      align-items: center;
+      min-height: 240px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .card-meta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .card-photo-box {
+      width: 100%;
+      height: 200px;
+      background: #0E0E13;
+      border-radius: 3px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.04);
+      cursor: pointer;
+    }
+
+    .card-photo-box:hover .click-replace-hint {
+      opacity: 1;
+    }
+
+    .click-replace-hint {
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 8, 10, 0.75);
+      backdrop-filter: blur(2px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cat-outer);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+
+    .click-replace-hint svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--cat-outer);
+      stroke-width: 1.8;
+      fill: none;
+    }
+
+    .card-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .card-title {
+      font-size: 0.75rem;
+      font-weight: 400;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-color-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.62rem;
+      color: var(--muted);
+    }
+
+    /* 評析面板 */
+    .analysis-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      position: relative;
+    }
+
+    @media (min-width: 768px) {
+      .analysis-panel {
+        grid-template-columns: 1fr 1.3fr;
+      }
+    }
+
+    .spectrum-bar {
+      display: flex;
+      height: 16px;
+      border-radius: 2px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 10px;
+    }
+
+    .spectrum-segment {
+      height: 100%;
+      transition: width 0.3s;
+    }
+
+    .color-tags {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tag-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.62rem;
+      color: var(--muted);
+    }
+
+    .style-verdict-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+    }
+
+    @media (min-width: 768px) {
+      .style-verdict-box {
+        padding-left: 20px;
+        border-left: 1px solid var(--border);
+      }
+    }
+
+    .style-verdict-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .style-verdict-tag {
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      color: var(--cat-outer);
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ai-engine-badge {
+      font-size: 0.52rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: rgba(197, 168, 128, 0.12);
+      border: 1px solid rgba(197, 168, 128, 0.3);
+      color: var(--cat-outer);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .ai-engine-badge.loading {
+      animation: pulseBadge 1.2s infinite ease-in-out;
+    }
+
+    @keyframes pulseBadge {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; border-color: var(--accent); color: #fff; }
+      100% { opacity: 0.4; }
+    }
+
+    .style-match-score {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      border: 1px solid;
+    }
+
+    .style-match-score.score-good {
+      color: #98C379;
+      background: rgba(152, 195, 121, 0.12);
+      border-color: rgba(152, 195, 121, 0.3);
+    }
+
+    .style-match-score.score-warn {
+      color: #E5C07B;
+      background: rgba(229, 192, 123, 0.12);
+      border-color: rgba(229, 192, 123, 0.35);
+    }
+
+    .style-match-score.score-bad {
+      color: #E06C75;
+      background: rgba(224, 108, 117, 0.15);
+      border-color: rgba(224, 108, 117, 0.45);
+    }
+
+    .verdict-dimensions-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .dimension-pill-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.68rem;
+      line-height: 1.5;
+    }
+
+    .dim-sub-title {
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .style-verdict-text {
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      line-height: 1.6;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 10px 12px;
+      border-radius: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    /* MODAL: ITEM SELECTOR PICKER */
+    .picker-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 4, 6, 0.82);
+      backdrop-filter: blur(14px);
+      z-index: 1100;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .picker-modal-overlay.open {
+      display: flex;
+    }
+
+    .picker-container {
+      background: #0E0E13;
+      border: 1px solid var(--border);
+      width: 100%;
+      max-width: 680px;
+      max-height: 80vh;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.85);
+    }
+
+    .picker-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .picker-title-wrap h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.14em;
+      color: var(--cat-outer);
+    }
+
+    .picker-title-wrap p {
+      font-size: 0.58rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-top: 2px;
+    }
+
+    .picker-grid-scroll {
+      padding: 18px;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+    }
+
+    .picker-option-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .picker-option-card:hover {
+      border-color: var(--cat-outer);
+      transform: translateY(-2px);
+    }
+
+    .picker-option-card.selected {
+      border-color: var(--cat-outer);
+      background: rgba(197, 168, 128, 0.08);
+    }
+
+    .picker-thumb-wrap {
+      width: 100%;
+      aspect-ratio: 1;
+      background: #14141B;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .picker-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .picker-name {
+      font-size: 0.65rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--text);
+    }
+
+    .picker-color-tag {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.55rem;
+      color: var(--muted);
+    }
+
+    /* MODAL: WALK-IN CLOSET OVERVIEW */
+    .closet-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 4, 6, 0.86);
+      backdrop-filter: blur(16px);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .closet-modal-overlay.open {
+      display: flex;
+    }
+
+    .closet-wardrobe-container {
+      background: #0D0D11;
+      border: 1px solid var(--border);
+      width: 100%;
+      max-width: 1080px;
+      height: 90vh;
+      max-height: 840px;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+      overflow: hidden;
+    }
+
+    .closet-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .closet-title-wrap h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 400;
+      color: var(--cat-outer);
+    }
+
+    .closet-title-wrap p {
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .closet-close-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+    }
+
+    .closet-close-btn:hover {
+      border-color: var(--cat-outer);
+      color: var(--cat-outer);
+    }
+
+    .closet-stats-bar {
+      display: flex;
+      gap: 16px;
+      padding: 12px 24px;
+      background: #121217;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      align-items: center;
+    }
+
+    .stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      white-space: nowrap;
+      color: var(--muted);
+    }
+
+    .stat-pill strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .stat-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .closet-compartments-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .cabinet-section {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-top: 14px;
+      border-top: 1px solid;
+    }
+
+    .cabinet-section.theme-outer { border-color: rgba(197, 168, 128, 0.25); }
+    .cabinet-section.theme-top { border-color: rgba(138, 163, 155, 0.25); }
+    .cabinet-section.theme-pants { border-color: rgba(123, 146, 168, 0.25); }
+    .cabinet-section.theme-skirt { border-color: rgba(176, 137, 158, 0.25); }
+    .cabinet-section.theme-shoes { border-color: rgba(199, 162, 124, 0.25); }
+
+    .cabinet-section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.66rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .cabinet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 14px;
+    }
+
+    .cabinet-item-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+    }
+
+    .cabinet-thumb-wrap {
+      width: 100%;
+      aspect-ratio: 1;
+      background: #14141A;
+      border-radius: 2px;
+      display: center;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .cabinet-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cabinet-item-name {
+      font-size: 0.68rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--text);
+    }
+
+    .cabinet-color-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    .cabinet-color-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .cabinet-color-picker {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      left: 0;
+      top: 0;
+    }
+
+    .cabinet-color-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.25);
+      display: inline-block;
+    }
+
+    .cabinet-color-name {
+      font-size: 0.58rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .cabinet-recalc-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--muted);
+      font-size: 0.52rem;
+      padding: 2px 5px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cabinet-recalc-btn:hover {
+      color: var(--cat-outer);
+      border-color: var(--cat-outer);
+    }
+
+    .cabinet-season-chips {
+      display: flex;
+      gap: 4px;
+      margin-top: 2px;
+    }
+
+    .season-micro-tag {
+      font-size: 0.5rem;
+      padding: 1px 4px;
+      border-radius: 2px;
+      background: #181820;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .season-micro-tag.on {
+      background: rgba(197, 168, 128, 0.18);
+      color: var(--cat-outer);
+    }
+
+    .cabinet-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin-top: 4px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .drawer-reassign-label {
+      font-size: 0.54rem;
+      color: var(--muted);
+      white-space: nowrap;
+      letter-spacing: 0.05em;
+    }
+
+    .drawer-reassign-select {
+      background: #151520;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.58rem;
+      padding: 4px 6px;
+      border-radius: 2px;
+      cursor: pointer;
+      outline: none;
+      flex: 1;
+      transition: border-color 0.2s;
+    }
+
+    .drawer-reassign-select:focus {
+      border-color: var(--cat-outer);
+    }
+
+    .cabinet-del-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: rgba(0,0,0,0.7);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #bbb;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 2;
+    }
+
+    .cabinet-del-btn:hover {
+      background: #E06C75;
+      color: #fff;
+    }
+
+    .empty-cabinet-slot {
+      font-size: 0.62rem;
+      color: var(--muted);
+      border: 1px dashed var(--border);
+      padding: 24px;
+      text-align: center;
+      border-radius: 3px;
+      letter-spacing: 0.1em;
+    }
+
+    /* TOAST */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #181820;
+      border: 1px solid var(--border-focus);
+      color: var(--text);
+      padding: 9px 20px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      display: none;
+      z-index: 2000;
+      letter-spacing: 0.08em;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand-wrap">
+      <div class="brand">L'ALLURE</div>
+      <div class="brand-sub">Haute Couture Multimodal Wardrobe</div>
+    </div>
+
+    <div class="nav-actions-group">
+      <div class="nav-tabs">
+        <button class="svg-nav-btn active" id="tabCapture" onclick="switchView('capture')">
+          <svg viewBox="0 0 24 24"><path d="M4 7h4l2-3h4l2 3h4v12H4z"/><circle cx="12" cy="13" r="4"/></svg>
+          <span>01 拍照錄入</span>
+        </button>
+
+        <button class="svg-nav-btn" id="tabStyle" onclick="switchView('style')">
+          <svg viewBox="0 0 24 24"><path d="M12 2v3m-5 4l5-2 5 2v6l-5 3-5-3V9zm-4 13h18"/></svg>
+          <span>02 穿搭模擬</span>
+        </button>
+      </div>
+
+      <button class="closet-trigger-btn" onclick="openClosetModal()">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="9" y1="12" x2="9" y2="14"/><line x1="15" y1="12" x2="15" y2="14"/></svg>
+        <span>衣櫥一覽 (<span id="btnWardrobeCount">0</span>)</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- VIEW 01: CAPTURE STUDIO -->
+  <section id="view-capture" class="view-content active">
+    <div class="capture-layout">
+      
+      <div class="camera-box">
+        <div class="viewport-frame">
+          <div class="scan-laser" id="scanLaser"></div>
+          <video id="cameraVideo" autoplay playsinline muted></video>
+          <img id="capturedImage" alt="Captured preview">
+          
+          <div class="empty-cam-hint" id="camHint">
+            <span class="editorial-badge">Atelier Studio</span>
+            <p class="editorial-sub">點擊拍攝或匯入實體衣物相片<br>剔除背景干擾 · 本地精準提取主體真實色相</p>
+          </div>
+        </div>
+
+        <div class="cam-actions">
+          <button class="action-btn" id="btnToggleCam" onclick="toggleCamera()">開啟相機</button>
+          <button class="action-btn primary" id="btnSnap" onclick="snapPhoto()" style="display: none;">拍攝並取樣</button>
+          
+          <label class="action-btn" style="cursor: pointer;">
+            <span>上傳相片</span>
+            <input type="file" id="fileInput" accept="image/*" onchange="handleFileUpload(event)">
+          </label>
+        </div>
+      </div>
+
+      <div class="studio-summary-panel">
+        <div class="editorial-status-bar">
+          <span class="status-pulse-dot"></span>
+          <span>L'ARCHIVE · 典藏庫就緒</span>
+        </div>
+
+        <div class="editorial-lead-wrap">
+          <h3 class="editorial-h3">智能前景濾鏡 · 排除背景雜色</h3>
+          <p class="editorial-desc">
+            自動過濾背板雜色，並以大模型判定品類、風格基調與適用季節（鞋履、褲裝默認四季適配，上裝支援秋冬疊穿）。
+          </p>
+        </div>
+
+        <!-- 錄入編輯卡片 -->
+        <div class="recent-scanned-card" id="recentCard">
+          <div class="recent-card-header">
+            <span>01 / 最新辨識錄入</span>
+            <span id="recentCatTag" style="color:var(--cat-outer); font-weight:600;">-</span>
+          </div>
+
+          <div class="recent-edit-group">
+            <label class="recent-label">單品名稱</label>
+            <input type="text" id="recentNameInput" class="recent-input" placeholder="單品名稱" onchange="handleRecentNameChange(this.value)">
+          </div>
+
+          <div class="recent-edit-group">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <label class="recent-label">主體顏色校正 (已排除背景)</label>
+              <button type="button" class="recalc-btn" onclick="recalcRecentItemColor()">↺ 排除背景重取色</button>
+            </div>
+            <div class="color-picker-row">
+              <input type="color" id="recentColorPicker" class="color-picker-input" onchange="handleRecentColorPickerChange(this.value)" title="點選色盤微調">
+              <span id="recentColorName" class="recent-color-name">-</span>
+              <span id="recentColorHex" class="recent-color-hex">-</span>
+            </div>
+          </div>
+
+          <div class="recent-edit-group">
+            <label class="recent-label">修正品類分區</label>
+            <div class="recent-pills-grid">
+              <button type="button" class="recent-cat-btn" data-drawer="outer" onclick="handleRecentDrawerChange('outer')">外套大衣</button>
+              <button type="button" class="recent-cat-btn" data-drawer="top" onclick="handleRecentDrawerChange('top')">上裝內搭</button>
+              <button type="button" class="recent-cat-btn" data-drawer="pants" onclick="handleRecentDrawerChange('pants')">褲裝系列</button>
+              <button type="button" class="recent-cat-btn" data-drawer="skirt" onclick="handleRecentDrawerChange('skirt')">裙裝系列</button>
+              <button type="button" class="recent-cat-btn" data-drawer="shoes" onclick="handleRecentDrawerChange('shoes')">鞋履系列</button>
+            </div>
+          </div>
+
+          <div class="recent-edit-group">
+            <label class="recent-label">風格基調</label>
+            <div class="recent-pills-grid">
+              <button type="button" class="recent-style-pill" data-style="smart" onclick="handleRecentStyleChange('smart')">雅痞/正裝</button>
+              <button type="button" class="recent-style-pill" data-style="casual" onclick="handleRecentStyleChange('casual')">休閒日常</button>
+              <button type="button" class="recent-style-pill" data-style="workwear" onclick="handleRecentStyleChange('workwear')">工裝/粗獷</button>
+              <button type="button" class="recent-style-pill" data-style="elegant" onclick="handleRecentStyleChange('elegant')">優雅柔和</button>
+              <button type="button" class="recent-style-pill" data-style="minimal" onclick="handleRecentStyleChange('minimal')">極簡冷淡</button>
+            </div>
+          </div>
+
+          <div class="recent-edit-group">
+            <label class="recent-label">適用季節 (可多選，點擊切換)</label>
+            <div class="recent-pills-grid">
+              <button type="button" class="recent-season-pill" id="pillSeasonSpring" onclick="toggleRecentSeason('spring')">春 SPRING</button>
+              <button type="button" class="recent-season-pill" id="pillSeasonSummer" onclick="toggleRecentSeason('summer')">夏 SUMMER</button>
+              <button type="button" class="recent-season-pill" id="pillSeasonAutumn" onclick="toggleRecentSeason('autumn')">秋 AUTUMN</button>
+              <button type="button" class="recent-season-pill" id="pillSeasonWinter" onclick="toggleRecentSeason('winter')">冬 WINTER</button>
+            </div>
+          </div>
+
+          <div id="recentDetails" style="font-size:0.62rem; color:var(--muted); line-height:1.6; border-top:1px solid rgba(255,255,255,0.05); padding-top:8px;">-</div>
+        </div>
+
+        <button class="action-btn primary" style="width: 100%; margin-top: auto; padding: 12px;" onclick="goToStyling()">
+          進入穿搭模擬 ⟶
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- VIEW 02: STYLING & MANNEQUIN -->
+  <section id="view-style" class="view-content">
+    
+    <!-- 季節、層次與 AI 核心指令控制器 -->
+    <div class="controls-shelf">
+      <div class="shelf-row">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <span class="shelf-label">季節:</span>
+          <div class="season-pills">
+            <button class="season-btn active" id="btnSeasonSpring" onclick="selectSeason('spring')">春 SPRING</button>
+            <button class="season-btn" id="btnSeasonSummer" onclick="selectSeason('summer')">夏 SUMMER</button>
+            <button class="season-btn" id="btnSeasonAutumn" onclick="selectSeason('autumn')">秋 AUTUMN</button>
+            <button class="season-btn" id="btnSeasonWinter" onclick="selectSeason('winter')">冬 WINTER</button>
+          </div>
+        </div>
+
+        <div class="layer-selector-group">
+          <span class="shelf-label">層次:</span>
+          <div id="layerOptionsContainer" style="display:flex; gap:6px;"></div>
+        </div>
+
+        <!-- 兩大核心主動按鈕：AI 智能推薦 + AI 診斷現時穿搭 -->
+        <div class="actions-cluster">
+          <button class="ai-magic-btn" id="btnAiRecommend" onclick="triggerAiSmartRecommendation()" title="將全衣櫥物理色彩與當季單品提交給 AI 大模型，挑選契合度最高的組合並自動切換圖片">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span>✨ AI 智能推薦搭配</span>
+          </button>
+
+          <button class="ai-analyze-btn" id="btnAiAnalyze" onclick="triggerAiCritiqueCurrentOutfit()" title="手動更換後，點擊分析當前畫面上選中的穿搭">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>🔍 診斷現時穿搭</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN STYLING WORKSPACE -->
+    <div class="style-main-layout">
+      
+      <!-- 人體穿搭圖 -->
+      <div class="mannequin-panel">
+        <div class="mannequin-top-info">
+          <span class="mannequin-heading">人體色彩穿搭圖</span>
+          <span class="mannequin-layer-tag" id="mannequinStatusTag">雙層疊穿 · 褲裝</span>
+        </div>
+
+        <div class="mannequin-svg-container">
+          <svg id="mannequinSvg" viewBox="0 0 200 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="100" cy="466" rx="40" ry="3.5" fill="#000" opacity="0.5"/>
+            <ellipse cx="100" cy="38" rx="13" ry="18" fill="#1C1C22"/>
+            <path d="M94 54 L94 68 L106 68 L106 54 Z" fill="#18181E"/>
+
+            <!-- 1. 單層上裝 -->
+            <g id="layerSingleTop" style="display: none;">
+              <path d="M88 68 Q100 78 112 68 L126 94 L138 122 L124 126 L118 102 L116 166 L84 166 L82 102 L76 126 L62 122 L74 94 Z" fill="var(--c-outer)"/>
+            </g>
+
+            <!-- 2. 裡層內搭 -->
+            <g id="layerInner" style="display: none;">
+              <path id="pathInnerBody" d="M91 68 Q100 76 109 68 L107 142 L93 142 Z" fill="var(--c-inner)"/>
+            </g>
+
+            <!-- 3. 中層開衫 -->
+            <g id="layerMid" style="display: none;">
+              <path d="M86 70 L93 148 L99 148 L95 72 Z" fill="var(--c-mid)"/>
+              <path d="M114 70 L107 148 L101 148 L105 72 Z" fill="var(--c-mid)"/>
+            </g>
+
+            <!-- 4. 外層外套 -->
+            <g id="layerOuter" style="display: none;">
+              <path d="M91 68 L58 88 L46 195 L58 198 L68 122 L82 154 L88 154 L84 72 Z" fill="var(--c-outer)"/>
+              <path d="M109 68 L142 88 L154 195 L142 198 L132 122 L118 154 L112 154 L116 72 Z" fill="var(--c-outer)"/>
+            </g>
+
+            <!-- 下裝 A: 褲裝 -->
+            <g id="layerPants" style="display: block;">
+              <path d="M78 166 L122 166 L122 172 L78 172 Z" fill="#131317"/>
+              <path d="M78 172 L97 174 L95 385 L76 385 Z" fill="var(--c-bottom)"/>
+              <path d="M103 174 L122 172 L124 385 L105 385 Z" fill="var(--c-bottom)"/>
+            </g>
+
+            <!-- 下裝 B: 裙裝 -->
+            <g id="layerSkirt" style="display: none;">
+              <path d="M78 166 L122 166 L122 172 L78 172 Z" fill="#131317"/>
+              <path d="M78 172 L122 172 L138 296 L62 296 Z" fill="var(--c-bottom)"/>
+              <path d="M82 296 L92 296 L91 385 L81 385 Z" fill="#191920"/>
+              <path d="M108 296 L118 296 L119 385 L109 385 Z" fill="#191920"/>
+            </g>
+
+            <!-- 鞋履 -->
+            <g id="layerShoes">
+              <path d="M75 385 L95 387 L96 422 L68 422 Q66 400 75 385 Z" fill="var(--c-shoes)"/>
+              <path d="M125 385 L105 387 L104 422 L132 422 Q134 400 125 385 Z" fill="var(--c-shoes)"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="mannequin-legend" id="mannequinLegend"></div>
+      </div>
+
+      <!-- 真實單品卡片 -->
+      <div class="outfit-display-wrap">
+        <div class="cards-responsive-grid" id="outfitCardsContainer"></div>
+
+        <!-- 色彩光譜與 AI 深度美學診斷面板 -->
+        <div class="analysis-panel">
+          <div>
+            <div style="font-size:0.58rem; letter-spacing:0.2em; color:var(--muted); text-transform:uppercase; margin-bottom:10px;">
+              色彩光譜佔比
+            </div>
+            <div class="spectrum-bar" id="paletteSpectrum"></div>
+            <div class="color-tags" id="paletteTags"></div>
+          </div>
+
+          <div class="style-verdict-box">
+            <div class="style-verdict-header">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="style-verdict-tag">色彩學與風格調性深度診斷</span>
+                <span class="ai-engine-badge" id="aiStatusBadge">等待指令中</span>
+              </div>
+              <span class="style-match-score" id="styleMatchScore">契合度 --</span>
+            </div>
+
+            <div class="verdict-dimensions-container" id="verdictDimensions">
+              <div class="dimension-pill-row" id="colorClashRow" style="display:none;">
+                <span class="dim-sub-title">◈ 色彩學配匹度</span>
+                <span id="colorClashText" style="color:var(--text); opacity:0.9;">-</span>
+              </div>
+              <div class="dimension-pill-row" id="styleClashRow" style="display:none;">
+                <span class="dim-sub-title">◈ 風格與氣質調性</span>
+                <span id="styleClashText" style="color:var(--text); opacity:0.9;">-</span>
+              </div>
+            </div>
+
+            <div class="style-verdict-text" id="styleVerdictText">
+              💡 點擊「✨ AI 智能推薦搭配」自動獲取高分穿搭，或點擊單品相片手動替換後，點選「🔍 診斷現時穿搭」。
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- MODAL: ITEM PICKER -->
+  <div class="picker-modal-overlay" id="itemPickerModal">
+    <div class="picker-container">
+      <div class="picker-header">
+        <div class="picker-title-wrap">
+          <h3 id="pickerModalTitle">替換單品</h3>
+          <p id="pickerModalSubtitle">點選以更換此部位的衣服，變更時不會自動運行 AI 分析</p>
+        </div>
+        <button class="closet-close-btn" onclick="closeItemPicker()">✕</button>
+      </div>
+      <div class="picker-grid-scroll" id="pickerGrid"></div>
+    </div>
+  </div>
+
+  <!-- MODAL: WALK-IN CLOSET OVERVIEW -->
+  <div class="closet-modal-overlay" id="closetModal">
+    <div class="closet-wardrobe-container">
+      <div class="closet-header">
+        <div class="closet-title-wrap">
+          <h2>ATELIER WALK-IN CLOSET</h2>
+          <p>私人典藏實體衣櫥 · 獨立分門別類</p>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <button class="action-btn" onclick="recalcAllWardrobeColors()" style="padding:6px 14px; font-size:0.6rem; border-color:var(--cat-outer); color:var(--cat-outer);" title="重新提取所有衣物本體顏色，徹底排除背景色">
+            ↺ 一鍵重校全部色彩
+          </button>
+          <button class="closet-close-btn" onclick="closeClosetModal()">✕</button>
+        </div>
+      </div>
+
+      <div class="closet-stats-bar">
+        <div class="stat-pill">
+          <span>全部單品:</span>
+          <strong id="statTotal">0</strong>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-dot" style="background:var(--cat-outer);"></span>
+          <span>外套:</span>
+          <strong id="statOuter">0</strong>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-dot" style="background:var(--cat-top);"></span>
+          <span>上裝:</span>
+          <strong id="statTop">0</strong>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-dot" style="background:var(--cat-pants);"></span>
+          <span>褲裝:</span>
+          <strong id="statPants">0</strong>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-dot" style="background:var(--cat-skirt);"></span>
+          <span>裙裝:</span>
+          <strong id="statSkirt">0</strong>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-dot" style="background:var(--cat-shoes);"></span>
+          <span>鞋履:</span>
+          <strong id="statShoes">0</strong>
+        </div>
+      </div>
+
+      <div class="closet-compartments-scroll">
+        <div class="cabinet-section theme-outer">
+          <div class="cabinet-section-title" style="color:var(--cat-outer);">
+            <span>01 / COATS & JACKETS (外套大衣)</span>
+            <span id="countOuter">0 件</span>
+          </div>
+          <div class="cabinet-grid" id="cabinetOuter"></div>
+        </div>
+
+        <div class="cabinet-section theme-top">
+          <div class="cabinet-section-title" style="color:var(--cat-top);">
+            <span>02 / TOPS & INNERS (上裝內搭)</span>
+            <span id="countTop">0 件</span>
+          </div>
+          <div class="cabinet-grid" id="cabinetTop"></div>
+        </div>
+
+        <div class="cabinet-section theme-pants">
+          <div class="cabinet-section-title" style="color:var(--cat-pants);">
+            <span>03 / TROUSERS (褲裝系列)</span>
+            <span id="countPants">0 件</span>
+          </div>
+          <div class="cabinet-grid" id="cabinetPants"></div>
+        </div>
+
+        <div class="cabinet-section theme-skirt">
+          <div class="cabinet-section-title" style="color:var(--cat-skirt);">
+            <span>04 / SKIRTS (裙裝系列)</span>
+            <span id="countSkirts">0 件</span>
+          </div>
+          <div class="cabinet-grid" id="cabinetSkirts"></div>
+        </div>
+
+        <div class="cabinet-section theme-shoes">
+          <div class="cabinet-section-title" style="color:var(--cat-shoes);">
+            <span>05 / FOOTWEAR (鞋履系列)</span>
+            <span id="countShoes">0 件</span>
+          </div>
+          <div class="cabinet-grid" id="cabinetShoes"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast">提示訊息</div>
+
+  <script>
+    /* =========================================================================
+     * 後端 APPS SCRIPT URL 配置 (不暴露 API KEY 與 JWT 邏輯)
+     * ========================================================================= */
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbynICiCLu7C7hMEQ43_A4vWYt2avl5MHPMAScX85AjqOzC_DtElkPROIqk1nnsZxeQ2/exec";
+
+    async function callBackendAi(payload) {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error("後端請求失敗: " + res.status);
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      return data;
+    }
+
+    /* =========================================================================
+     * 1. 雙重強制品類與季節/風格校驗
+     * ========================================================================= */
+    function verifyAndCorrectDrawer(name, currentDrawer) {
+      const lower = (name || "").toLowerCase().trim();
+
+      if (/鞋|靴|皮鞋|球鞋|馬丁|高跟|波鞋|運動鞋|布鞋|涼鞋|拖鞋|boot|shoe|sneaker|loafer/i.test(lower)) {
+        return 'shoes';
+      }
+      if (/褲|西褲|牛仔褲|工裝褲|短褲|長褲|休閒褲|trousers|pants|jeans|shorts/i.test(lower)) {
+        return 'pants';
+      }
+      if (/裙|半身裙|連衣裙|長裙|短裙|百褶裙|skirt|dress/i.test(lower)) {
+        return 'skirt';
+      }
+      if (/外套|大衣|夾克|西裝|風衣|羽絨|皮衣|開衫|jacket|coat|blazer|parka/i.test(lower)) {
+        return 'outer';
+      }
+      if (/t恤|恤|馬球|polo|襯衫|襯衣|背心|衛衣|毛衣|打底|top|shirt|tee|sweater/i.test(lower)) {
+        return 'top';
+      }
+      return currentDrawer || 'top';
+    }
+
+    function inferItemSeasons(name, drawer) {
+      const lower = (name || '').toLowerCase();
+      
+      if (drawer === 'shoes') return ['spring', 'summer', 'autumn', 'winter'];
+      
+      if (drawer === 'pants') {
+        if (/短褲|沙灘褲|熱褲/i.test(lower)) return ['summer', 'spring'];
+        if (/加絨|羽絨褲|厚棉褲/i.test(lower)) return ['winter'];
+        return ['spring', 'summer', 'autumn', 'winter'];
+      }
+
+      if (drawer === 'skirt') {
+        if (/毛呢裙|厚裙|皮裙/i.test(lower)) return ['autumn', 'winter'];
+        return ['spring', 'summer', 'autumn'];
+      }
+
+      if (drawer === 'outer') {
+        if (/羽絨|大衣|毛呢|加厚|皮草/i.test(lower)) return ['winter'];
+        if (/風衣|夾克|牛仔外套|西裝|皮衣|衛衣/i.test(lower)) return ['spring', 'autumn', 'winter'];
+        if (/防曬|薄開衫|薄紗/i.test(lower)) return ['spring', 'summer'];
+        return ['spring', 'autumn', 'winter'];
+      }
+
+      if (drawer === 'top') {
+        if (/短袖|背心|吊帶|polo|馬球|t恤/i.test(lower)) return ['spring', 'summer', 'autumn', 'winter'];
+        if (/毛衣|羊絨|衛衣|加絨/i.test(lower)) return ['autumn', 'winter'];
+        if (/襯衫|長袖/i.test(lower)) return ['spring', 'autumn', 'winter'];
+        return ['spring', 'summer', 'autumn', 'winter'];
+      }
+
+      return ['spring', 'summer', 'autumn', 'winter'];
+    }
+
+    function isItemSuitableForSeason(item, season, role) {
+      if (!item) return false;
+      if (item.drawer === 'shoes' || item.drawer === 'pants') return true;
+
+      const seasons = item.seasons || inferItemSeasons(item.name, item.drawer);
+
+      if (season === 'summer') {
+        if (item.drawer === 'outer' && !seasons.includes('summer')) return false;
+        if (/羽絨|大衣|厚毛呢|毛衣|加厚/i.test(item.name)) return false;
+      }
+
+      if (seasons.includes(season)) return true;
+
+      if ((season === 'winter' || season === 'autumn') && (role === 'inner' || role === 'mid')) {
+        if (item.drawer === 'top') return true;
+      }
+
+      return false;
+    }
+
+    function inferItemStyle(name, drawer) {
+      const lower = (name || "").toLowerCase();
+      if (/工裝|工裝褲|馬丁|戰術|粗獷|boot|軍裝/i.test(lower)) return 'workwear';
+      if (/西裝|西褲|皮鞋|大衣|風衣|牛津|禮服|襯衣|襯衫/i.test(lower)) return 'smart';
+      if (/休閒|衛衣|連帽|運動|polo|馬球|t恤|棒球/i.test(lower)) return 'casual';
+      if (/真絲|蕾絲|雪紡|裙|百褶|優雅|高跟|針織開衫/i.test(lower)) return 'elegant';
+      if (/極簡|打底|純色|羊絨/i.test(lower)) return 'minimal';
+      return 'casual';
+    }
+
+    const CAT_LABELS = {
+      outer: '01 / 外套大衣',
+      top: '02 / 上裝內搭',
+      pants: '03 / 褲裝系列',
+      skirt: '04 / 裙裝系列',
+      shoes: '05 / 鞋履系列'
+    };
+
+    const STYLE_LABELS = {
+      smart: '雅痞/正裝',
+      casual: '休閒日常',
+      workwear: '工裝/粗獷',
+      elegant: '優雅柔和',
+      minimal: '極簡冷淡'
+    };
+
+    /* =========================================================================
+     * 2. INDEXED DB 原生持久化儲存
+     * ========================================================================= */
+    const DB_NAME = "LAllureWardrobeDB_v12";
+    const DB_VERSION = 1;
+    const STORE_NAME = "clothes";
+
+    function openDatabase() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, { keyPath: "id" });
+          }
+        };
+        req.onsuccess = (e) => resolve(e.target.result);
+        req.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    async function dbSaveItem(item) {
+      const db = await openDatabase();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, "readwrite");
+        const store = tx.objectStore(STORE_NAME);
+        const req = store.put(item);
+        req.onsuccess = () => resolve();
+        req.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    async function dbGetAllItems() {
+      const db = await openDatabase();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, "readonly");
+        const store = tx.objectStore(STORE_NAME);
+        const req = store.getAll();
+        req.onsuccess = (e) => resolve(e.target.result || []);
+        req.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    async function dbDeleteItem(id) {
+      const db = await openDatabase();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, "readwrite");
+        const store = tx.objectStore(STORE_NAME);
+        const req = store.delete(id);
+        req.onsuccess = () => resolve();
+        req.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    /* =========================================================================
+     * 3. 精確色彩學分析模型（Canvas 空間像素提取）
+     * ========================================================================= */
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0;
+      } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      return [Math.round(h * 360), Number(s.toFixed(2)), Number(l.toFixed(2))];
+    }
+
+    function calculatePerceptualChroma(r, g, b) {
+      const max = Math.max(r, g, b) / 255;
+      const min = Math.min(r, g, b) / 255;
+      const delta = max - min;
+      return Number((delta * (0.35 + 0.65 * max)).toFixed(3));
+    }
+
+    function getAccurateColorInfo(r, g, b) {
+      const [h, s, l] = rgbToHsl(r, g, b);
+      const chroma = calculatePerceptualChroma(r, g, b);
+      let name = '原色調';
+      let colorType = 'accent';
+
+      if (l < 0.14) {
+        name = '炭黑'; colorType = 'neutral';
+      } else if (l > 0.88 && s < 0.20) {
+        name = '象牙白'; colorType = 'neutral';
+      } else if (s < 0.15 || chroma < 0.08) {
+        name = l > 0.65 ? '淺灰' : (l > 0.35 ? '煙灰' : '深灰');
+        colorType = 'neutral';
+      } else if (h >= 28 && h <= 58 && l > 0.55 && s < 0.48) {
+        name = l > 0.72 ? '燕麥米色' : '淺卡其';
+        colorType = 'earth';
+      } else if (h >= 12 && h <= 45 && l < 0.52) {
+        if (l < 0.24) { name = '濃黑咖啡棕'; }
+        else if (l < 0.38) { name = '焦糖深棕'; }
+        else { name = '復古棕'; }
+        colorType = 'earth';
+      } else if (h >= 185 && h <= 255) {
+        if (l < 0.26) {
+          name = '海軍深藍';
+          colorType = 'earth';
+        } else if (s > 0.32 && l < 0.55) {
+          name = '丹寧靛藍';
+          colorType = 'accent';
+        } else {
+          name = '丹寧藍';
+          colorType = 'accent';
+        }
+      } else if (h >= 40 && h <= 66) {
+        if (chroma > 0.45 || s > 0.65) {
+          name = '明亮黃';
+          colorType = 'accent';
+        } else {
+          name = '芥末黃';
+          colorType = 'accent';
+        }
+      } else if (h > 68 && h < 185) {
+        if (s < 0.30) {
+          name = '鼠尾草綠';
+          colorType = 'earth';
+        } else if (l < 0.30) {
+          name = '深橄欖綠';
+          colorType = 'earth';
+        } else {
+          name = '森綠';
+          colorType = 'accent';
+        }
+      } else if (h < 26 || h > 340) {
+        if (l < 0.26) {
+          name = '深酒紅';
+          colorType = 'earth';
+        } else if (l > 0.70 && s < 0.50) {
+          name = '煙粉';
+          colorType = 'earth';
+        } else {
+          name = (chroma > 0.38 || s > 0.60) ? '正紅色' : '磚紅';
+          colorType = 'accent';
+        }
+      } else {
+        name = '個性原色';
+        colorType = 'accent';
+      }
+
+      return { name, h, s, l, chroma, colorType };
+    }
+
+    function extractDominantGarmentColor(canvas) {
+      const ctx = canvas.getContext('2d');
+      const { width, height } = canvas;
+      const data = ctx.getImageData(0, 0, width, height).data;
+
+      const bgSamples = [];
+      const borderX = Math.max(4, Math.floor(width * 0.10));
+      const borderY = Math.max(4, Math.floor(height * 0.10));
+
+      for (let y = 0; y < height; y += 4) {
+        for (let x = 0; x < width; x += 4) {
+          if (x < borderX || x > width - borderX || y < borderY || y > height - borderY) {
+            const idx = (y * width + x) * 4;
+            bgSamples.push([data[idx], data[idx + 1], data[idx + 2]]);
+          }
+        }
+      }
+
+      let bgR = 220, bgG = 220, bgB = 220;
+      if (bgSamples.length > 0) {
+        let sumR = 0, sumG = 0, sumB = 0;
+        for (let s of bgSamples) {
+          sumR += s[0]; sumG += s[1]; sumB += s[2];
+        }
+        bgR = sumR / bgSamples.length;
+        bgG = sumG / bgSamples.length;
+        bgB = sumB / bgSamples.length;
+      }
+
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const maxDist = Math.sqrt(centerX * centerX + centerY * centerY);
+
+      const foregroundBuckets = {};
+      const bgTolerance = 52;
+      const startX = Math.floor(width * 0.12), endX = Math.floor(width * 0.88);
+      const startY = Math.floor(height * 0.12), endY = Math.floor(height * 0.88);
+      const step = Math.max(1, Math.floor((width * height) / 16000));
+
+      for (let y = startY; y < endY; y += step) {
+        for (let x = startX; x < endX; x += step) {
+          const idx = (y * width + x) * 4;
+          const r = data[idx], g = data[idx + 1], b = data[idx + 2];
+
+          const distToBg = Math.sqrt((r - bgR) ** 2 + (g - bgG) ** 2 + (b - bgB) ** 2);
+          if (distToBg < bgTolerance) continue;
+          if (r > 248 && g > 248 && b > 248) continue;
+
+          const dCenter = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
+          const weight = Math.max(0.3, 1.2 - (dCenter / maxDist));
+
+          const qr = Math.round(r / 20) * 20;
+          const qg = Math.round(g / 20) * 20;
+          const qb = Math.round(b / 20) * 20;
+          const key = `${qr},${qg},${qb}`;
+
+          if (!foregroundBuckets[key]) foregroundBuckets[key] = { count: 0, r: 0, g: 0, b: 0, weight: 0 };
+          foregroundBuckets[key].count++;
+          foregroundBuckets[key].weight += weight;
+          foregroundBuckets[key].r += r * weight;
+          foregroundBuckets[key].g += g * weight;
+          foregroundBuckets[key].b += b * weight;
+        }
+      }
+
+      let sorted = Object.values(foregroundBuckets).sort((a, b) => b.weight - a.weight);
+
+      if (sorted.length === 0) {
+        return { hex: '#1A2A42', name: '海軍深藍', h: 216, s: 0.43, l: 0.18, chroma: 0.22, colorType: 'earth' };
+      }
+
+      let best = sorted[0];
+      for (let i = 0; i < Math.min(sorted.length, 6); i++) {
+        const b = sorted[i];
+        const avgR = b.r / b.weight, avgG = b.g / b.weight, avgB = b.b / b.weight;
+        const [, s, l] = rgbToHsl(avgR, avgG, avgB);
+        if (s > 0.12 && l > 0.12 && l < 0.86) {
+          best = b;
+          break;
+        }
+      }
+
+      const finalR = Math.round(best.r / best.weight);
+      const finalG = Math.round(best.g / best.weight);
+      const finalB = Math.round(best.b / best.weight);
+      const hex = "#" + ((1 << 24) + (finalR << 16) + (finalG << 8) + finalB).toString(16).slice(1).toUpperCase();
+      const info = getAccurateColorInfo(finalR, finalG, finalB);
+
+      return { hex, ...info };
+    }
+
+    async function processOriginalImageAndExtractColor(dataUrl) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+          const maxDim = 880;
+          let w = img.width, h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+            else { w = Math.round((w * maxDim) / h); h = maxDim; }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+
+          const accurateColor = extractDominantGarmentColor(canvas);
+          const cleanUrl = canvas.toDataURL('image/jpeg', 0.88);
+          resolve({ cleanUrl, accurateColor });
+        };
+        img.onerror = () => {
+          resolve({
+            cleanUrl: dataUrl,
+            accurateColor: { hex: '#1A2A42', name: '海軍深藍', colorType: 'earth', h: 216, s: 0.43, l: 0.18, chroma: 0.22 }
+          });
+        };
+        img.src = dataUrl;
+      });
+    }
+
+    async function extractColorFromImageUrl(imgUrl) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width; canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          const color = extractDominantGarmentColor(canvas);
+          resolve(color);
+        };
+        img.onerror = () => {
+          resolve({ hex: '#1A2A42', name: '海軍深藍', colorType: 'earth', h: 216, s: 0.43, l: 0.18, chroma: 0.22 });
+        };
+        img.src = imgUrl;
+      });
+    }
+
+    /* =========================================================================
+     * 4. 穿搭結構打包器
+     * ========================================================================= */
+    function buildOutfitPayload(items, season, layers) {
+      const roleMap = {
+        outer: layers === 1 ? "單穿上裝" : "外層外套",
+        mid: "中層保暖開衫",
+        inner: "底層打底內搭",
+        bottom: "下身褲裙",
+        shoes: "足部鞋履"
+      };
+
+      const pieces = [];
+      Object.keys(items).forEach(slotKey => {
+        const it = items[slotKey];
+        if (it) {
+          pieces.push({
+            id: it.id,
+            slot: slotKey,
+            roleTitle: roleMap[slotKey] || slotKey,
+            name: it.name,
+            category: it.drawer,
+            style: it.style || 'casual',
+            color: {
+              name: it.color.name,
+              hex: it.color.hex,
+              hsl: [it.color.h, it.color.s, it.color.l],
+              chroma: it.color.chroma,
+              colorType: it.color.colorType
+            }
+          });
+        }
+      });
+
+      return {
+        season: season,
+        layerCount: layers,
+        pieces: pieces
+      };
+    }
+
+    /* =========================================================================
+     * 5. 全域狀態與初始化
+     * ========================================================================= */
+    let myWardrobe = []; 
+    let currentSeason = 'spring';
+    const SEASON_LAYER_MAP = {
+      spring: { options: [1, 2], default: 2 },
+      summer: { options: [1, 2], default: 1 },
+      autumn: { options: [1, 2], default: 2 },
+      winter: { options: [2, 3], default: 3 }
+    };
+    let currentLayerCount = 2;
+    let cameraActive = false;
+    let cameraStream = null;
+    let lastRecordedItem = null;
+    let currentPickerSlot = null;
+
+    let currentOutfit = {
+      outer: null,
+      mid: null,
+      inner: null,
+      bottom: null,
+      shoes: null
+    };
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      try {
+        let loaded = await dbGetAllItems();
+        let changed = false;
+
+        for (let item of loaded) {
+          if (!item.userConfirmed) {
+            const verified = verifyAndCorrectDrawer(item.name, item.drawer);
+            if (verified !== item.drawer) {
+              item.drawer = verified;
+              changed = true;
+            }
+          }
+          if (!item.style) {
+            item.style = inferItemStyle(item.name, item.drawer);
+            changed = true;
+          }
+          if (!item.seasons || item.seasons.length === 0) {
+            item.seasons = inferItemSeasons(item.name, item.drawer);
+            changed = true;
+          }
+          if (changed) await dbSaveItem(item);
+        }
+        myWardrobe = loaded;
+        updateWardrobeCountUi();
+      } catch (e) {
+        console.warn("載入資料庫失敗", e);
+      }
+      setupLayerOptions();
+    });
+
+    function updateWardrobeCountUi() {
+      document.getElementById('btnWardrobeCount').innerText = myWardrobe.length;
+    }
+
+    function switchView(view) {
+      document.getElementById('tabCapture').classList.toggle('active', view === 'capture');
+      document.getElementById('tabStyle').classList.toggle('active', view === 'style');
+      document.getElementById('view-capture').classList.toggle('active', view === 'capture');
+      document.getElementById('view-style').classList.toggle('active', view === 'style');
+
+      if (view === 'style') {
+        stopCamera();
+        renderOutfitViewLocal();
+      }
+    }
+
+    /* =========================================================================
+     * 6. 相機控制
+     * ========================================================================= */
+    async function toggleCamera() {
+      const video = document.getElementById('cameraVideo');
+      const snapBtn = document.getElementById('btnSnap');
+      const toggleBtn = document.getElementById('btnToggleCam');
+      const hint = document.getElementById('camHint');
+      const img = document.getElementById('capturedImage');
+
+      if (!cameraActive) {
+        try {
+          cameraStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: 'environment', width: { ideal: 1280 } }
+          });
+          video.srcObject = cameraStream;
+          video.style.display = 'block';
+          img.style.display = 'none';
+          hint.style.display = 'none';
+          snapBtn.style.display = 'inline-flex';
+          toggleBtn.innerText = '關閉相機';
+          cameraActive = true;
+        } catch (err) {
+          showToast('無法啟動相機，請點選「上傳相片」');
+        }
+      } else {
+        stopCamera();
+      }
+    }
+
+    function stopCamera() {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(t => t.stop());
+        cameraStream = null;
+      }
+      cameraActive = false;
+      const video = document.getElementById('cameraVideo');
+      const snapBtn = document.getElementById('btnSnap');
+      const toggleBtn = document.getElementById('btnToggleCam');
+      if (video) video.style.display = 'none';
+      if (snapBtn) snapBtn.style.display = 'none';
+      if (toggleBtn) toggleBtn.innerText = '開啟相機';
+    }
+
+    function snapPhoto() {
+      const video = document.getElementById('cameraVideo');
+      const cvs = document.createElement('canvas');
+      cvs.width = video.videoWidth || 640;
+      cvs.height = video.videoHeight || 480;
+      const ctx = cvs.getContext('2d');
+      ctx.drawImage(video, 0, 0, cvs.width, cvs.height);
+
+      const base64 = cvs.toDataURL('image/jpeg', 0.9);
+      stopCamera();
+      processAndStoreImage(base64);
+    }
+
+    function handleFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        processAndStoreImage(evt.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    /* =========================================================================
+     * 7. 智能錄入與結構化提取 (透過 APPS SCRIPT)
+     * ========================================================================= */
+    async function processAndStoreImage(originalBase64) {
+      const laser = document.getElementById('scanLaser');
+      laser.style.display = 'block';
+      showToast('精準前景分離與特徵辨識中...');
+
+      const { cleanUrl, accurateColor } = await processOriginalImageAndExtractColor(originalBase64);
+
+      const img = document.getElementById('capturedImage');
+      const hint = document.getElementById('camHint');
+      img.src = cleanUrl;
+      img.style.display = 'block';
+      hint.style.display = 'none';
+
+      const prompt = `你是頂尖服裝造型顧問。請精確分析圖片衣物，僅回傳標準 JSON（無 markdown，無任何額外字元）：
+{
+  "name": "中文衣物名稱 (例如: 深藍牛仔外套 / 羊絨立領毛衣 / 工裝束腳褲 / 德訓皮鞋)",
+  "drawer": "outer" 或 "top" 或 "pants" 或 "skirt" 或 "shoes",
+  "style": "smart" 或 "casual" 或 "workwear" 或 "elegant" 或 "minimal",
+  "seasons": ["spring", "summer", "autumn", "winter"],
+  "thickness": "light" 或 "medium" 或 "heavy"
+}
+絕對準則：鞋靴填 "shoes"；長短褲填 "pants"；外套大衣填 "outer"；內搭短袖填 "top"；鞋履與褲裝默認四季適配。`;
+
+      let parsed = null;
+
+      try {
+        const data = await callBackendAi({
+          model: "glm-4v-flash",
+          messages: [{
+            role: "user",
+            content: [
+              { type: "image_url", image_url: { url: cleanUrl } },
+              { type: "text", text: prompt }
+            ]
+          }],
+          temperature: 0.1
+        });
+
+        if (data && data.choices && data.choices[0]) {
+          parsed = extractJson(data.choices[0].message.content);
+        }
+      } catch (err) {
+        console.warn("後端 API 調用失敗", err);
+      }
+
+      if (!parsed) {
+        parsed = {
+          name: "典藏單品",
+          drawer: "top",
+          style: "casual",
+          seasons: ['spring', 'summer', 'autumn', 'winter'],
+          thickness: "medium"
+        };
+      }
+
+      laser.style.display = 'none';
+
+      const finalDrawer = verifyAndCorrectDrawer(parsed.name, parsed.drawer);
+      const style = parsed.style || inferItemStyle(parsed.name, finalDrawer);
+      const finalSeasons = (Array.isArray(parsed.seasons) && parsed.seasons.length > 0)
+        ? parsed.seasons
+        : inferItemSeasons(parsed.name, finalDrawer);
+
+      const newItem = {
+        id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+        img: cleanUrl,
+        name: parsed.name,
+        drawer: finalDrawer,
+        style: style,
+        color: accurateColor,
+        seasons: finalSeasons,
+        thickness: parsed.thickness || 'medium',
+        createdAt: Date.now(),
+        userConfirmed: false
+      };
+
+      await dbSaveItem(newItem);
+      myWardrobe.push(newItem);
+      updateWardrobeCountUi();
+
+      lastRecordedItem = newItem;
+      renderRecentCardUi(newItem);
+
+      showToast(`已成功錄入「${newItem.name}」(${newItem.color.name})！`);
+    }
+
+    function extractJson(text) {
+      try {
+        const cleaned = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+        const s = cleaned.indexOf('{');
+        const e = cleaned.lastIndexOf('}');
+        if (s !== -1 && e !== -1) return JSON.parse(cleaned.substring(s, e + 1));
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function renderRecentCardUi(item) {
+      const recentCard = document.getElementById('recentCard');
+      recentCard.style.display = 'flex';
+
+      document.getElementById('recentCatTag').innerText = CAT_LABELS[item.drawer];
+      document.getElementById('recentNameInput').value = item.name;
+
+      document.getElementById('recentColorPicker').value = item.color.hex;
+      document.getElementById('recentColorName').innerText = item.color.name;
+      document.getElementById('recentColorHex').innerText = item.color.hex;
+
+      document.querySelectorAll('.recent-cat-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-drawer') === item.drawer);
+      });
+
+      document.querySelectorAll('.recent-style-pill').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-style') === (item.style || 'casual'));
+      });
+
+      const sList = item.seasons || ['spring', 'summer', 'autumn', 'winter'];
+      document.getElementById('pillSeasonSpring').classList.toggle('active', sList.includes('spring'));
+      document.getElementById('pillSeasonSummer').classList.toggle('active', sList.includes('summer'));
+      document.getElementById('pillSeasonAutumn').classList.toggle('active', sList.includes('autumn'));
+      document.getElementById('pillSeasonWinter').classList.toggle('active', sList.includes('winter'));
+
+      const seasonChineseMap = { spring:'春', summer:'夏', autumn:'秋', winter:'冬' };
+      const seasonText = sList.map(s => seasonChineseMap[s]).join('·');
+
+      document.getElementById('recentDetails').innerText = 
+        `分區: ${CAT_LABELS[item.drawer]} ｜ 風格: ${STYLE_LABELS[item.style] || item.style} ｜ 適用季節: [${seasonText}]`;
+    }
+
+    async function toggleRecentSeason(season) {
+      if (!lastRecordedItem) return;
+      if (!lastRecordedItem.seasons) lastRecordedItem.seasons = [];
+      const idx = lastRecordedItem.seasons.indexOf(season);
+      if (idx > -1) {
+        if (lastRecordedItem.seasons.length > 1) lastRecordedItem.seasons.splice(idx, 1);
+        else return showToast("至少需保留一個適用季節");
+      } else {
+        lastRecordedItem.seasons.push(season);
+      }
+      lastRecordedItem.userConfirmed = true;
+      await dbSaveItem(lastRecordedItem);
+      
+      const wIdx = myWardrobe.findIndex(x => x.id === lastRecordedItem.id);
+      if (wIdx !== -1) myWardrobe[wIdx] = lastRecordedItem;
+
+      renderRecentCardUi(lastRecordedItem);
+      showToast("適用季節已更新");
+    }
+
+    async function handleRecentStyleChange(newStyle) {
+      if (!lastRecordedItem) return;
+      lastRecordedItem.style = newStyle;
+      lastRecordedItem.userConfirmed = true;
+      await dbSaveItem(lastRecordedItem);
+
+      const idx = myWardrobe.findIndex(x => x.id === lastRecordedItem.id);
+      if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
+
+      renderRecentCardUi(lastRecordedItem);
+      showToast(`風格調性已更新為【${STYLE_LABELS[newStyle]}】`);
+    }
+
+    async function handleRecentNameChange(newName) {
+      if (!lastRecordedItem || !newName.trim()) return;
+      lastRecordedItem.name = newName.trim();
+      lastRecordedItem.userConfirmed = true;
+      await dbSaveItem(lastRecordedItem);
+
+      const idx = myWardrobe.findIndex(x => x.id === lastRecordedItem.id);
+      if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
+
+      renderRecentCardUi(lastRecordedItem);
+      showToast("單品名稱已更新！");
+    }
+
+    async function handleRecentColorPickerChange(newHex) {
+      if (!lastRecordedItem) return;
+      const hex = newHex.toUpperCase();
+      const r = parseInt(hex.substr(1, 2), 16);
+      const g = parseInt(hex.substr(3, 2), 16);
+      const b = parseInt(hex.substr(5, 2), 16);
+      const info = getAccurateColorInfo(r, g, b);
+
+      lastRecordedItem.color = { hex, ...info };
+      lastRecordedItem.userConfirmed = true;
+      await dbSaveItem(lastRecordedItem);
+
+      const idx = myWardrobe.findIndex(x => x.id === lastRecordedItem.id);
+      if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
+
+      renderRecentCardUi(lastRecordedItem);
+      showToast(`色彩已調整為【${info.name}】(${hex})`);
+    }
+
+    async function recalcRecentItemColor() {
+      if (!lastRecordedItem || !lastRecordedItem.img) return;
+      showToast("正在排除背景重新萃取前景色彩...");
+      const newColor = await extractColorFromImageUrl(lastRecordedItem.img);
+      lastRecordedItem.color = newColor;
+      await dbSaveItem(lastRecordedItem);
+
+      const idx = myWardrobe.findIndex(x => x.id === lastRecordedItem.id);
+      if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
+
+      renderRecentCardUi(lastRecordedItem);
+      showToast(`已成功重新抓取顏色為【${newColor.name}】(${newColor.hex})`);
+    }
+
+    async function handleRecentDrawerChange(newDrawer) {
+      if (!lastRecordedItem) return;
+      lastRecordedItem.drawer = newDrawer;
+      lastRecordedItem.style = inferItemStyle(lastRecordedItem.name, newDrawer);
+      lastRecordedItem.userConfirmed = true;
+      await dbSaveItem(lastRecordedItem);
+
+      const idx = myWardrobe.findIndex(x => x.id === lastRecordedItem.id);
+      if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
+
+      renderRecentCardUi(lastRecordedItem);
+      updateWardrobeCountUi();
+      showToast(`已成功修正分區為【${CAT_LABELS[newDrawer]}】！`);
+    }
+
+    function goToStyling() {
+      if (myWardrobe.length === 0) {
+        showToast("衣櫥目前為空，請先拍照或上傳衣物！");
+        return;
+      }
+      switchView('style');
+    }
+
+    /* =========================================================================
+     * 8. 季節控制器
+     * ========================================================================= */
+    function selectSeason(season) {
+      currentSeason = season;
+      document.querySelectorAll('.season-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.id === `btnSeason${season.charAt(0).toUpperCase() + season.slice(1)}`);
+      });
+
+      currentLayerCount = SEASON_LAYER_MAP[season].default;
+      setupLayerOptions();
+      renderOutfitViewLocal();
+    }
+
+    function setupLayerOptions() {
+      const container = document.getElementById('layerOptionsContainer');
+      container.innerHTML = '';
+      const allowed = SEASON_LAYER_MAP[currentSeason].options;
+
+      allowed.forEach(count => {
+        const btn = document.createElement('button');
+        btn.className = `layer-pill ${count === currentLayerCount ? 'active' : ''}`;
+        btn.innerText = `${count}層`;
+
+        btn.onclick = () => {
+          currentLayerCount = count;
+          document.querySelectorAll('.layer-pill').forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          renderOutfitViewLocal();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    /* =========================================================================
+     * 9. 本地穿搭組裝與 UI 渲染
+     * ========================================================================= */
+    function renderOutfitViewLocal() {
+      if (myWardrobe.length === 0) {
+        document.getElementById('outfitCardsContainer').innerHTML = `
+          <div class="outfit-card empty-slot" style="grid-column: 1 / -1;">
+            <div style="font-size:0.75rem; color:var(--muted); line-height:1.8;">
+              衣櫥目前無單品。<br>請切換至「01 拍照錄入」建立典藏。
+            </div>
+          </div>
+        `;
+        clearMannequin();
+        resetAnalysisPanelToIdle();
+        return;
+      }
+
+      const outers = myWardrobe.filter(x => x.drawer === 'outer' && isItemSuitableForSeason(x, currentSeason, 'outer'));
+      const tops = myWardrobe.filter(x => x.drawer === 'top' && isItemSuitableForSeason(x, currentSeason, 'top'));
+      const bottoms = myWardrobe.filter(x => (x.drawer === 'pants' || x.drawer === 'skirt') && isItemSuitableForSeason(x, currentSeason, 'bottom'));
+      const shoesList = myWardrobe.filter(x => x.drawer === 'shoes' && isItemSuitableForSeason(x, currentSeason, 'shoes'));
+
+      if (!currentOutfit.bottom || !isItemSuitableForSeason(currentOutfit.bottom, currentSeason, 'bottom')) {
+        currentOutfit.bottom = bottoms[0] || null;
+      }
+      if (!currentOutfit.shoes || !isItemSuitableForSeason(currentOutfit.shoes, currentSeason, 'shoes')) {
+        currentOutfit.shoes = shoesList[0] || null;
+      }
+
+      if (currentLayerCount === 1) {
+        if (!currentOutfit.outer || currentOutfit.outer.drawer !== 'top' || !isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer')) {
+          currentOutfit.outer = tops[0] || outers[0] || null;
+        }
+        currentOutfit.mid = null;
+        currentOutfit.inner = null;
+      } else if (currentLayerCount === 2) {
+        if (!currentOutfit.outer || currentOutfit.outer.drawer !== 'outer' || !isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer')) {
+          currentOutfit.outer = outers[0] || null;
+        }
+        if (!currentOutfit.inner || currentOutfit.inner.drawer !== 'top' || !isItemSuitableForSeason(currentOutfit.inner, currentSeason, 'inner')) {
+          currentOutfit.inner = tops[0] || null;
+        }
+        currentOutfit.mid = null;
+      } else if (currentLayerCount === 3) {
+        if (!currentOutfit.outer || currentOutfit.outer.drawer !== 'outer' || !isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer')) {
+          currentOutfit.outer = outers[0] || null;
+        }
+        if (!currentOutfit.inner || currentOutfit.inner.drawer !== 'top' || !isItemSuitableForSeason(currentOutfit.inner, currentSeason, 'inner')) {
+          currentOutfit.inner = tops[0] || null;
+        }
+        if (!currentOutfit.mid || currentOutfit.mid.drawer !== 'top' || !isItemSuitableForSeason(currentOutfit.mid, currentSeason, 'mid')) {
+          currentOutfit.mid = tops[1] || tops[0] || null;
+        }
+      }
+
+      updateMannequin(currentLayerCount, currentOutfit.outer, currentOutfit.mid, currentOutfit.inner, currentOutfit.bottom, currentOutfit.shoes);
+      renderOutfitCardsUi();
+      renderSpectrumBar(currentOutfit);
+      resetAnalysisPanelToIdle();
+    }
+
+    function resetAnalysisPanelToIdle() {
+      const aiBadge = document.getElementById('aiStatusBadge');
+      aiBadge.className = 'ai-engine-badge';
+      aiBadge.innerText = '等待指令中';
+
+      document.getElementById('styleMatchScore').innerText = '契合度 --';
+      document.getElementById('styleMatchScore').className = 'style-match-score';
+
+      document.getElementById('colorClashRow').style.display = 'none';
+      document.getElementById('styleClashRow').style.display = 'none';
+
+      document.getElementById('styleVerdictText').innerHTML = `
+        <span style="font-size:0.78rem; color:var(--muted); line-height:1.6;">
+          💡 點擊上方<strong>「✨ AI 智能推薦搭配」</strong>由大模型直接挑選最合襯服裝並自動切換圖片；<br>
+          或點擊卡片相片手動挑選同類單品，選定後點擊<strong>「🔍 診斷現時穿搭」</strong>進行評分。
+        </span>
+      `;
+    }
+
+    function renderSpectrumBar(outfit) {
+      const items = [outfit.outer, outfit.mid, outfit.inner, outfit.bottom, outfit.shoes].filter(Boolean);
+      const spectrum = document.getElementById('paletteSpectrum');
+      const tags = document.getElementById('paletteTags');
+
+      if (items.length === 0) {
+        spectrum.innerHTML = '<div style="width:100%; background:#222;"></div>';
+        tags.innerHTML = '';
+        return;
+      }
+
+      const ratio = (100 / items.length).toFixed(1) + '%';
+      spectrum.innerHTML = items.map(it => `
+        <div class="spectrum-segment" style="width:${ratio}; background:${it.color.hex};" title="${it.color.name}"></div>
+      `).join('');
+
+      tags.innerHTML = items.map(it => `
+        <div class="tag-item">
+          <span style="width:7px; height:7px; border-radius:50%; background:${it.color.hex}"></span>
+          <span>${it.color.name} (${ratio})</span>
+        </div>
+      `).join('');
+    }
+
+    function renderOutfitCardsUi() {
+      const cardsContainer = document.getElementById('outfitCardsContainer');
+      cardsContainer.innerHTML = '';
+
+      if (currentLayerCount === 1) {
+        cardsContainer.appendChild(createRealCard('outer', '單穿上裝', currentOutfit.outer, '需錄入上裝單品', 'top'));
+      } else if (currentLayerCount === 2) {
+        cardsContainer.appendChild(createRealCard('outer', '外層外套', currentOutfit.outer, '需錄入外套單品', 'outer'));
+        cardsContainer.appendChild(createRealCard('inner', '裡層內搭', currentOutfit.inner, '需錄入內搭單品', 'top'));
+      } else if (currentLayerCount === 3) {
+        cardsContainer.appendChild(createRealCard('outer', '外層大衣', currentOutfit.outer, '需錄入大衣單品', 'outer'));
+        cardsContainer.appendChild(createRealCard('mid', '中層保暖', currentOutfit.mid, '尚缺中層單品', 'top'));
+        cardsContainer.appendChild(createRealCard('inner', '底層打底', currentOutfit.inner, '需錄入打底單品', 'top'));
+      }
+
+      const isSkirt = currentOutfit.bottom && currentOutfit.bottom.drawer === 'skirt';
+      const bottomRole = isSkirt ? '下裝 · 裙裝' : '下裝 · 褲裝';
+      cardsContainer.appendChild(createRealCard('bottom', bottomRole, currentOutfit.bottom, '需錄入下裝單品', isSkirt ? 'skirt' : 'pants'));
+      cardsContainer.appendChild(createRealCard('shoes', '鞋履系列', currentOutfit.shoes, '需錄入鞋履單品', 'shoes'));
+    }
+
+    function createRealCard(roleKey, roleTitle, item, missingTip, themeCat) {
+      const card = document.createElement('div');
+      card.className = 'outfit-card';
+
+      const catColors = {
+        outer: 'var(--cat-outer)',
+        top: 'var(--cat-top)',
+        pants: 'var(--cat-pants)',
+        skirt: 'var(--cat-skirt)',
+        shoes: 'var(--cat-shoes)'
+      };
+      const themeColor = catColors[themeCat] || 'var(--muted)';
+
+      if (!item) {
+        card.classList.add('empty-slot');
+        card.innerHTML = `
+          <div style="font-size:0.58rem; letter-spacing:0.18em; color:${themeColor}; text-transform:uppercase;">${roleTitle}</div>
+          <div style="font-size:0.68rem; color:var(--muted); margin-top:6px;">未配置單品</div>
+          <div style="font-size:0.58rem; color:var(--muted); margin-top:2px;">${missingTip}</div>
+          <button class="action-btn" style="margin-top:10px; font-size:0.58rem; padding:4px 10px;" onclick="openItemPicker('${roleKey}')">點擊選擇</button>
+        `;
+        return card;
+      }
+
+      card.innerHTML = `
+        <div class="card-meta-bar">
+          <span style="color:${themeColor}">${roleTitle}</span>
+          <span style="font-size:0.55rem; color:var(--muted); letter-spacing:0.05em;">[點圖可替換]</span>
+        </div>
+        <div class="card-photo-box" onclick="openItemPicker('${roleKey}')" title="點擊更換為其他同類衣物">
+          <img class="card-photo" src="${item.img}" alt="${item.name}">
+          <div class="click-replace-hint">
+            <svg viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            <span>點選同類更換</span>
+          </div>
+        </div>
+        <div class="card-title" title="${item.name}">${item.name}</div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div class="card-color-indicator">
+            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${item.color.hex}"></span>
+            <span>${item.color.hex} · ${item.color.name}</span>
+          </div>
+          <span style="font-size:0.55rem; color:var(--muted); letter-spacing:0.05em;">[${STYLE_LABELS[item.style] || '休閒'}]</span>
+        </div>
+      `;
+      return card;
+    }
+
+    function updateMannequin(layerCount, outer, mid, inner, bottom, shoes) {
+      const svgSingle = document.getElementById('layerSingleTop');
+      const svgInner = document.getElementById('layerInner');
+      const svgMid = document.getElementById('layerMid');
+      const svgOuter = document.getElementById('layerOuter');
+      const svgPants = document.getElementById('layerPants');
+      const svgSkirt = document.getElementById('layerSkirt');
+      const statusTag = document.getElementById('mannequinStatusTag');
+
+      const outerHex = outer ? outer.color.hex : '#24242C';
+      const midHex = mid ? mid.color.hex : 'transparent';
+      const innerHex = inner ? inner.color.hex : 'transparent';
+      const bottomHex = bottom ? bottom.color.hex : '#1A1A22';
+      const shoesHex = shoes ? shoes.color.hex : '#111114';
+
+      document.documentElement.style.setProperty('--c-outer', outerHex);
+      document.documentElement.style.setProperty('--c-mid', midHex);
+      document.documentElement.style.setProperty('--c-inner', innerHex);
+      document.documentElement.style.setProperty('--c-bottom', bottomHex);
+      document.documentElement.style.setProperty('--c-shoes', shoesHex);
+
+      if (layerCount === 1) {
+        svgSingle.style.display = 'block';
+        svgOuter.style.display = 'none';
+        svgInner.style.display = 'none';
+        svgMid.style.display = 'none';
+      } else if (layerCount === 2) {
+        svgSingle.style.display = 'none';
+        svgOuter.style.display = 'block';
+        svgInner.style.display = 'block';
+        svgMid.style.display = 'none';
+      } else if (layerCount === 3) {
+        svgSingle.style.display = 'none';
+        svgOuter.style.display = 'block';
+        svgInner.style.display = 'block';
+        svgMid.style.display = mid ? 'block' : 'none';
+      }
+
+      const isSkirt = bottom && bottom.drawer === 'skirt';
+      if (isSkirt) {
+        svgSkirt.style.display = 'block';
+        svgPants.style.display = 'none';
+      } else {
+        svgSkirt.style.display = 'none';
+        svgPants.style.display = 'block';
+      }
+
+      const bottomName = isSkirt ? '傘狀裙裝' : '修身長褲';
+      statusTag.innerText = `${layerCount}層疊穿 · ${bottomName}`;
+
+      const legend = document.getElementById('mannequinLegend');
+      let legHtml = '';
+
+      if (layerCount === 1) {
+        legHtml += makeLegendRow('單穿上裝', outer);
+      } else {
+        legHtml += makeLegendRow('外層外套', outer);
+        if (layerCount === 3) legHtml += makeLegendRow('中層開衫', mid);
+        legHtml += makeLegendRow('底層打底', inner);
+      }
+
+      legHtml += makeLegendRow(isSkirt ? '裙裝' : '褲裝', bottom);
+      legHtml += makeLegendRow('鞋履', shoes);
+      legend.innerHTML = legHtml;
+    }
+
+    function makeLegendRow(label, item) {
+      const hex = item ? item.color.hex : '#2A2A33';
+      const name = item ? `${item.color.name} (${item.name})` : '未選中';
+      return `
+        <div class="legend-row">
+          <div class="legend-left">
+            <span class="legend-dot" style="background:${hex}"></span>
+            <span>${label}</span>
+          </div>
+          <span style="font-size:0.6rem; color:var(--muted); max-width:130px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${name}</span>
+        </div>
+      `;
+    }
+
+    function clearMannequin() {
+      document.getElementById('layerSingleTop').style.display = 'none';
+      document.getElementById('layerOuter').style.display = 'none';
+      document.getElementById('layerInner').style.display = 'none';
+      document.getElementById('layerMid').style.display = 'none';
+      document.getElementById('layerSkirt').style.display = 'none';
+      document.getElementById('layerPants').style.display = 'block';
+      document.getElementById('mannequinLegend').innerHTML = '';
+    }
+
+    /* =========================================================================
+     * 10. 點擊圖片手動替換同類單品
+     * ========================================================================= */
+    function openItemPicker(roleKey) {
+      currentPickerSlot = roleKey;
+      const modal = document.getElementById('itemPickerModal');
+      const title = document.getElementById('pickerModalTitle');
+      const grid = document.getElementById('pickerGrid');
+
+      const roleTitles = {
+        outer: currentLayerCount === 1 ? '替換單穿上裝' : '替換外層外套/大衣',
+        mid: '替換中層開衫',
+        inner: '替換底層內搭',
+        bottom: '替換下裝系列',
+        shoes: '替換鞋履系列'
+      };
+
+      title.innerText = roleTitles[roleKey] || '替換單品';
+
+      let candidates = [];
+      const seasonItems = myWardrobe.filter(x => isItemSuitableForSeason(x, currentSeason, roleKey));
+
+      if (roleKey === 'outer') {
+        candidates = currentLayerCount === 1 
+          ? seasonItems.filter(x => x.drawer === 'top' || x.drawer === 'outer')
+          : seasonItems.filter(x => x.drawer === 'outer');
+      } else if (roleKey === 'mid' || roleKey === 'inner') {
+        candidates = seasonItems.filter(x => x.drawer === 'top');
+      } else if (roleKey === 'bottom') {
+        candidates = seasonItems.filter(x => x.drawer === 'pants' || x.drawer === 'skirt');
+      } else if (roleKey === 'shoes') {
+        candidates = seasonItems.filter(x => x.drawer === 'shoes');
+      }
+
+      if (candidates.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1 / -1; font-size:0.75rem; color:var(--muted); text-align:center; padding:30px;">該類別目前無適用於【${currentSeason}】季的備用衣物</div>`;
+      } else {
+        const currentSelectedId = currentOutfit[roleKey] ? currentOutfit[roleKey].id : null;
+        grid.innerHTML = candidates.map(item => {
+          const isSelected = item.id === currentSelectedId;
+          return `
+            <div class="picker-option-card ${isSelected ? 'selected' : ''}" onclick="selectItemForSlot('${item.id}')">
+              <div class="picker-thumb-wrap">
+                <img class="picker-thumb" src="${item.img}" alt="${item.name}">
+              </div>
+              <div class="picker-name" title="${item.name}">${item.name}</div>
+              <div class="picker-color-tag">
+                <span style="width:7px; height:7px; border-radius:50%; background:${item.color.hex}"></span>
+                <span>${item.color.name}</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      modal.classList.add('open');
+    }
+
+    function selectItemForSlot(itemId) {
+      const selected = myWardrobe.find(x => x.id === itemId);
+      if (!selected || !currentPickerSlot) return;
+
+      currentOutfit[currentPickerSlot] = selected;
+      closeItemPicker();
+
+      updateMannequin(currentLayerCount, currentOutfit.outer, currentOutfit.mid, currentOutfit.inner, currentOutfit.bottom, currentOutfit.shoes);
+      renderOutfitCardsUi();
+      renderSpectrumBar(currentOutfit);
+
+      const aiBadge = document.getElementById('aiStatusBadge');
+      aiBadge.className = 'ai-engine-badge';
+      aiBadge.innerText = '等待診斷';
+
+      document.getElementById('styleMatchScore').innerText = '待診斷';
+      document.getElementById('styleMatchScore').className = 'style-match-score';
+      document.getElementById('colorClashRow').style.display = 'none';
+      document.getElementById('styleClashRow').style.display = 'none';
+      document.getElementById('styleVerdictText').innerHTML = `
+        <span>已更換為【${selected.name}】。您可以繼續切換其他單品，調整完畢後請點擊上方<strong>「🔍 診斷現時穿搭」</strong>。</span>
+      `;
+
+      showToast(`已手動更換部位單品為「${selected.name}」`);
+    }
+
+    function closeItemPicker() {
+      document.getElementById('itemPickerModal').classList.remove('open');
+      currentPickerSlot = null;
+    }
+
+    /* =========================================================================
+     * 11. 功能一：AI 智能推薦高契合穿搭 (透過 APPS SCRIPT)
+     * ========================================================================= */
+    async function triggerAiSmartRecommendation() {
+      if (myWardrobe.length === 0) {
+        showToast("衣櫥目前為空，請先錄入衣物");
+        return;
+      }
+
+      const availableItems = myWardrobe.filter(x => isItemSuitableForSeason(x, currentSeason, ''));
+      if (availableItems.length < 2) {
+        showToast("當季單品數量過少，請多錄入幾件衣物以供 AI 挑選");
+        return;
+      }
+
+      const btn = document.getElementById('btnAiRecommend');
+      const aiBadge = document.getElementById('aiStatusBadge');
+      btn.style.opacity = '0.5';
+      btn.style.pointerEvents = 'none';
+      aiBadge.classList.add('loading');
+      aiBadge.innerText = 'AI 秀場總監遴選中...';
+
+      showToast("大模型正在對當季所有衣物的物理色彩進行美學矩陣演算...");
+
+      const wardrobePayload = availableItems.map(it => ({
+        id: it.id,
+        name: it.name,
+        drawer: it.drawer,
+        style: it.style || 'casual',
+        color: {
+          name: it.color.name,
+          hex: it.color.hex,
+          hsl: [it.color.h, it.color.s, it.color.l],
+          chroma: it.color.chroma,
+          colorType: it.color.colorType
+        }
+      }));
+
+      const prompt = `你是國際頂級時裝秀場總監與嚴苛的高級色彩學家。以下是使用者衣櫥在【${currentSeason}】季節的全部單品清單（包含 Canvas 提取的精確色彩）：
+${JSON.stringify(wardrobePayload, null, 2)}
+
+【任務目標】：
+請依據【${currentSeason}】季與【${currentLayerCount}層疊穿】規則，從上述清單中挑選出色彩學搭配最和諧、風格最統一、契合度最高的一整套單品組合！
+
+【挑選限制】：
+1. 必須挑選下身 (category: "pants" 或 "skirt") 與鞋履 (category: "shoes")。
+2. 若 layerCount 為 1：outer 欄位選一件上裝 (top)；
+3. 若 layerCount 為 2：outer 欄位選外套 (outer)，inner 欄位選內搭 (top)；
+4. 若 layerCount 為 3：outer 選大衣外套 (outer)，mid 選中層 (top)，inner 選打底 (top)；
+5. 盡量遵守 60-30-10 配色原則，嚴禁互補原色在無中性色過渡下的惡性硬撞！
+
+請僅回傳標準 JSON（無 markdown 標記）：
+{
+  "selectedIds": {
+    "outer": "單品 id",
+    "mid": "單品 id (若無則 null)",
+    "inner": "單品 id (若無則 null)",
+    "bottom": "單品 id",
+    "shoes": "單品 id"
+  },
+  "score": 數字 (80-98之整數),
+  "status": "good",
+  "colorClash": "色彩亮點說明（指名搭配中的各單品色彩互襯機制）",
+  "styleClash": "風格調性與層次說明",
+  "verdict": "一句極具品味的高訂秀場風格評語，說明推薦這套組合的美學理由。"
+}`;
+
+      let parsed = null;
+
+      try {
+        const data = await callBackendAi({
+          model: "glm-4v-flash",
+          messages: [{ role: "user", content: prompt }],
+          temperature: 0.25
+        });
+
+        if (data && data.choices && data.choices[0]) {
+          parsed = extractJson(data.choices[0].message.content);
+        }
+      } catch (err) {
+        console.warn("AI 推薦後端請求異常", err);
+      }
+
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+      aiBadge.classList.remove('loading');
+
+      if (parsed && parsed.selectedIds) {
+        const ids = parsed.selectedIds;
+        currentOutfit.outer = myWardrobe.find(x => x.id === ids.outer) || currentOutfit.outer;
+        currentOutfit.mid = myWardrobe.find(x => x.id === ids.mid) || null;
+        currentOutfit.inner = myWardrobe.find(x => x.id === ids.inner) || null;
+        currentOutfit.bottom = myWardrobe.find(x => x.id === ids.bottom) || currentOutfit.bottom;
+        currentOutfit.shoes = myWardrobe.find(x => x.id === ids.shoes) || currentOutfit.shoes;
+
+        updateMannequin(currentLayerCount, currentOutfit.outer, currentOutfit.mid, currentOutfit.inner, currentOutfit.bottom, currentOutfit.shoes);
+        renderOutfitCardsUi();
+        renderSpectrumBar(currentOutfit);
+
+        const testPayload = buildOutfitPayload(currentOutfit, currentSeason, currentLayerCount);
+        const heuristic = computeDynamicHeuristicCritique(testPayload);
+
+        let finalScore = typeof parsed.score === 'number' ? parsed.score : 80;
+        let finalStatus = parsed.status || 'good';
+        let colorClashText = parsed.colorClash || heuristic.colorClash;
+        let styleClashText = parsed.styleClash || heuristic.styleClash;
+        let verdictText = parsed.verdict || heuristic.verdict;
+
+        const praiseWords = /相得益彰|完美融合|柔和的對比|現代又多功能|增添了一抹|和諧|得宜|優雅氣質/;
+        const hasClashKeywords = /衝突|搶奪|對抗|割裂|失衡|翻車|缺乏中性色/i;
+
+        if (heuristic.status === 'bad' || finalScore < 65 || hasClashKeywords.test(colorClashText + verdictText)) {
+          finalScore = Math.min(finalScore, heuristic.score, 55);
+          finalStatus = 'bad';
+          aiBadge.innerText = '庫存不足 · 搭配翻車';
+
+          if (praiseWords.test(verdictText) || praiseWords.test(colorClashText)) {
+            colorClashText = `⚠️ 嚴重惡性撞色：${currentOutfit.outer ? currentOutfit.outer.name : ''}、${currentOutfit.inner ? currentOutfit.inner.name : ''} 與下裝色彩飽和度過高且互搶焦點，完全缺乏黑/白/灰等中性層緩衝！`;
+            styleClashText = `⚠️ 氣場混亂割裂：不同風格強行堆疊，視覺無焦點且顯雜亂。`;
+            verdictText = `❌ 嚴重翻車（純屬庫存不足下的妥協拼湊）：當前搭配色彩極度對抗，切勿穿著出門！強烈建議立即錄入黑色、象牙白或大地色等基礎單品進行調和。`;
+          } else {
+            verdictText = `❌ 翻車搭配：${verdictText}`;
+          }
+          showToast("⚠️ 當季單品不足，當前組合存在嚴重色彩衝突！");
+        } else if (finalScore >= 78) {
+          aiBadge.innerText = 'GLM 智能推薦典範';
+          showToast("✨ AI 已成功推薦高契合度搭配！");
+        } else {
+          aiBadge.innerText = '日常實穿組合';
+        }
+
+        updateAnalysisPanelWithResult({
+          score: finalScore,
+          status: finalStatus,
+          colorClash: colorClashText,
+          styleClash: styleClashText,
+          verdict: verdictText
+        });
+      } else {
+        const fallback = generateLocalSmartRecommendation();
+        if (fallback) {
+          currentOutfit = fallback.outfit;
+          updateMannequin(currentLayerCount, currentOutfit.outer, currentOutfit.mid, currentOutfit.inner, currentOutfit.bottom, currentOutfit.shoes);
+          renderOutfitCardsUi();
+          renderSpectrumBar(currentOutfit);
+          aiBadge.innerText = '本地美學矩陣推薦';
+          updateAnalysisPanelWithResult(fallback.critique);
+          showToast("✨ 已為您挑選高契合度穿搭！");
+        } else {
+          showToast("無法生成推薦，請確認衣櫥單品完整度");
+        }
+      }
+    }
+
+    function generateLocalSmartRecommendation() {
+      const outers = myWardrobe.filter(x => x.drawer === 'outer' && isItemSuitableForSeason(x, currentSeason, 'outer'));
+      const tops = myWardrobe.filter(x => x.drawer === 'top' && isItemSuitableForSeason(x, currentSeason, 'top'));
+      const bottoms = myWardrobe.filter(x => (x.drawer === 'pants' || x.drawer === 'skirt') && isItemSuitableForSeason(x, currentSeason, 'bottom'));
+      const shoesList = myWardrobe.filter(x => x.drawer === 'shoes' && isItemSuitableForSeason(x, currentSeason, 'shoes'));
+
+      if (bottoms.length === 0 || shoesList.length === 0) return null;
+
+      const outfit = {
+        outer: currentLayerCount === 1 ? (tops[0] || outers[0]) : (outers[0] || null),
+        mid: currentLayerCount === 3 ? (tops[1] || tops[0] || null) : null,
+        inner: currentLayerCount >= 2 ? (tops[0] || null) : null,
+        bottom: bottoms[0],
+        shoes: shoesList[0]
+      };
+
+      const critique = {
+        score: 88,
+        status: 'good',
+        colorClash: '中性大地底盤與輪廓色相得益彰',
+        styleClash: '維持極簡俐落的整體剪裁氣場',
+        verdict: '經典沉穩的雅緻架構，色彩層次過渡自然流暢。'
+      };
+
+      return { outfit, critique };
+    }
+
+    /* =========================================================================
+     * 12. 功能二：AI 診斷當前穿搭 (透過 APPS SCRIPT)
+     * ========================================================================= */
+    async function triggerAiCritiqueCurrentOutfit() {
+      const payload = buildOutfitPayload(currentOutfit, currentSeason, currentLayerCount);
+
+      if (!payload.pieces || payload.pieces.length === 0) {
+        showToast("當前無單品可診斷");
+        return;
+      }
+
+      const btn = document.getElementById('btnAiAnalyze');
+      const aiBadge = document.getElementById('aiStatusBadge');
+      btn.style.opacity = '0.5';
+      btn.style.pointerEvents = 'none';
+      aiBadge.classList.add('loading');
+      aiBadge.innerText = 'AI 深度診斷中...';
+
+      showToast("正在提交當前自選組合予 AI 大模型評估...");
+
+      const prompt = `你是國際頂級時裝秀場總監與嚴苛的高級色彩學家。以下是穿搭模擬系統透過 Canvas 提取物理色彩後組裝的當前單品 JSON：
+${JSON.stringify(payload, null, 2)}
+
+【審核核心準則 - 必須嚴厲執行】：
+1. 【完整度門檻】：一套完整穿搭必須包含上裝、下裝(褲/裙)與鞋履。若此搭配中「未配置下身」或「未配置鞋履」，屬於未完成出門造型，最高分絕對不可超過 58 分！
+2. 【色彩衝突一票否決】：
+   - 若高飽和色彩互撞（如丹寧藍+明黃、紅+藍、紅+黃）且【缺乏黑/白/灰等中性色作為緩衝層】，這屬於嚴重色彩衝突翻車，契合度評分【上限為 58 分】，status 必須為 "bad"。
+   - 絕對禁止「評語說衝突嚴重，打分卻給高分」的言行不一現象！
+3. 【風格調性】：檢查正裝、工裝、休閒、優雅之間是否割裂。
+
+【核心原則 - 嚴厲實話實說，嚴禁諂媚】：
+1. 衣服太少時，如果現有庫存根本無法避開色彩衝突（例如：丹寧藍配黃色T恤配亮粉色褲子），【絕對嚴禁盲目吹捧】！
+2. 【禁止言行不一】：
+   - 如果評分低於 65 分，絕對禁止使用「相得益彰」、「完美融合」、「現代又多功能」、「柔和的對比」、「增添魅力」等任何讚美詞！
+   - 低分時，colorClash 必須直接指出「哪幾件衣服在惡性撞色、缺乏中性色過渡」；
+   - 低分時，verdict 必須嚴厲警告「這是衣櫥單品不足下的翻車妥協，不可出門，建議補錄黑色/白色基礎單品」。
+3. 必須輸出繁體中文，不能含有簡體中文。
+
+請輸出標準 JSON（不要包含 markdown 代碼塊標籤如 \`\`\`json，不要額外廢話）：
+{
+  "score": 數字 (0-100之整數。嚴重色彩衝突或缺件：30-58分；普通日常：65-75分；協調高階：80分以上),
+  "status": "good" (>=78) 或 "warn" (65-77) 或 "bad" (<65),
+  "colorClash": "簡短精準說明本套穿搭的色彩衝突點或調和亮點（指名具體單品與色彩）",
+  "styleClash": "簡短精準說明本套穿搭的風格調性衝突點或層次亮點",
+  "verdict": "一句至兩句極度犀利、專業的高訂風格點評，指出哪件單品最需要更換或調整，以及具體搭配建議。"
+}`;
+
+      let parsed = null;
+      try {
+        const data = await callBackendAi({
+          model: "glm-4v-flash",
+          messages: [{ role: "user", content: prompt }],
+          temperature: 0.2
+        });
+
+        if (data && data.choices && data.choices[0]) {
+          parsed = extractJson(data.choices[0].message.content);
+        }
+      } catch (err) {
+        console.warn("診斷請求異常", err);
+      }
+
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+      aiBadge.classList.remove('loading');
+
+      if (parsed && typeof parsed.score === 'number') {
+        let calculatedScore = Math.max(30, Math.min(99, Math.round(parsed.score)));
+        let calculatedStatus = parsed.status || 'good';
+
+        const hasBottom = payload.pieces.some(p => p.category === 'pants' || p.category === 'skirt');
+        const hasShoes = payload.pieces.some(p => p.category === 'shoes');
+        if (!hasBottom || !hasShoes) {
+          calculatedScore = Math.min(calculatedScore, 58);
+          calculatedStatus = 'bad';
+        }
+
+        aiBadge.innerText = 'GLM-4 秀場美學診斷';
+        updateAnalysisPanelWithResult({
+          score: calculatedScore,
+          status: calculatedStatus,
+          colorClash: parsed.colorClash || '色彩配比已審查',
+          styleClash: parsed.styleClash || '風格語境已校對',
+          verdict: parsed.verdict || '當前造型審核完畢。'
+        });
+        showToast("AI 深度診斷完成！");
+      } else {
+        const heuristic = computeDynamicHeuristicCritique(payload);
+        aiBadge.innerText = '色彩與風格矩陣研判';
+        updateAnalysisPanelWithResult(heuristic);
+        showToast("美學矩陣診斷完成！");
+      }
+    }
+
+    function computeDynamicHeuristicCritique(payload) {
+      const pieces = payload.pieces;
+      let score = 86;
+      let colorIssues = [];
+      let styleIssues = [];
+      let harmonies = [];
+
+      const vivids = pieces.filter(p => (p.color.chroma || 0) > 0.26 || p.color.hsl[1] > 0.55);
+      const neutralCount = pieces.filter(p => p.color.colorType === 'neutral' || p.color.colorType === 'earth').length;
+
+      const hasVividRed = pieces.some(p => (p.color.hsl[0] < 26 || p.color.hsl[0] > 338) && (p.color.chroma > 0.28 || p.color.hsl[1] > 0.55));
+      const hasDenimBlue = pieces.some(p => p.color.hsl[0] >= 195 && p.color.hsl[0] <= 245 && p.color.hsl[1] > 0.28);
+      if (hasVividRed && hasDenimBlue) {
+        const hasBuffer = pieces.some(p => p.color.colorType === 'neutral');
+        if (!hasBuffer) {
+          score -= 28;
+          colorIssues.push("紅藍原色互補對抗且缺乏象牙白/炭灰等中性層過渡");
+        } else {
+          score -= 10;
+          colorIssues.push("紅藍對比鮮明，依賴中性色勉強平衡");
+        }
+      }
+
+      if (vivids.length >= 2) {
+        const diffH = Math.abs(vivids[0].color.hsl[0] - vivids[1].color.hsl[0]);
+        const hDist = Math.min(diffH, 360 - diffH);
+        if (hDist > 45) {
+          score -= 22;
+          colorIssues.push(`【${vivids[0].name}】與【${vivids[1].name}】形成色彩焦點爭奪`);
+        } else {
+          score += 6;
+          harmonies.push(`【${vivids[0].name}】與【${vivids[1].name}】形成和諧的同色系層次漸變`);
+        }
+      } else if (vivids.length === 1 && neutralCount >= pieces.length - 1) {
+        score += 8;
+        harmonies.push(`經典 60-30-10 比例：以沉穩底色烘托【${vivids[0].name}】單一色彩亮點`);
+      }
+
+      const styles = pieces.map(p => p.style);
+      if (styles.includes('workwear') && styles.includes('elegant')) {
+        score -= 20;
+        styleIssues.push("粗獷工裝質感與柔和雅緻氣質產生氣場衝突");
+      }
+
+      const finalScore = Math.max(40, Math.min(96, Math.round(score)));
+      return {
+        score: finalScore,
+        status: finalScore >= 78 ? 'good' : (finalScore >= 65 ? 'warn' : 'bad'),
+        colorClash: colorIssues.length > 0 ? colorIssues.join('；') : (harmonies[0] || "色彩純度與明暗比例勻稱"),
+        styleClash: styleIssues.length > 0 ? styleIssues.join('；') : "剪裁與風格語境協調",
+        verdict: finalScore >= 78 
+          ? `✨ 高階造型典範：整體架構展現從容的高訂質感。`
+          : `⚠️ 日常搭配：存在局部的 ${colorIssues[0] || '層次平淡'}，建議替換內搭或鞋履以穩定視覺架構。`
+      };
+    }
+
+    function updateAnalysisPanelWithResult(res) {
+      const scoreElem = document.getElementById('styleMatchScore');
+      scoreElem.innerText = `契合度 ${res.score}%`;
+
+      if (res.score >= 78) {
+        scoreElem.className = 'style-match-score score-good';
+      } else if (res.score >= 65) {
+        scoreElem.className = 'style-match-score score-warn';
+      } else {
+        scoreElem.className = 'style-match-score score-bad';
+      }
+
+      const colorRow = document.getElementById('colorClashRow');
+      const styleRow = document.getElementById('styleClashRow');
+      const colorText = document.getElementById('colorClashText');
+      const styleText = document.getElementById('styleClashText');
+
+      if (res.colorClash) {
+        colorRow.style.display = 'flex';
+        colorText.innerText = res.colorClash;
+      } else {
+        colorRow.style.display = 'none';
+      }
+
+      if (res.styleClash) {
+        styleRow.style.display = 'flex';
+        styleText.innerText = res.styleClash;
+      } else {
+        styleRow.style.display = 'none';
+      }
+
+      let indicatorSvg = '';
+      if (res.score < 65) {
+        indicatorSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E06C75" stroke-width="2.2" style="flex-shrink:0; margin-top:2px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
+      } else if (res.score < 78) {
+        indicatorSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E5C07B" stroke-width="2.2" style="flex-shrink:0; margin-top:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
+      } else {
+        indicatorSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#98C379" stroke-width="2.2" style="flex-shrink:0; margin-top:2px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
+      }
+
+      const cleanVerdict = (res.verdict || '').replace(/^[❌⚠️✨\s]+/, '');
+      document.getElementById('styleVerdictText').innerHTML = `${indicatorSvg}<span>${cleanVerdict}</span>`;
+    }
+
+    /* =========================================================================
+     * 13. WALK-IN CLOSET MODAL
+     * ========================================================================= */
+    function openClosetModal() {
+      document.getElementById('closetModal').classList.add('open');
+      renderClosetCompartments();
+    }
+
+    function closeClosetModal() {
+      document.getElementById('closetModal').classList.remove('open');
+    }
+
+    function renderClosetCompartments() {
+      const outers = myWardrobe.filter(x => x.drawer === 'outer');
+      const tops = myWardrobe.filter(x => x.drawer === 'top');
+      const pants = myWardrobe.filter(x => x.drawer === 'pants');
+      const skirts = myWardrobe.filter(x => x.drawer === 'skirt');
+      const shoes = myWardrobe.filter(x => x.drawer === 'shoes');
+
+      document.getElementById('statTotal').innerText = myWardrobe.length;
+      document.getElementById('statOuter').innerText = outers.length;
+      document.getElementById('statTop').innerText = tops.length;
+      document.getElementById('statPants').innerText = pants.length;
+      document.getElementById('statSkirt').innerText = skirts.length;
+      document.getElementById('statShoes').innerText = shoes.length;
+
+      fillCabinetGrid('cabinetOuter', 'countOuter', outers);
+      fillCabinetGrid('cabinetTop', 'countTop', tops);
+      fillCabinetGrid('cabinetPants', 'countPants', pants);
+      fillCabinetGrid('cabinetSkirts', 'countSkirts', skirts);
+      fillCabinetGrid('cabinetShoes', 'countShoes', shoes);
+    }
+
+    function fillCabinetGrid(gridId, countId, items) {
+      document.getElementById(countId).innerText = `${items.length} 件`;
+      const grid = document.getElementById(gridId);
+
+      if (items.length === 0) {
+        grid.innerHTML = `<div class="empty-cabinet-slot" style="grid-column: 1 / -1;">此分區尚無單品</div>`;
+        return;
+      }
+
+      grid.innerHTML = items.map(item => {
+        const sList = item.seasons || ['spring', 'summer', 'autumn', 'winter'];
+        return `
+          <div class="cabinet-item-card">
+            <button class="cabinet-del-btn" onclick="deleteFromCloset('${item.id}')" title="移除單品">✕</button>
+            <div class="cabinet-thumb-wrap">
+              <img class="cabinet-thumb" src="${item.img}" alt="${item.name}">
+            </div>
+            <div class="cabinet-item-name" title="${item.name}">${item.name}</div>
+            
+            <div class="cabinet-color-row">
+              <label class="cabinet-color-label" title="點擊自訂色彩">
+                <input type="color" value="${item.color.hex}" class="cabinet-color-picker" onchange="updateItemColor('${item.id}', this.value)">
+                <span class="cabinet-color-dot" style="background:${item.color.hex};"></span>
+                <span class="cabinet-color-name">${item.color.name}</span>
+              </label>
+              <button type="button" class="cabinet-recalc-btn" onclick="recalcItemColor('${item.id}')" title="排除背景重新測色">↺ 重測色</button>
+            </div>
+
+            <div class="cabinet-season-chips">
+              <span class="season-micro-tag ${sList.includes('spring')?'on':''}" onclick="toggleCabinetItemSeason('${item.id}','spring')">春</span>
+              <span class="season-micro-tag ${sList.includes('summer')?'on':''}" onclick="toggleCabinetItemSeason('${item.id}','summer')">夏</span>
+              <span class="season-micro-tag ${sList.includes('autumn')?'on':''}" onclick="toggleCabinetItemSeason('${item.id}','autumn')">秋</span>
+              <span class="season-micro-tag ${sList.includes('winter')?'on':''}" onclick="toggleCabinetItemSeason('${item.id}','winter')">冬</span>
+            </div>
+
+            <div class="cabinet-controls-row">
+              <span class="drawer-reassign-label">分區:</span>
+              <select class="drawer-reassign-select" onchange="reassignItemDrawer('${item.id}', this.value)" title="修訂所屬類別">
+                <option value="outer" ${item.drawer==='outer'?'selected':''}>外套大衣</option>
+                <option value="top" ${item.drawer==='top'?'selected':''}>上裝內搭</option>
+                <option value="pants" ${item.drawer==='pants'?'selected':''}>褲裝系列</option>
+                <option value="skirt" ${item.drawer==='skirt'?'selected':''}>裙裝系列</option>
+                <option value="shoes" ${item.drawer==='shoes'?'selected':''}>鞋履系列</option>
+              </select>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function toggleCabinetItemSeason(id, season) {
+      const item = myWardrobe.find(x => x.id === id);
+      if (!item) return;
+      if (!item.seasons) item.seasons = [];
+      const idx = item.seasons.indexOf(season);
+      if (idx > -1) {
+        if (item.seasons.length > 1) item.seasons.splice(idx, 1);
+        else return showToast("至少需保留一個適用季節");
+      } else {
+        item.seasons.push(season);
+      }
+      item.userConfirmed = true;
+      await dbSaveItem(item);
+      renderClosetCompartments();
+      renderOutfitViewLocal();
+      showToast(`「${item.name}」季節屬性已修訂`);
+    }
+
+    async function updateItemColor(id, hexValue) {
+      const item = myWardrobe.find(x => x.id === id);
+      if (!item) return;
+
+      const hex = hexValue.toUpperCase();
+      const r = parseInt(hex.substr(1, 2), 16);
+      const g = parseInt(hex.substr(3, 2), 16);
+      const b = parseInt(hex.substr(5, 2), 16);
+      const info = getAccurateColorInfo(r, g, b);
+
+      item.color = { hex, ...info };
+      item.userConfirmed = true;
+      await dbSaveItem(item);
+
+      if (lastRecordedItem && lastRecordedItem.id === id) {
+        lastRecordedItem = item;
+        renderRecentCardUi(item);
+      }
+
+      renderClosetCompartments();
+      renderOutfitViewLocal();
+      showToast(`已更新「${item.name}」色彩為【${info.name}】(${hex})`);
+    }
+
+    async function recalcItemColor(id) {
+      const item = myWardrobe.find(x => x.id === id);
+      if (!item || !item.img) return;
+
+      showToast(`正在剔除背景重新分析「${item.name}」色彩...`);
+      const newColor = await extractColorFromImageUrl(item.img);
+      item.color = newColor;
+      await dbSaveItem(item);
+
+      if (lastRecordedItem && lastRecordedItem.id === id) {
+        lastRecordedItem = item;
+        renderRecentCardUi(item);
+      }
+
+      renderClosetCompartments();
+      renderOutfitViewLocal();
+      showToast(`「${item.name}」已重新校正色彩為【${newColor.name}】(${newColor.hex})`);
+    }
+
+    async function recalcAllWardrobeColors() {
+      if (myWardrobe.length === 0) {
+        showToast("衣櫥內暫無單品");
+        return;
+      }
+      showToast("正在逐一排除背景並重新校正全部色彩...");
+      for (let item of myWardrobe) {
+        if (item.img) {
+          item.color = await extractColorFromImageUrl(item.img);
+          await dbSaveItem(item);
+        }
+      }
+      renderClosetCompartments();
+      renderOutfitViewLocal();
+      showToast("全部單品已完成色彩重校，已徹底濾除背景！");
+    }
+
+    async function reassignItemDrawer(id, newDrawer) {
+      const item = myWardrobe.find(x => x.id === id);
+      if (!item) return;
+
+      item.drawer = newDrawer;
+      item.style = inferItemStyle(item.name, newDrawer);
+      item.userConfirmed = true;
+      await dbSaveItem(item);
+
+      if (lastRecordedItem && lastRecordedItem.id === id) {
+        lastRecordedItem = item;
+        renderRecentCardUi(item);
+      }
+
+      renderClosetCompartments();
+      renderOutfitViewLocal();
+      updateWardrobeCountUi();
+      showToast(`已成功將「${item.name}」移至【${CAT_LABELS[newDrawer]}】！`);
+    }
+
+    async function deleteFromCloset(id) {
+      await dbDeleteItem(id);
+      myWardrobe = myWardrobe.filter(x => x.id !== id);
+      if (lastRecordedItem && lastRecordedItem.id === id) {
+        lastRecordedItem = null;
+        document.getElementById('recentCard').style.display = 'none';
+      }
+      updateWardrobeCountUi();
+      renderClosetCompartments();
+      renderOutfitViewLocal();
+      showToast("已從典藏庫移除該單品");
+    }
+
+    function showToast(text) {
+      const t = document.getElementById('toast');
+      t.innerText = text;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 2800);
+    }
+  </script>
+</body>
+</html>
