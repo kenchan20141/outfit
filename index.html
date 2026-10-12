@@ -3204,29 +3204,18 @@ ${JSON.stringify(wardrobePayload, null, 2)}
         let styleClashText = parsed.styleClash || heuristic.styleClash;
         let verdictText = parsed.verdict || heuristic.verdict;
 
-        const praiseWords = /相得益彰|完美融合|柔和的對比|現代又多功能|增添了一抹|和諧|得宜|優雅氣質/;
-        const hasClashKeywords = /衝突|搶奪|對抗|割裂|失衡|翻車|缺乏中性色/i;
-
-        if (heuristic.status === 'bad' || finalScore < 65 || hasClashKeywords.test(colorClashText + verdictText)) {
-          finalScore = Math.min(finalScore, heuristic.score, 55);
+       // 3. 確保客觀評分與狀態同步
+        if (finalScore < 65) {
           finalStatus = 'bad';
-          aiBadge.innerText = '庫存不足 · 搭配翻車';
-
-          if (praiseWords.test(verdictText) || praiseWords.test(colorClashText)) {
-            colorClashText = `⚠️ 嚴重惡性撞色：${currentOutfit.outer ? currentOutfit.outer.name : ''}、${currentOutfit.inner ? currentOutfit.inner.name : ''} 與下裝色彩飽和度過高且互搶焦點，完全缺乏黑/白/灰等中性層緩衝！`;
-            styleClashText = `⚠️ 氣場混亂割裂：不同風格強行堆疊，視覺無焦點且顯雜亂。`;
-            verdictText = `❌ 嚴重翻車（純屬庫存不足下的妥協拼湊）：當前搭配色彩極度對抗，切勿穿著出門！強烈建議立即錄入黑色、象牙白或大地色等基礎單品進行調和。`;
-          } else {
-            verdictText = `❌ 翻車搭配：${verdictText}`;
-          }
-          showToast("⚠️ 當季單品不足，當前組合存在嚴重色彩衝突！");
+          aiBadge.innerText = '當季庫存有限';
         } else if (finalScore >= 78) {
-          aiBadge.innerText = 'GLM 智能推薦典範';
-          showToast("✨ AI 已成功推薦高契合度搭配！");
+          finalStatus = 'good';
+          aiBadge.innerText = '推薦典範';
+          showToast("✨ 已推薦高契合度搭配！");
         } else {
+          finalStatus = 'warn';
           aiBadge.innerText = '日常實穿組合';
         }
-
         updateAnalysisPanelWithResult({
           score: finalScore,
           status: finalStatus,
@@ -3297,31 +3286,26 @@ ${JSON.stringify(wardrobePayload, null, 2)}
 
       showToast("正在提交當前自選組合予 AI 大模型評估...");
 
-      const prompt = `你是國際頂級時裝秀場總監與嚴苛的高級色彩學家。以下是穿搭模擬系統透過 Canvas 提取物理色彩後組裝的當前單品 JSON：
+const prompt = `你是精通當代時裝美學與色彩學的高級造型顧問。以下是透過物理測色後的單品組合 JSON：
 ${JSON.stringify(payload, null, 2)}
 
-【審核核心準則 - 必須嚴厲執行】：
-1. 【完整度門檻】：一套完整穿搭必須包含上裝、下裝(褲/裙)與鞋履。若此搭配中「未配置下身」或「未配置鞋履」，屬於未完成出門造型，最高分絕對不可超過 58 分！
-2. 【色彩衝突一票否決】：
-   - 若高飽和色彩互撞（如丹寧藍+明黃、紅+藍、紅+黃）且【缺乏黑/白/灰等中性色作為緩衝層】，這屬於嚴重色彩衝突翻車，契合度評分【上限為 58 分】，status 必須為 "bad"。
-   - 絕對禁止「評語說衝突嚴重，打分卻給高分」的言行不一現象！
-3. 【風格調性】：檢查正裝、工裝、休閒、優雅之間是否割裂。
+【審核核心法則】：
+1. 【色彩學客觀性 - 嚴禁無病呻吟】：
+   - 大地色（卡其、米色、燕麥、駝色、棕色）與中性色（黑、白、灰、海軍藍）具備天然調和屬性。
+   - 經典配色（例如：丹寧藍+卡其/米色、藍白配、大地色同色系、黑白灰基礎疊穿）均屬和諧高級，【絕對不屬於色彩衝突】！
+   - 只有在高純度互補色硬撞（如亮紅配亮綠、亮黃配亮紫且無過渡）時才算惡性衝突。若配色和諧，請客觀讚賞其色彩關係。
+2. 【缺件獨立處理】：
+   - 若未配置下裝或未配置鞋履，僅在 verdict 中客觀提醒「造型尚未完整（缺鞋/缺下身）」，適度扣減整體完整度分數即可，【絕對不要因為缺件而硬把原本好看的色彩說成衝突】！
+3. 【風格調性】：檢查休閒、正裝、工裝、優雅之間是否自然融洽或有衝突。
+4. 必須使用繁體中文，不要出現簡體字。
 
-【核心原則 - 嚴厲實話實說，嚴禁諂媚】：
-1. 衣服太少時，如果現有庫存根本無法避開色彩衝突（例如：丹寧藍配黃色T恤配亮粉色褲子），【絕對嚴禁盲目吹捧】！
-2. 【禁止言行不一】：
-   - 如果評分低於 65 分，絕對禁止使用「相得益彰」、「完美融合」、「現代又多功能」、「柔和的對比」、「增添魅力」等任何讚美詞！
-   - 低分時，colorClash 必須直接指出「哪幾件衣服在惡性撞色、缺乏中性色過渡」；
-   - 低分時，verdict 必須嚴厲警告「這是衣櫥單品不足下的翻車妥協，不可出門，建議補錄黑色/白色基礎單品」。
-3. 必須輸出繁體中文，不能含有簡體中文。
-
-請輸出標準 JSON（不要包含 markdown 代碼塊標籤如 \`\`\`json，不要額外廢話）：
+請輸出標準 JSON（不要包含 markdown \`\`\`json 標籤）：
 {
-  "score": 數字 (0-100之整數。嚴重色彩衝突或缺件：30-58分；普通日常：65-75分；協調高階：80分以上),
+  "score": 數字 (0-100整數。缺件扣至55-65分；色彩和諧且完整給78-95分),
   "status": "good" (>=78) 或 "warn" (65-77) 或 "bad" (<65),
-  "colorClash": "簡短精準說明本套穿搭的色彩衝突點或調和亮點（指名具體單品與色彩）",
-  "styleClash": "簡短精準說明本套穿搭的風格調性衝突點或層次亮點",
-  "verdict": "一句至兩句極度犀利、專業的高訂風格點評，指出哪件單品最需要更換或調整，以及具體搭配建議。"
+  "colorClash": "客觀評價色彩關係（例如指出：丹寧藍與卡其色呈現經典工裝對比，自然協調；或具體指出真實存在的刺眼撞色）",
+  "styleClash": "客觀說明風格調性與整體視覺語境",
+  "verdict": "一句至兩句切中要害的高訂造型建議（若缺件則提醒補齊單品類別；若完整則給予穿搭出門建議）。"
 }`;
 
       let parsed = null;
