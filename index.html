@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="zh-HK">
 <head>
@@ -1556,7 +1558,7 @@
         <div class="editorial-lead-wrap">
           <h3 class="editorial-h3">智能前景濾鏡 · 排除背景雜色</h3>
           <p class="editorial-desc">
-            自動過濾背板雜色，並以大模型判定品類、風格基調與適用季節（鞋履、褲裝默認四季適配，上裝支援秋冬疊穿）。
+            自動過濾背板雜色，並以大模型判定品類、風格基調與適用季節（鞋履、褲裝默認四季適配，上裝支援秋冬疊穿）。色彩提取將純靠 Canvas 物理演算法。
           </p>
         </div>
 
@@ -1630,7 +1632,7 @@
   <!-- VIEW 02: STYLING & MANNEQUIN -->
   <section id="view-style" class="view-content">
     
-    <!-- 季節、層次與 AI 核心指令控制器 -->
+    <!-- 季節、層次與色彩引擎控制器 -->
     <div class="controls-shelf">
       <div class="shelf-row">
         <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
@@ -1648,16 +1650,16 @@
           <div id="layerOptionsContainer" style="display:flex; gap:6px;"></div>
         </div>
 
-        <!-- 兩大核心主動按鈕：AI 智能推薦 + AI 診斷現時穿搭 -->
+        <!-- 兩大核心主動按鈕：色彩引擎推薦 + Canvas 診斷現時穿搭 -->
         <div class="actions-cluster">
-          <button class="ai-magic-btn" id="btnAiRecommend" onclick="triggerAiSmartRecommendation()" title="將全衣櫥物理色彩與當季單品提交給 AI 大模型，挑選契合度最高的組合並自動切換圖片">
+          <button class="ai-magic-btn" id="btnAiRecommend" onclick="triggerAiSmartRecommendation()" title="將全衣櫥物理色彩提交給 Canvas 色彩學引擎，挑選符合 60-30-10 法則的高分組合">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span>✨ AI 智能推薦搭配</span>
+            <span>✨ 色彩引擎智能推薦</span>
           </button>
 
-          <button class="ai-analyze-btn" id="btnAiAnalyze" onclick="triggerAiCritiqueCurrentOutfit()" title="手動更換後，點擊分析當前畫面上選中的穿搭">
+          <button class="ai-analyze-btn" id="btnAiAnalyze" onclick="triggerAiCritiqueCurrentOutfit()" title="手動更換後，由 Canvas 物理演算法計算色彩配比與美學分數">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <span>🔍 診斷現時穿搭</span>
+            <span>🔍 診斷現時穿搭 (Canvas)</span>
           </button>
         </div>
       </div>
@@ -1731,7 +1733,7 @@
       <div class="outfit-display-wrap">
         <div class="cards-responsive-grid" id="outfitCardsContainer"></div>
 
-        <!-- 色彩光譜與 AI 深度美學診斷面板 -->
+        <!-- 色彩光譜與 Canvas 色彩學診斷面板 -->
         <div class="analysis-panel">
           <div>
             <div style="font-size:0.58rem; letter-spacing:0.2em; color:var(--muted); text-transform:uppercase; margin-bottom:10px;">
@@ -1752,7 +1754,7 @@
 
             <div class="verdict-dimensions-container" id="verdictDimensions">
               <div class="dimension-pill-row" id="colorClashRow" style="display:none;">
-                <span class="dim-sub-title">◈ 色彩學配匹度</span>
+                <span class="dim-sub-title">◈ Canvas 色彩學配匹度</span>
                 <span id="colorClashText" style="color:var(--text); opacity:0.9;">-</span>
               </div>
               <div class="dimension-pill-row" id="styleClashRow" style="display:none;">
@@ -1762,7 +1764,7 @@
             </div>
 
             <div class="style-verdict-text" id="styleVerdictText">
-              💡 點擊「✨ AI 智能推薦搭配」自動獲取高分穿搭，或點擊單品相片手動替換後，點選「🔍 診斷現時穿搭」。
+              💡 點擊「✨ 色彩引擎智能推薦」自動獲取高分穿搭，或點擊單品相片手動替換後，點選「🔍 診斷現時穿搭 (Canvas)」。
             </div>
           </div>
         </div>
@@ -1779,7 +1781,7 @@
       <div class="picker-header">
         <div class="picker-title-wrap">
           <h3 id="pickerModalTitle">替換單品</h3>
-          <p id="pickerModalSubtitle">點選以更換此部位的衣服，變更時不會自動運行 AI 分析</p>
+          <p id="pickerModalSubtitle">點選以更換此部位的衣服，變更時不會自動運行分析</p>
         </div>
         <button class="closet-close-btn" onclick="closeItemPicker()">✕</button>
       </div>
@@ -1883,7 +1885,7 @@
 
   <script>
     /* =========================================================================
-     * 後端 APPS SCRIPT URL 配置 (不暴露 API KEY 與 JWT 邏輯)
+     * 後端 APPS SCRIPT URL 配置 (僅用於新相片風格與品類標註)
      * ========================================================================= */
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbynICiCLu7C7hMEQ43_A4vWYt2avl5MHPMAScX85AjqOzC_DtElkPROIqk1nnsZxeQ2/exec";
 
@@ -1924,54 +1926,43 @@
 
     function inferItemSeasons(name, drawer) {
       const lower = (name || '').toLowerCase();
-      
       if (drawer === 'shoes') return ['spring', 'summer', 'autumn', 'winter'];
-      
       if (drawer === 'pants') {
         if (/短褲|沙灘褲|熱褲/i.test(lower)) return ['summer', 'spring'];
         if (/加絨|羽絨褲|厚棉褲/i.test(lower)) return ['winter'];
         return ['spring', 'summer', 'autumn', 'winter'];
       }
-
       if (drawer === 'skirt') {
         if (/毛呢裙|厚裙|皮裙/i.test(lower)) return ['autumn', 'winter'];
         return ['spring', 'summer', 'autumn'];
       }
-
       if (drawer === 'outer') {
         if (/羽絨|大衣|毛呢|加厚|皮草/i.test(lower)) return ['winter'];
         if (/風衣|夾克|牛仔外套|西裝|皮衣|衛衣/i.test(lower)) return ['spring', 'autumn', 'winter'];
         if (/防曬|薄開衫|薄紗/i.test(lower)) return ['spring', 'summer'];
         return ['spring', 'autumn', 'winter'];
       }
-
       if (drawer === 'top') {
         if (/短袖|背心|吊帶|polo|馬球|t恤/i.test(lower)) return ['spring', 'summer', 'autumn', 'winter'];
         if (/毛衣|羊絨|衛衣|加絨/i.test(lower)) return ['autumn', 'winter'];
         if (/襯衫|長袖/i.test(lower)) return ['spring', 'autumn', 'winter'];
         return ['spring', 'summer', 'autumn', 'winter'];
       }
-
       return ['spring', 'summer', 'autumn', 'winter'];
     }
 
     function isItemSuitableForSeason(item, season, role) {
       if (!item) return false;
       if (item.drawer === 'shoes' || item.drawer === 'pants') return true;
-
       const seasons = item.seasons || inferItemSeasons(item.name, item.drawer);
-
       if (season === 'summer') {
         if (item.drawer === 'outer' && !seasons.includes('summer')) return false;
         if (/羽絨|大衣|厚毛呢|毛衣|加厚/i.test(item.name)) return false;
       }
-
       if (seasons.includes(season)) return true;
-
       if ((season === 'winter' || season === 'autumn') && (role === 'inner' || role === 'mid')) {
         if (item.drawer === 'top') return true;
       }
-
       return false;
     }
 
@@ -1985,21 +1976,8 @@
       return 'casual';
     }
 
-    const CAT_LABELS = {
-      outer: '01 / 外套大衣',
-      top: '02 / 上裝內搭',
-      pants: '03 / 褲裝系列',
-      skirt: '04 / 裙裝系列',
-      shoes: '05 / 鞋履系列'
-    };
-
-    const STYLE_LABELS = {
-      smart: '雅痞/正裝',
-      casual: '休閒日常',
-      workwear: '工裝/粗獷',
-      elegant: '優雅柔和',
-      minimal: '極簡冷淡'
-    };
+    const CAT_LABELS = { outer: '01 / 外套大衣', top: '02 / 上裝內搭', pants: '03 / 褲裝系列', skirt: '04 / 裙裝系列', shoes: '05 / 鞋履系列' };
+    const STYLE_LABELS = { smart: '雅痞/正裝', casual: '休閒日常', workwear: '工裝/粗獷', elegant: '優雅柔和', minimal: '極簡冷淡' };
 
     /* =========================================================================
      * 2. INDEXED DB 原生持久化儲存
@@ -2330,11 +2308,7 @@
         }
       });
 
-      return {
-        season: season,
-        layerCount: layers,
-        pieces: pieces
-      };
+      return { season: season, layerCount: layers, pieces: pieces };
     }
 
     /* =========================================================================
@@ -2477,13 +2451,14 @@
     }
 
     /* =========================================================================
-     * 7. 智能錄入與結構化提取 (透過 APPS SCRIPT)
+     * 7. 智能錄入與結構化提取 (拍照時仍運用 AI 判定品類與風格)
      * ========================================================================= */
     async function processAndStoreImage(originalBase64) {
       const laser = document.getElementById('scanLaser');
       laser.style.display = 'block';
       showToast('精準前景分離與特徵辨識中...');
 
+      // 完全由 Canvas 負責色彩提取
       const { cleanUrl, accurateColor } = await processOriginalImageAndExtractColor(originalBase64);
 
       const img = document.getElementById('capturedImage');
@@ -2492,6 +2467,7 @@
       img.style.display = 'block';
       hint.style.display = 'none';
 
+      // 讓 AI 只負責判斷款式，杜絕其判斷色彩
       const prompt = `你是頂尖服裝造型顧問。請精確分析圖片衣物，僅回傳標準 JSON（無 markdown，無任何額外字元）：
 {
   "name": "中文衣物名稱 (例如: 深藍牛仔外套 / 羊絨立領毛衣 / 工裝束腳褲 / 德訓皮鞋)",
@@ -2548,7 +2524,7 @@
         name: parsed.name,
         drawer: finalDrawer,
         style: style,
-        color: accurateColor,
+        color: accurateColor, // Canvas 提取的客觀色彩
         seasons: finalSeasons,
         thickness: parsed.thickness || 'medium',
         createdAt: Date.now(),
@@ -2818,8 +2794,8 @@
 
       document.getElementById('styleVerdictText').innerHTML = `
         <span style="font-size:0.78rem; color:var(--muted); line-height:1.6;">
-          💡 點擊上方<strong>「✨ AI 智能推薦搭配」</strong>由大模型直接挑選最合襯服裝並自動切換圖片；<br>
-          或點擊卡片相片手動挑選同類單品，選定後點擊<strong>「🔍 診斷現時穿搭」</strong>進行評分。
+          💡 點擊上方<strong>「✨ 色彩引擎智能推薦」</strong>自動獲取高分穿搭；<br>
+          或點擊卡片相片手動替換，選定後點擊<strong>「🔍 診斷現時穿搭 (Canvas)」</strong>進行客觀評分。
         </span>
       `;
     }
@@ -3078,14 +3054,14 @@
 
       const aiBadge = document.getElementById('aiStatusBadge');
       aiBadge.className = 'ai-engine-badge';
-      aiBadge.innerText = '等待診斷';
+      aiBadge.innerText = '等待 Canvas 診斷';
 
       document.getElementById('styleMatchScore').innerText = '待診斷';
       document.getElementById('styleMatchScore').className = 'style-match-score';
       document.getElementById('colorClashRow').style.display = 'none';
       document.getElementById('styleClashRow').style.display = 'none';
       document.getElementById('styleVerdictText').innerHTML = `
-        <span>已更換為【${selected.name}】。您可以繼續切換其他單品，調整完畢後請點擊上方<strong>「🔍 診斷現時穿搭」</strong>。</span>
+        <span>已更換為【${selected.name}】。您可以繼續切換其他單品，調整完畢後請點擊上方<strong>「🔍 診斷現時穿搭 (Canvas)」</strong>。</span>
       `;
 
       showToast(`已手動更換部位單品為「${selected.name}」`);
@@ -3097,7 +3073,7 @@
     }
 
     /* =========================================================================
-     * 11. 功能一：AI 智能推薦高契合穿搭 (透過 APPS SCRIPT)
+     * 11. 功能一：Canvas 物理引擎智能推薦高契合穿搭 (本地純邏輯，無AI)
      * ========================================================================= */
     async function triggerAiSmartRecommendation() {
       if (myWardrobe.length === 0) {
@@ -3107,7 +3083,7 @@
 
       const availableItems = myWardrobe.filter(x => isItemSuitableForSeason(x, currentSeason, ''));
       if (availableItems.length < 2) {
-        showToast("當季單品數量過少，請多錄入幾件衣物以供 AI 挑選");
+        showToast("當季單品數量過少，請多錄入幾件衣物以供挑選");
         return;
       }
 
@@ -3116,126 +3092,47 @@
       btn.style.opacity = '0.5';
       btn.style.pointerEvents = 'none';
       aiBadge.classList.add('loading');
-      aiBadge.innerText = 'AI 秀場總監遴選中...';
+      aiBadge.innerText = 'Canvas 色彩演算推薦中...';
 
-      showToast("大模型正在對當季所有衣物的物理色彩進行美學矩陣演算...");
+      showToast("引擎正在對當季所有衣物的物理色彩進行美學矩陣演算...");
 
-      const wardrobePayload = availableItems.map(it => ({
-        id: it.id,
-        name: it.name,
-        drawer: it.drawer,
-        style: it.style || 'casual',
-        color: {
-          name: it.color.name,
-          hex: it.color.hex,
-          hsl: [it.color.h, it.color.s, it.color.l],
-          chroma: it.color.chroma,
-          colorType: it.color.colorType
-        }
-      }));
+      // 模擬運算體驗
+      await new Promise(r => setTimeout(r, 600));
 
-      const prompt = `你是國際頂級時裝秀場總監與嚴苛的高級色彩學家。以下是使用者衣櫥在【${currentSeason}】季節的全部單品清單（包含 Canvas 提取的精確色彩）：
-${JSON.stringify(wardrobePayload, null, 2)}
-
-【任務目標】：
-請依據【${currentSeason}】季與【${currentLayerCount}層疊穿】規則，從上述清單中挑選出色彩學搭配最和諧、風格最統一、契合度最高的一整套單品組合！
-
-【挑選限制】：
-1. 必須挑選下身 (category: "pants" 或 "skirt") 與鞋履 (category: "shoes")。
-2. 若 layerCount 為 1：outer 欄位選一件上裝 (top)；
-3. 若 layerCount 為 2：outer 欄位選外套 (outer)，inner 欄位選內搭 (top)；
-4. 若 layerCount 為 3：outer 選大衣外套 (outer)，mid 選中層 (top)，inner 選打底 (top)；
-5. 盡量遵守 60-30-10 配色原則，嚴禁互補原色在無中性色過渡下的惡性硬撞！
-
-請僅回傳標準 JSON（無 markdown 標記）：
-{
-  "selectedIds": {
-    "outer": "單品 id",
-    "mid": "單品 id (若無則 null)",
-    "inner": "單品 id (若無則 null)",
-    "bottom": "單品 id",
-    "shoes": "單品 id"
-  },
-  "score": 數字 (80-98之整數),
-  "status": "good",
-  "colorClash": "色彩亮點說明（指名搭配中的各單品色彩互襯機制）",
-  "styleClash": "風格調性與層次說明",
-  "verdict": "一句極具品味的高訂秀場風格評語，說明推薦這套組合的美學理由。"
-}`;
-
-      let parsed = null;
-
-      try {
-        const data = await callBackendAi({
-          model: "glm-4v-flash",
-          messages: [{ role: "user", content: prompt }],
-          temperature: 0.25
-        });
-
-        if (data && data.choices && data.choices[0]) {
-          parsed = extractJson(data.choices[0].message.content);
-        }
-      } catch (err) {
-        console.warn("AI 推薦後端請求異常", err);
-      }
+      const bestCombination = generateLocalSmartRecommendation();
 
       btn.style.opacity = '1';
       btn.style.pointerEvents = 'auto';
       aiBadge.classList.remove('loading');
 
-      if (parsed && parsed.selectedIds) {
-        const ids = parsed.selectedIds;
-        currentOutfit.outer = myWardrobe.find(x => x.id === ids.outer) || currentOutfit.outer;
-        currentOutfit.mid = myWardrobe.find(x => x.id === ids.mid) || null;
-        currentOutfit.inner = myWardrobe.find(x => x.id === ids.inner) || null;
-        currentOutfit.bottom = myWardrobe.find(x => x.id === ids.bottom) || currentOutfit.bottom;
-        currentOutfit.shoes = myWardrobe.find(x => x.id === ids.shoes) || currentOutfit.shoes;
-
+      if (bestCombination) {
+        currentOutfit = bestCombination.outfit;
         updateMannequin(currentLayerCount, currentOutfit.outer, currentOutfit.mid, currentOutfit.inner, currentOutfit.bottom, currentOutfit.shoes);
         renderOutfitCardsUi();
         renderSpectrumBar(currentOutfit);
 
-        const testPayload = buildOutfitPayload(currentOutfit, currentSeason, currentLayerCount);
-        const heuristic = computeDynamicHeuristicCritique(testPayload);
+        let finalScore = bestCombination.critique.score;
+        let finalStatus = bestCombination.critique.status;
 
-        let finalScore = typeof parsed.score === 'number' ? parsed.score : 80;
-        let finalStatus = parsed.status || 'good';
-        let colorClashText = parsed.colorClash || heuristic.colorClash;
-        let styleClashText = parsed.styleClash || heuristic.styleClash;
-        let verdictText = parsed.verdict || heuristic.verdict;
-
-       // 3. 確保客觀評分與狀態同步
         if (finalScore < 65) {
-          finalStatus = 'bad';
           aiBadge.innerText = '當季庫存有限';
         } else if (finalScore >= 78) {
-          finalStatus = 'good';
           aiBadge.innerText = '推薦典範';
           showToast("✨ 已推薦高契合度搭配！");
         } else {
-          finalStatus = 'warn';
           aiBadge.innerText = '日常實穿組合';
+          showToast("✨ 已推薦實穿搭配！");
         }
+        
         updateAnalysisPanelWithResult({
           score: finalScore,
           status: finalStatus,
-          colorClash: colorClashText,
-          styleClash: styleClashText,
-          verdict: verdictText
+          colorClash: bestCombination.critique.colorFact,
+          styleClash: bestCombination.critique.styleFact,
+          verdict: bestCombination.critique.verdict
         });
       } else {
-        const fallback = generateLocalSmartRecommendation();
-        if (fallback) {
-          currentOutfit = fallback.outfit;
-          updateMannequin(currentLayerCount, currentOutfit.outer, currentOutfit.mid, currentOutfit.inner, currentOutfit.bottom, currentOutfit.shoes);
-          renderOutfitCardsUi();
-          renderSpectrumBar(currentOutfit);
-          aiBadge.innerText = '本地美學矩陣推薦';
-          updateAnalysisPanelWithResult(fallback.critique);
-          showToast("✨ 已為您挑選高契合度穿搭！");
-        } else {
-          showToast("無法生成推薦，請確認衣櫥單品完整度");
-        }
+        showToast("無法生成推薦，請確認衣櫥單品完整度");
       }
     }
 
@@ -3247,29 +3144,56 @@ ${JSON.stringify(wardrobePayload, null, 2)}
 
       if (bottoms.length === 0 || shoesList.length === 0) return null;
 
-      const outfit = {
-        outer: currentLayerCount === 1 ? (tops[0] || outers[0]) : (outers[0] || null),
-        mid: currentLayerCount === 3 ? (tops[1] || tops[0] || null) : null,
-        inner: currentLayerCount >= 2 ? (tops[0] || null) : null,
-        bottom: bottoms[0],
-        shoes: shoesList[0]
-      };
+      let bestOutfit = null;
+      let bestCritique = null;
+      let bestScore = -1;
 
-      const critique = {
-        score: 88,
-        status: 'good',
-        colorClash: '中性大地底盤與輪廓色相得益彰',
-        styleClash: '維持極簡俐落的整體剪裁氣場',
-        verdict: '經典沉穩的雅緻架構，色彩層次過渡自然流暢。'
-      };
+      // 透過隨機取樣組合尋找最高分穿搭
+      const maxIters = 80;
+      for (let i = 0; i < maxIters; i++) {
+        let candidate = { outer: null, mid: null, inner: null, bottom: null, shoes: null };
+        candidate.bottom = bottoms[Math.floor(Math.random() * bottoms.length)];
+        candidate.shoes = shoesList[Math.floor(Math.random() * shoesList.length)];
 
-      return { outfit, critique };
+        if (currentLayerCount === 1) {
+          const pool = tops.concat(outers);
+          if (pool.length > 0) candidate.outer = pool[Math.floor(Math.random() * pool.length)];
+        } else if (currentLayerCount === 2) {
+          if (outers.length > 0) candidate.outer = outers[Math.floor(Math.random() * outers.length)];
+          if (tops.length > 0) candidate.inner = tops[Math.floor(Math.random() * tops.length)];
+        } else if (currentLayerCount === 3) {
+          if (outers.length > 0) candidate.outer = outers[Math.floor(Math.random() * outers.length)];
+          if (tops.length > 0) candidate.inner = tops[Math.floor(Math.random() * tops.length)];
+          if (tops.length > 1) {
+             let midPool = tops.filter(t => t.id !== candidate.inner?.id);
+             if (midPool.length > 0) candidate.mid = midPool[Math.floor(Math.random() * midPool.length)];
+          } else if (tops.length > 0) {
+             candidate.mid = tops[0];
+          }
+        }
+
+        const payload = buildOutfitPayload(candidate, currentSeason, currentLayerCount);
+        const critique = computeDynamicHeuristicCritique(payload);
+
+        if (critique.score > bestScore) {
+          bestScore = critique.score;
+          bestOutfit = candidate;
+          bestCritique = critique;
+        }
+
+        if (bestScore >= 95) break; 
+      }
+
+      if (!bestOutfit || !bestCritique) return null;
+      
+      bestCritique.verdict = `【色彩學引擎推薦】${bestCritique.colorFact}。${bestCritique.styleFact}。`;
+      return { outfit: bestOutfit, critique: bestCritique };
     }
 
     /* =========================================================================
-     * 12. 功能二：AI 診斷當前穿搭 (透過 APPS SCRIPT)
+     * 12. 功能二：Canvas 物理演算法診斷當前穿搭 (本地純邏輯，無AI)
      * ========================================================================= */
-  async function triggerAiCritiqueCurrentOutfit() {
+    async function triggerAiCritiqueCurrentOutfit() {
       const payload = buildOutfitPayload(currentOutfit, currentSeason, currentLayerCount);
 
       if (!payload.pieces || payload.pieces.length === 0) {
@@ -3282,126 +3206,100 @@ ${JSON.stringify(wardrobePayload, null, 2)}
       btn.style.opacity = '0.5';
       btn.style.pointerEvents = 'none';
       aiBadge.classList.add('loading');
-      aiBadge.innerText = 'Canvas 分析完成，AI 顧問解讀中...';
+      aiBadge.innerText = 'Canvas 色彩學演算中...';
 
-      showToast("Canvas 測色完成，大模型正在生成時尚解說...");
+      showToast("正在運用 Canvas 物理色彩演算法進行客觀診斷...");
 
-      // 1. 【以 CANVAS 為主】：在本地完成精確的客觀色彩與分數計算
+      await new Promise(r => setTimeout(r, 600));
+
       const canvasResult = computeDynamicHeuristicCritique(payload);
-
-      // 2. 【大模型輔助】：Prompt 嚴格鎖定 Canvas 結果，只要求它進行時尚美學文案解說
-      const prompt = `你是頂尖的時裝雜誌主編。系統的【Canvas 物理色彩演算法】已對當前搭配給出權威結論，你必須完全依據此結論進行深入、專業的時尚美學解釋：
-
-【Canvas 演算法確定數據（絕對事實，禁止修改）】：
-- 最終契合度評分：${canvasResult.score}分 (等級: ${canvasResult.status})
-- 色彩物理結論：${canvasResult.colorFact}
-- 風格語境結論：${canvasResult.styleFact}
-- 單品清單：${JSON.stringify(payload.pieces.map(p => `${p.roleTitle}: ${p.name} [${p.color.name}, ${p.style}]`))}
-
-【任務】：
-請以時裝總監的專業口吻，根據上述 Canvas 事實撰寫簡短精闢的穿搭點評（繁體中文，不要包含 markdown 標籤）：
-{
-  "colorExplanation": "針對 Canvas 指出的色彩關係，進行美學原理解釋（若 Canvas 判定和諧請說明其高級之處；若 Canvas 判定衝突請直指問題）",
-  "styleExplanation": "針對風格調性進行簡短點評",
-  "verdict": "一句至兩句極具品味的總結建議（若缺少鞋子/下身請提醒補上即可出門）"
-}`;
-
-      let parsed = null;
-      try {
-        const data = await callBackendAi({
-          model: "glm-4v-flash",
-          messages: [{ role: "user", content: prompt }],
-          temperature: 0.2
-        });
-
-        if (data && data.choices && data.choices[0]) {
-          parsed = extractJson(data.choices[0].message.content);
-        }
-      } catch (err) {
-        console.warn("AI 解釋請求失敗，將無縫採用 Canvas 本地解說", err);
-      }
 
       btn.style.opacity = '1';
       btn.style.pointerEvents = 'auto';
       aiBadge.classList.remove('loading');
       aiBadge.innerText = 'CANVAS 核心主導評析';
 
-      // 3. 【核心保證】：分數與狀態 100% 採用 Canvas 的計算結果，AI 僅提供文案
       updateAnalysisPanelWithResult({
         score: canvasResult.score,
         status: canvasResult.status,
-        colorClash: (parsed && parsed.colorExplanation) ? parsed.colorExplanation : canvasResult.colorFact,
-        styleClash: (parsed && parsed.styleExplanation) ? parsed.styleExplanation : canvasResult.styleFact,
-        verdict: (parsed && parsed.verdict) ? parsed.verdict : `${canvasResult.colorFact}。${canvasResult.missingTip}`
+        colorClash: canvasResult.colorFact,
+        styleClash: canvasResult.styleFact,
+        verdict: `【系統客觀診斷】${canvasResult.colorFact}。${canvasResult.missingTip}`
       });
 
       showToast("穿搭診斷完成！");
     }
 
- function computeDynamicHeuristicCritique(payload) {
+    function computeDynamicHeuristicCritique(payload) {
       const pieces = payload.pieces || [];
       let baseScore = 90;
       let colorIssues = [];
       let harmonies = [];
       let styleIssues = [];
 
-      // 1. 完整度審查（缺件僅適度扣減完整度，絕不抹殺色彩本身的優秀）
+      // 1. 完整度審查
       const hasBottom = pieces.some(p => p.category === 'pants' || p.category === 'skirt');
       const hasShoes = pieces.some(p => p.category === 'shoes');
       let missingDeduction = 0;
       if (!hasBottom) missingDeduction += 15;
       if (!hasShoes) missingDeduction += 10;
 
-      // 2. 物理色彩分群（依賴 Canvas 提取的 chroma 與 colorType）
-      // 中性色/大地色（黑、白、灰、卡其、米、燕麥、棕色等）
+      // 2. 物理色彩分群（嚴格依賴 Canvas 提取的 chroma 與 colorType）
       const neutrals = pieces.filter(p => p.color.colorType === 'neutral' || p.color.colorType === 'earth');
-      // 搶眼有彩色（純度 Chroma > 0.12 且非黑白灰）
       const accents = pieces.filter(p => p.color.colorType === 'accent' && (p.color.chroma > 0.12 || p.color.hsl[1] > 0.35));
 
       // 3. Canvas 核心色彩邏輯判斷
       if (accents.length === 0) {
-        // [情況 A] 全中性/大地色：Quiet Luxury / 經典同色系高級感
         baseScore = 92;
         harmonies.push("全套以黑白灰或大地色構築，呈現極簡冷淡的高級同色系氛圍");
       } else if (accents.length === 1) {
-        // [情況 B] 黃金 60-30-10 法則（1個亮點色 + 中性/大地色底盤，例如：牛仔藍+卡其+黑）
         baseScore = 95;
-        harmonies.push(`【${accents[0].name}】作為唯一視覺視覺亮點，配合扎實的中性/大地色底盤，符合 60-30-10 經典配比，極致和諧`);
+        harmonies.push(`【${accents[0].color.name}】作為唯一視覺亮點，配合扎實的中性/大地色底盤，符合 60-30-10 經典配比，極致和諧`);
       } else if (accents.length === 2) {
-        // [情況 C] 雙亮點色：計算兩者在色相環上的角度差 (Hue Distance)
         const h1 = accents[0].color.hsl[0];
         const h2 = accents[1].color.hsl[0];
         const diffH = Math.abs(h1 - h2);
         const hueDist = Math.min(diffH, 360 - diffH);
 
         if (hueDist <= 45) {
-          // 相鄰色/同色系漸變（如藍+青藍、紅+磚紅）
           baseScore = 85;
-          harmonies.push(`【${accents[0].name}】與【${accents[1].name}】屬於相鄰和諧色系，層次流暢`);
+          harmonies.push(`【${accents[0].color.name}】與【${accents[1].color.name}】屬於相鄰和諧色系，色彩層次流暢`);
         } else {
-          // 對比/互補色（如紅+藍、黃+藍）
           if (neutrals.length >= 1) {
             baseScore = 72;
-            harmonies.push(`【${accents[0].name}】與【${accents[1].name}】形成鮮明撞色對比，依託中性色過渡調和`);
+            harmonies.push(`【${accents[0].color.name}】與【${accents[1].color.name}】形成鮮明撞色對比，依託中性色過渡勉強調和`);
           } else {
-            baseScore = 60;
-            colorIssues.push(`【${accents[0].name}】與【${accents[1].name}】強烈對抗，缺乏足夠的中性色緩衝`);
+            baseScore = 55;
+            colorIssues.push(`色彩警報：【${accents[0].color.name}】與【${accents[1].color.name}】強烈對抗，且缺乏足夠的中性色緩衝，易顯雜亂`);
           }
         }
       } else {
-        // [情況 D] 色彩過載翻車（3個以上搶眼有彩色互撞，如藍+紅+亮粉）
-        baseScore = 45;
-        colorIssues.push(`全身出現 ${accents.map(a => a.name).join('、')} 等過多搶眼有彩色，視覺焦點激烈混亂，嚴重失衡`);
+        baseScore = 40;
+        colorIssues.push(`色彩災難：全身出現 ${accents.map(a => a.color.name).join('、')} 等過多搶眼色彩，視覺焦點激烈混亂，嚴重失衡`);
       }
 
-      // 4. 風格語境校驗
+      // 4. 針對特殊撞色予以懲罰 (例如避免系統認為某些飽和大地色與不相干亮色硬搭)
+      if (accents.length > 0 && neutrals.length > 0) {
+          // 例如亮粉配深啡可能存在飽和與明度極端落差
+          const avgAccentChroma = accents.reduce((sum, p) => sum + p.color.chroma, 0) / accents.length;
+          const earthCount = neutrals.filter(p => p.color.colorType === 'earth').length;
+          if (avgAccentChroma > 0.4 && earthCount >= 2) {
+              baseScore -= 5;
+              colorIssues.push("極高飽和度色彩與大地色系同時出現，視覺上可能顯得突兀");
+          }
+      }
+
+      // 5. 風格語境校驗
       const styles = pieces.map(p => p.style);
       if (styles.includes('workwear') && styles.includes('elegant')) {
-        baseScore -= 12;
-        styleIssues.push("工裝粗獷質感與優雅輕柔氣質略顯割裂");
+        baseScore -= 15;
+        styleIssues.push("風格割裂：工裝粗獷質感與優雅輕柔氣質在同一套搭配中衝突");
+      } else if (styles.includes('minimal') && styles.includes('workwear')) {
+        baseScore -= 8;
+        styleIssues.push("風格混搭：極簡冷淡與工裝戰術的混搭具挑戰性，需謹慎");
       }
 
-      // 5. 結算最終分數（扣除缺件分）
+      // 6. 結算最終分數
       const finalScore = Math.max(35, Math.min(98, baseScore - missingDeduction));
       const status = finalScore >= 78 ? 'good' : (finalScore >= 65 ? 'warn' : 'bad');
 
@@ -3409,8 +3307,8 @@ ${JSON.stringify(wardrobePayload, null, 2)}
         score: finalScore,
         status: status,
         colorFact: colorIssues.length > 0 ? colorIssues.join('；') : harmonies.join('；'),
-        styleFact: styleIssues.length > 0 ? styleIssues.join('；') : "單品風格語境和諧相融",
-        missingTip: missingDeduction > 0 ? "（造型缺少鞋履或下身，已扣除完整度分數）" : ""
+        styleFact: styleIssues.length > 0 ? styleIssues.join('；') : "單品風格語境和諧相融，未見顯著突兀感",
+        missingTip: missingDeduction > 0 ? "（造型缺少鞋履或下身，完整度不足已扣分）" : ""
       };
     }
 
