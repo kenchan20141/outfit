@@ -3269,7 +3269,7 @@ ${JSON.stringify(wardrobePayload, null, 2)}
     /* =========================================================================
      * 12. 功能二：AI 診斷當前穿搭 (透過 APPS SCRIPT)
      * ========================================================================= */
-    async function triggerAiCritiqueCurrentOutfit() {
+  async function triggerAiCritiqueCurrentOutfit() {
       const payload = buildOutfitPayload(currentOutfit, currentSeason, currentLayerCount);
 
       if (!payload.pieces || payload.pieces.length === 0) {
@@ -3282,31 +3282,28 @@ ${JSON.stringify(wardrobePayload, null, 2)}
       btn.style.opacity = '0.5';
       btn.style.pointerEvents = 'none';
       aiBadge.classList.add('loading');
-      aiBadge.innerText = 'AI 深度診斷中...';
+      aiBadge.innerText = 'Canvas 分析完成，AI 顧問解讀中...';
 
-      showToast("正在提交當前自選組合予 AI 大模型評估...");
+      showToast("Canvas 測色完成，大模型正在生成時尚解說...");
 
-const prompt = `你是極度嚴苛、眼光毒辣的國際頂級時裝毒舌評論家。以下是搭配單品 JSON：
-${JSON.stringify(payload, null, 2)}
+      // 1. 【以 CANVAS 為主】：在本地完成精確的客觀色彩與分數計算
+      const canvasResult = computeDynamicHeuristicCritique(payload);
 
-【審核鐵律 - 嚴禁當討好型 AI，違者視為失職，要客觀持平，也不會過份挑剔】：
-1. 【嚴厲執行「全身不超過三色」原則】：
-   - 除了黑、白、灰等中性色外，全身「有彩色」（如紅、藍、黃、綠、粉等）最多只能有 1~2 種（1主色 + 1點綴）。
-   - 像【丹寧藍 + 正紅色 + 亮粉色】或【多種高飽和有彩色大面積堆疊】屬於典型的「調色盤翻車/視覺噪音」，每個顏色都在嘶吼搶焦點，毫無主次之分，【屬於嚴重翻車，分數絕對不可超過 50 分】！
-   - 嚴禁把這種嚴重混亂洗白為「有創意的混搭」、「色彩對比自然」！
-2. 【高危色彩衝突】：
-   - 正紅色配亮粉色：同屬紅色系但明度純度激烈打架，極度俗氣刺眼。
-   - 藍、紅、粉、棕四色各佔 25%：完全沒有中性色底盤做緩衝，視覺極度割裂。
-3. 【風格統一性】：連帽牛仔外套（街頭休閒）配亮粉色西裝褲（騷亮正式），割裂感極重。
-4. 輸出必須為繁體中文，不要出現簡體字。
+      // 2. 【大模型輔助】：Prompt 嚴格鎖定 Canvas 結果，只要求它進行時尚美學文案解說
+      const prompt = `你是頂尖的時裝雜誌主編。系統的【Canvas 物理色彩演算法】已對當前搭配給出權威結論，你必須完全依據此結論進行深入、專業的時尚美學解釋：
 
-請輸出標準 JSON（不要包含 markdown 代碼塊標籤如 \`\`\`json）：
+【Canvas 演算法確定數據（絕對事實，禁止修改）】：
+- 最終契合度評分：${canvasResult.score}分 (等級: ${canvasResult.status})
+- 色彩物理結論：${canvasResult.colorFact}
+- 風格語境結論：${canvasResult.styleFact}
+- 單品清單：${JSON.stringify(payload.pieces.map(p => `${p.roleTitle}: ${p.name} [${p.color.name}, ${p.style}]`))}
+
+【任務】：
+請以時裝總監的專業口吻，根據上述 Canvas 事實撰寫簡短精闢的穿搭點評（繁體中文，不要包含 markdown 標籤）：
 {
-  "score": 數字 (0-100整數。如紅藍粉多色大亂鬥翻車：30-48分；一般普通：60-70分；真正協調高級：80分以上),
-  "status": "bad" (嚴重衝突 <60) 或 "warn" (60-75) 或 "good" (>=78),
-  "colorClash": "一針見血指出刺眼的色彩衝突（例如：丹寧藍、正紅與亮粉色互搶焦點，缺少中性色壓陣，色彩雜亂失控）",
-  "styleClash": "直指風格割裂之處（例如：街頭牛仔外套與正式亮粉西褲風格突兀割裂）",
-  "verdict": "犀利毒舌的真實點評，直接命令更換哪件單品才能挽救造型（不可講客套話）。"
+  "colorExplanation": "針對 Canvas 指出的色彩關係，進行美學原理解釋（若 Canvas 判定和諧請說明其高級之處；若 Canvas 判定衝突請直指問題）",
+  "styleExplanation": "針對風格調性進行簡短點評",
+  "verdict": "一句至兩句極具品味的總結建議（若缺少鞋子/下身請提醒補上即可出門）"
 }`;
 
       let parsed = null;
@@ -3321,111 +3318,99 @@ ${JSON.stringify(payload, null, 2)}
           parsed = extractJson(data.choices[0].message.content);
         }
       } catch (err) {
-        console.warn("診斷請求異常", err);
+        console.warn("AI 解釋請求失敗，將無縫採用 Canvas 本地解說", err);
       }
 
       btn.style.opacity = '1';
       btn.style.pointerEvents = 'auto';
       aiBadge.classList.remove('loading');
+      aiBadge.innerText = 'CANVAS 核心主導評析';
 
-     if (parsed && typeof parsed.score === 'number') {
-        let calculatedScore = Math.max(30, Math.min(99, Math.round(parsed.score)));
-        let calculatedStatus = parsed.status || 'good';
+      // 3. 【核心保證】：分數與狀態 100% 採用 Canvas 的計算結果，AI 僅提供文案
+      updateAnalysisPanelWithResult({
+        score: canvasResult.score,
+        status: canvasResult.status,
+        colorClash: (parsed && parsed.colorExplanation) ? parsed.colorExplanation : canvasResult.colorFact,
+        styleClash: (parsed && parsed.styleExplanation) ? parsed.styleExplanation : canvasResult.styleFact,
+        verdict: (parsed && parsed.verdict) ? parsed.verdict : `${canvasResult.colorFact}。${canvasResult.missingTip}`
+      });
 
-        // 1. 完整度檢查（缺件扣分）
-        const hasBottom = payload.pieces.some(p => p.category === 'pants' || p.category === 'skirt');
-        const hasShoes = payload.pieces.some(p => p.category === 'shoes');
-        if (!hasBottom || !hasShoes) {
-          calculatedScore = Math.min(calculatedScore, 58);
-          calculatedStatus = 'bad';
-        }
-
-        // 2.【色彩翻車物理防線】：計算身上搶眼「有彩色」的數量（排除黑白灰等中性色）
-        const vividColors = payload.pieces.filter(p => p.color.colorType !== 'neutral' && p.color.chroma > 0.12);
-        
-        // 如果身上出現 3 種或以上不同色相的有彩色（例如藍 + 紅 + 亮粉）各佔一席之地
-        if (vividColors.length >= 3) {
-          // 強制將分數壓制在 38~48 分，一票否決 AI 的討好行為
-          calculatedScore = Math.min(calculatedScore, 45);
-          calculatedStatus = 'bad';
-          
-          // 如果 AI 還在誇獎，強制替換為真實批判
-          if (/良好|自然|融洽|創意|相得益彰/.test(parsed.verdict || '')) {
-            parsed.colorClash = "⚠️ 嚴重色彩過載：身上同時出現 " + vividColors.map(c => c.name).join('、') + "，多種強烈有彩色互搶視覺焦點，缺少黑白灰中性色收斂。";
-            parsed.verdict = "❌ 嚴重翻車造型：整套穿搭如調色盤般雜亂，色彩沒有主次。強烈建議將褲子或內搭換成黑、白、深灰等中性色基礎單品！";
-          }
-        }
-
-        aiBadge.innerText = 'GLM-4 秀場美學診斷';
-        updateAnalysisPanelWithResult({
-          score: calculatedScore,
-          status: calculatedStatus,
-          colorClash: parsed.colorClash || '色彩配比已審查',
-          styleClash: parsed.styleClash || '風格語境已校對',
-          verdict: parsed.verdict || '當前造型審核完畢。'
-        });
-        showToast("AI 深度診斷完成！");
-      } else {
-        const heuristic = computeDynamicHeuristicCritique(payload);
-        aiBadge.innerText = '色彩與風格矩陣研判';
-        updateAnalysisPanelWithResult(heuristic);
-        showToast("美學矩陣診斷完成！");
-      }
+      showToast("穿搭診斷完成！");
     }
 
-    function computeDynamicHeuristicCritique(payload) {
-      const pieces = payload.pieces;
-      let score = 86;
+ function computeDynamicHeuristicCritique(payload) {
+      const pieces = payload.pieces || [];
+      let baseScore = 90;
       let colorIssues = [];
-      let styleIssues = [];
       let harmonies = [];
+      let styleIssues = [];
 
-      const vivids = pieces.filter(p => (p.color.chroma || 0) > 0.26 || p.color.hsl[1] > 0.55);
-      const neutralCount = pieces.filter(p => p.color.colorType === 'neutral' || p.color.colorType === 'earth').length;
+      // 1. 完整度審查（缺件僅適度扣減完整度，絕不抹殺色彩本身的優秀）
+      const hasBottom = pieces.some(p => p.category === 'pants' || p.category === 'skirt');
+      const hasShoes = pieces.some(p => p.category === 'shoes');
+      let missingDeduction = 0;
+      if (!hasBottom) missingDeduction += 15;
+      if (!hasShoes) missingDeduction += 10;
 
-      const hasVividRed = pieces.some(p => (p.color.hsl[0] < 26 || p.color.hsl[0] > 338) && (p.color.chroma > 0.28 || p.color.hsl[1] > 0.55));
-      const hasDenimBlue = pieces.some(p => p.color.hsl[0] >= 195 && p.color.hsl[0] <= 245 && p.color.hsl[1] > 0.28);
-      if (hasVividRed && hasDenimBlue) {
-        const hasBuffer = pieces.some(p => p.color.colorType === 'neutral');
-        if (!hasBuffer) {
-          score -= 28;
-          colorIssues.push("紅藍原色互補對抗且缺乏象牙白/炭灰等中性層過渡");
+      // 2. 物理色彩分群（依賴 Canvas 提取的 chroma 與 colorType）
+      // 中性色/大地色（黑、白、灰、卡其、米、燕麥、棕色等）
+      const neutrals = pieces.filter(p => p.color.colorType === 'neutral' || p.color.colorType === 'earth');
+      // 搶眼有彩色（純度 Chroma > 0.12 且非黑白灰）
+      const accents = pieces.filter(p => p.color.colorType === 'accent' && (p.color.chroma > 0.12 || p.color.hsl[1] > 0.35));
+
+      // 3. Canvas 核心色彩邏輯判斷
+      if (accents.length === 0) {
+        // [情況 A] 全中性/大地色：Quiet Luxury / 經典同色系高級感
+        baseScore = 92;
+        harmonies.push("全套以黑白灰或大地色構築，呈現極簡冷淡的高級同色系氛圍");
+      } else if (accents.length === 1) {
+        // [情況 B] 黃金 60-30-10 法則（1個亮點色 + 中性/大地色底盤，例如：牛仔藍+卡其+黑）
+        baseScore = 95;
+        harmonies.push(`【${accents[0].name}】作為唯一視覺視覺亮點，配合扎實的中性/大地色底盤，符合 60-30-10 經典配比，極致和諧`);
+      } else if (accents.length === 2) {
+        // [情況 C] 雙亮點色：計算兩者在色相環上的角度差 (Hue Distance)
+        const h1 = accents[0].color.hsl[0];
+        const h2 = accents[1].color.hsl[0];
+        const diffH = Math.abs(h1 - h2);
+        const hueDist = Math.min(diffH, 360 - diffH);
+
+        if (hueDist <= 45) {
+          // 相鄰色/同色系漸變（如藍+青藍、紅+磚紅）
+          baseScore = 85;
+          harmonies.push(`【${accents[0].name}】與【${accents[1].name}】屬於相鄰和諧色系，層次流暢`);
         } else {
-          score -= 10;
-          colorIssues.push("紅藍對比鮮明，依賴中性色勉強平衡");
+          // 對比/互補色（如紅+藍、黃+藍）
+          if (neutrals.length >= 1) {
+            baseScore = 72;
+            harmonies.push(`【${accents[0].name}】與【${accents[1].name}】形成鮮明撞色對比，依託中性色過渡調和`);
+          } else {
+            baseScore = 60;
+            colorIssues.push(`【${accents[0].name}】與【${accents[1].name}】強烈對抗，缺乏足夠的中性色緩衝`);
+          }
         }
+      } else {
+        // [情況 D] 色彩過載翻車（3個以上搶眼有彩色互撞，如藍+紅+亮粉）
+        baseScore = 45;
+        colorIssues.push(`全身出現 ${accents.map(a => a.name).join('、')} 等過多搶眼有彩色，視覺焦點激烈混亂，嚴重失衡`);
       }
 
-      if (vivids.length >= 2) {
-        const diffH = Math.abs(vivids[0].color.hsl[0] - vivids[1].color.hsl[0]);
-        const hDist = Math.min(diffH, 360 - diffH);
-        if (hDist > 45) {
-          score -= 22;
-          colorIssues.push(`【${vivids[0].name}】與【${vivids[1].name}】形成色彩焦點爭奪`);
-        } else {
-          score += 6;
-          harmonies.push(`【${vivids[0].name}】與【${vivids[1].name}】形成和諧的同色系層次漸變`);
-        }
-      } else if (vivids.length === 1 && neutralCount >= pieces.length - 1) {
-        score += 8;
-        harmonies.push(`經典 60-30-10 比例：以沉穩底色烘托【${vivids[0].name}】單一色彩亮點`);
-      }
-
+      // 4. 風格語境校驗
       const styles = pieces.map(p => p.style);
       if (styles.includes('workwear') && styles.includes('elegant')) {
-        score -= 20;
-        styleIssues.push("粗獷工裝質感與柔和雅緻氣質產生氣場衝突");
+        baseScore -= 12;
+        styleIssues.push("工裝粗獷質感與優雅輕柔氣質略顯割裂");
       }
 
-      const finalScore = Math.max(40, Math.min(96, Math.round(score)));
+      // 5. 結算最終分數（扣除缺件分）
+      const finalScore = Math.max(35, Math.min(98, baseScore - missingDeduction));
+      const status = finalScore >= 78 ? 'good' : (finalScore >= 65 ? 'warn' : 'bad');
+
       return {
         score: finalScore,
-        status: finalScore >= 78 ? 'good' : (finalScore >= 65 ? 'warn' : 'bad'),
-        colorClash: colorIssues.length > 0 ? colorIssues.join('；') : (harmonies[0] || "色彩純度與明暗比例勻稱"),
-        styleClash: styleIssues.length > 0 ? styleIssues.join('；') : "剪裁與風格語境協調",
-        verdict: finalScore >= 78 
-          ? `✨ 高階造型典範：整體架構展現從容的高訂質感。`
-          : `⚠️ 日常搭配：存在局部的 ${colorIssues[0] || '層次平淡'}，建議替換內搭或鞋履以穩定視覺架構。`
+        status: status,
+        colorFact: colorIssues.length > 0 ? colorIssues.join('；') : harmonies.join('；'),
+        styleFact: styleIssues.length > 0 ? styleIssues.join('；') : "單品風格語境和諧相融",
+        missingTip: missingDeduction > 0 ? "（造型缺少鞋履或下身，已扣除完整度分數）" : ""
       };
     }
 
