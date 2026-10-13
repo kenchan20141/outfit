@@ -1870,10 +1870,7 @@
           <button class="icon-capsule-btn gold" id="btnAiRecommend" onclick="triggerAiSmartRecommendation()" title="美學推薦">
             <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
           </button>
-          <button class="icon-capsule-btn" id="btnAiAnalyze" onclick="triggerAiCritiqueCurrentOutfit()" title="穿搭診斷">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-          </button>
-        </div>
+                 </div>
       </div>
     </div>
 
@@ -2598,6 +2595,12 @@
         console.warn("DB Load error", e);
       }
       setupLayerOptions();
+
+
+// ▼ 新增：網頁初始化載入歷史單品後，立刻自動穿搭並給出診斷
+      if (myWardrobe.length > 0) {
+        renderOutfitViewLocal();
+      }
     });
 
     function updateWardrobeCountUi() {
@@ -3110,7 +3113,7 @@
           </div>
         `;
         clearMannequin();
-        resetAnalysisPanelToIdle();
+       autoCritiqueCurrentOutfit();
         return;
       }
 
@@ -3191,7 +3194,7 @@
       updateMannequin(currentLayerCount, currentOutfit.outer, currentOutfit.mid, currentOutfit.inner, currentOutfit.bottom, currentOutfit.shoes);
       renderOutfitCardsUi();
       renderSpectrumBar(currentOutfit);
-      resetAnalysisPanelToIdle();
+    autoCritiqueCurrentOutfit(); // ⬅ 改為自動執行診斷！
     }
 
     function resetAnalysisPanelToIdle() {
@@ -3496,7 +3499,7 @@
       updateMannequin(currentLayerCount, currentOutfit.outer, currentOutfit.mid, currentOutfit.inner, currentOutfit.bottom, currentOutfit.shoes);
       renderOutfitCardsUi();
       renderSpectrumBar(currentOutfit);
-      resetAnalysisPanelToIdle();
+      autoCritiqueCurrentOutfit();
     }
 
     function closeItemPicker() {
@@ -3755,7 +3758,7 @@
       }
     }
 
-    function generateLocalSmartRecommendation() {
+   function generateLocalSmartRecommendation() {
       const outers = myWardrobe.filter(x => x.drawer === 'outer' && isItemSuitableForSeason(x, currentSeason, 'outer'));
       const tops = myWardrobe.filter(x => x.drawer === 'top' && isItemSuitableForSeason(x, currentSeason, 'top'));
       const bottoms = myWardrobe.filter(x => (x.drawer === 'pants' || x.drawer === 'skirt') && isItemSuitableForSeason(x, currentSeason, 'bottom'));
@@ -3763,6 +3766,7 @@
 
       if (bottoms.length === 0 || shoesList.length === 0) return null;
 
+      const qualifyingPool = []; // 儲存所有分數 >= 82% 的合格穿搭
       let bestOutfit = null;
       let bestCritique = null;
       let bestScore = -1;
@@ -3782,7 +3786,6 @@
         }
 
         if (currentLayerCount === 1) {
-          // 1層時只允許 tops
           const pool = tops.filter(t => !usedIds.has(t.id));
           if (pool.length > 0) {
             candidate.outer = pool[Math.floor(Math.random() * pool.length)];
@@ -3820,15 +3823,25 @@
         const payload = buildOutfitPayload(candidate, currentSeason, currentLayerCount);
         const critique = computeDynamicHeuristicCritique(payload);
 
+        // 紀錄全場最高分作為備案
         if (critique.score > bestScore) {
           bestScore = critique.score;
           bestOutfit = candidate;
           bestCritique = critique;
         }
 
-        if (bestScore >= 96) break; 
+        // 核心修訂：只要契合度大於或等於 82%，便收錄至合格推薦池
+        if (critique.score >= 82) {
+          qualifyingPool.push({ outfit: candidate, critique: critique });
+        }
       }
 
+      // 如果有 >= 82% 的搭配，隨機從合格池挑選一組，增加推薦的豐富度
+      if (qualifyingPool.length > 0) {
+        return qualifyingPool[Math.floor(Math.random() * qualifyingPool.length)];
+      }
+
+      // 若衣櫥單品受限無人達到 82%，則退回選取最高分者
       if (!bestOutfit || !bestCritique) return null;
       return { outfit: bestOutfit, critique: bestCritique };
     }
@@ -3855,20 +3868,15 @@
       return { season, layerCount: layers, pieces };
     }
 
-   function triggerAiCritiqueCurrentOutfit() {
+   // 自動診斷當前穿搭色彩
+    function autoCritiqueCurrentOutfit() {
       const payload = buildOutfitPayload(currentOutfit, currentSeason, currentLayerCount);
       if (!payload.pieces || payload.pieces.length === 0) {
-        showToast("無單品可診斷");
+        resetAnalysisPanelToIdle();
         return;
       }
       const canvasResult = computeDynamicHeuristicCritique(payload);
       renderMinimalVerdictUi(canvasResult);
-
-      // ▼ 新增：自動平滑滾動跳轉到色彩分析面板
-      const analysisElem = document.querySelector('.analysis-panel');
-      if (analysisElem) {
-        analysisElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
     }
 
     function createColorChipHtml(color) {
