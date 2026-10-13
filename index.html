@@ -1,11 +1,9 @@
-
-
 <!DOCTYPE html>
 <html lang="zh-HK">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>L'ALLURE - 私人真實衣櫥與智能人體穿搭模擬</title>
+  <title>L'ALLURE</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
@@ -22,11 +20,11 @@
       --accent: #E5E5EB;
       
       /* 高訂品類專屬識別色 */
-      --cat-outer: #C5A880;     /* 外套大衣 */
-      --cat-top: #8AA39B;       /* 上裝內搭 */
-      --cat-pants: #7B92A8;     /* 褲裝 */
-      --cat-skirt: #B0899E;     /* 裙裝 */
-      --cat-shoes: #C7A27C;     /* 鞋履 */
+      --cat-outer: #C5A880;
+      --cat-top: #8AA39B;
+      --cat-pants: #7B92A8;
+      --cat-skirt: #B0899E;
+      --cat-shoes: #C7A27C;
 
       /* 人體動態調色 */
       --c-outer-1: #282830;
@@ -116,21 +114,18 @@
       background: transparent;
       border: none;
       color: var(--muted);
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 24px;
-      font-size: 0.65rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
       transition: all 0.25s ease;
     }
 
     .svg-nav-btn svg {
-      width: 14px;
-      height: 14px;
+      width: 17px;
+      height: 17px;
       stroke-width: 1.6;
       stroke: currentColor;
       fill: none;
@@ -141,7 +136,6 @@
     .svg-nav-btn.active {
       background: var(--text);
       color: var(--bg);
-      font-weight: 600;
     }
 
     .svg-nav-btn.active svg {
@@ -152,15 +146,14 @@
       background: var(--card-bg);
       border: 1px solid var(--border);
       color: var(--text);
-      padding: 8px 16px;
-      border-radius: 24px;
-      font-size: 0.65rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
+      position: relative;
       transition: all 0.25s;
     }
 
@@ -174,8 +167,8 @@
     }
 
     .top-action-btn svg {
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
       stroke-width: 1.6;
       stroke: currentColor;
       fill: none;
@@ -184,6 +177,18 @@
     .top-action-btn:hover {
       border-color: var(--cat-outer);
       background: rgba(197, 168, 128, 0.08);
+    }
+
+    .badge-counter {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      background: var(--cat-outer);
+      color: var(--bg);
+      font-size: 0.52rem;
+      font-weight: 600;
+      padding: 1px 5px;
+      border-radius: 10px;
     }
 
     /* VIEW CONTENT */
@@ -200,7 +205,7 @@
     /* VIEW 01: CAPTURE STUDIO */
     #view-capture {
       flex-direction: column;
-      gap: 24px;
+      gap: 20px;
       max-width: 1040px;
       margin: 0 auto;
       width: 100%;
@@ -264,24 +269,16 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
-      gap: 8px;
-      padding: 24px;
-    }
-
-    .editorial-badge {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.15rem;
-      letter-spacing: 0.22em;
-      color: var(--cat-outer);
-      text-transform: uppercase;
-    }
-
-    .editorial-sub {
-      font-size: 0.65rem;
-      letter-spacing: 0.16em;
+      justify-content: center;
       color: var(--muted);
-      line-height: 1.6;
+    }
+
+    .empty-cam-hint svg {
+      width: 42px;
+      height: 42px;
+      stroke: var(--border-focus);
+      stroke-width: 1.2;
+      fill: none;
     }
 
     .scan-laser {
@@ -306,34 +303,45 @@
       gap: 12px;
       width: 100%;
       justify-content: center;
-      flex-wrap: wrap;
+      align-items: center;
     }
 
-    .action-btn {
+    .icon-action-btn {
       background: var(--card-inner);
       border: 1px solid var(--border);
       color: var(--text);
-      padding: 10px 18px;
-      font-size: 0.65rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      cursor: pointer;
-      border-radius: 2px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      cursor: pointer;
       transition: all 0.25s;
     }
 
-    .action-btn:hover {
-      border-color: var(--accent);
-      background: #202028;
+    .icon-action-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.6;
     }
 
-    .action-btn.primary {
+    .icon-action-btn:hover {
+      border-color: var(--cat-outer);
+      color: var(--cat-outer);
+      background: #1D1D26;
+    }
+
+    .icon-action-btn.primary {
       background: var(--text);
       color: var(--bg);
-      font-weight: 600;
+      border-color: var(--text);
+    }
+
+    .icon-action-btn.primary svg {
+      stroke: var(--bg);
     }
 
     #fileInput {
@@ -344,62 +352,90 @@
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 4px;
-      padding: 24px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
     }
 
-    .editorial-status-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.64rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--cat-outer);
+    /* 批量上傳佇列縮圖列表 */
+    .batch-queue-container {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
       border-bottom: 1px solid var(--border);
       padding-bottom: 14px;
     }
 
-    .status-pulse-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--cat-outer);
-      box-shadow: 0 0 8px var(--cat-outer);
-    }
-
-    .editorial-lead-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .editorial-h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem;
-      letter-spacing: 0.12em;
-      color: var(--text);
-      font-weight: 400;
-    }
-
-    .editorial-desc {
-      font-size: 0.65rem;
+    .batch-queue-title {
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
       color: var(--muted);
-      letter-spacing: 0.1em;
-      line-height: 1.7;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .batch-thumbs-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 2px;
+    }
+
+    .batch-thumb-item {
+      width: 48px;
+      height: 48px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      background: #14141B;
+      flex-shrink: 0;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .batch-thumb-item.active {
+      border-color: var(--cat-outer);
+    }
+
+    .batch-thumb-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .batch-thumb-loader {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .batch-thumb-loader svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--cat-outer);
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
     }
 
     /* 錄入卡片 */
     .recent-scanned-card {
       background: var(--card-inner);
       border: 1px solid var(--border);
-      padding: 18px;
+      padding: 16px;
       border-radius: 4px;
       display: none;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
     .recent-card-header {
@@ -410,7 +446,7 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--cat-outer);
-      padding-bottom: 8px;
+      padding-bottom: 6px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
@@ -516,7 +552,7 @@
       font-size: 0.58rem;
       color: var(--cat-outer);
       letter-spacing: 0.1em;
-      min-width: 42px;
+      min-width: 32px;
     }
 
     .recent-color-name {
@@ -591,7 +627,7 @@
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 4px;
-      padding: 16px 20px;
+      padding: 14px 20px;
       display: flex;
       flex-direction: column;
       gap: 14px;
@@ -667,45 +703,42 @@
       display: flex;
       gap: 8px;
       align-items: center;
-      flex-wrap: wrap;
     }
 
-    .btn-capsule {
+    .icon-capsule-btn {
       background: var(--card-inner);
       border: 1px solid var(--border-focus);
       color: var(--text);
-      padding: 8px 14px;
-      font-size: 0.63rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
       cursor: pointer;
-      border-radius: 20px;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
       transition: all 0.25s;
     }
 
-    .btn-capsule:hover {
-      border-color: var(--accent);
+    .icon-capsule-btn:hover {
+      border-color: var(--cat-outer);
+      color: var(--cat-outer);
       background: #22222C;
     }
 
-    .btn-capsule.gold {
+    .icon-capsule-btn.gold {
       background: linear-gradient(135deg, rgba(197, 168, 128, 0.2) 0%, rgba(197, 168, 128, 0.05) 100%);
       border-color: var(--cat-outer);
       color: var(--cat-outer);
-      font-weight: 600;
     }
 
-    .btn-capsule.gold:hover {
+    .icon-capsule-btn.gold:hover {
       background: var(--cat-outer);
       color: var(--bg);
     }
 
-    .btn-capsule svg {
-      width: 13px;
-      height: 13px;
+    .icon-capsule-btn svg {
+      width: 15px;
+      height: 15px;
       stroke: currentColor;
       fill: none;
       stroke-width: 1.6;
@@ -820,7 +853,6 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 14px;
-      transition: opacity 0.25s ease;
     }
 
     .outfit-card {
@@ -832,12 +864,6 @@
       flex-direction: column;
       gap: 10px;
       position: relative;
-      animation: cardFadeIn 0.3s ease;
-    }
-
-    @keyframes cardFadeIn {
-      from { opacity: 0.3; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     .outfit-card.empty-slot {
@@ -887,8 +913,6 @@
       justify-content: center;
       gap: 6px;
       font-size: 0.6rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
       color: var(--cat-outer);
       opacity: 0;
       transition: opacity 0.2s ease;
@@ -1019,7 +1043,6 @@
       flex-wrap: wrap;
     }
 
-    /* 視覺化配色膠囊標籤 */
     .color-chip {
       display: inline-flex;
       align-items: center;
@@ -1182,8 +1205,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
     }
 
     .closet-title-wrap h2 {
@@ -1466,7 +1487,7 @@
       border-radius: 3px;
     }
 
-    /* MODAL: LOOKBOOK (SAVED LOOKS) */
+    /* MODAL: LOOKBOOK */
     .lookbook-modal-overlay {
       position: fixed;
       inset: 0;
@@ -1621,25 +1642,23 @@
 
     <div class="nav-actions-group">
       <div class="nav-tabs">
-        <button class="svg-nav-btn active" id="tabCapture" onclick="switchView('capture')">
+        <button class="svg-nav-btn active" id="tabCapture" onclick="switchView('capture')" title="拍照錄入">
           <svg viewBox="0 0 24 24"><path d="M4 7h4l2-3h4l2 3h4v12H4z"/><circle cx="12" cy="13" r="4"/></svg>
-          <span>01 拍照錄入</span>
         </button>
 
-        <button class="svg-nav-btn" id="tabStyle" onclick="switchView('style')">
+        <button class="svg-nav-btn" id="tabStyle" onclick="switchView('style')" title="穿搭模擬">
           <svg viewBox="0 0 24 24"><path d="M12 2v3m-5 4l5-2 5 2v6l-5 3-5-3V9zm-4 13h18"/></svg>
-          <span>02 穿搭模擬</span>
         </button>
       </div>
 
-      <button class="top-action-btn" onclick="openLookbookModal()">
+      <button class="top-action-btn" onclick="openLookbookModal()" title="私享典藏">
         <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-        <span>私享典藏 (<span id="btnLookbookCount">0</span>)</span>
+        <span class="badge-counter" id="btnLookbookCount">0</span>
       </button>
 
-      <button class="top-action-btn gold" onclick="openClosetModal()">
+      <button class="top-action-btn gold" onclick="openClosetModal()" title="衣櫥一覽">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="9" y1="12" x2="9" y2="14"/><line x1="15" y1="12" x2="15" y2="14"/></svg>
-        <span>衣櫥一覽 (<span id="btnWardrobeCount">0</span>)</span>
+        <span class="badge-counter" id="btnWardrobeCount">0</span>
       </button>
     </div>
   </header>
@@ -1652,62 +1671,63 @@
         <div class="viewport-frame">
           <div class="scan-laser" id="scanLaser"></div>
           <video id="cameraVideo" autoplay playsinline muted></video>
-          <img id="capturedImage" alt="Captured preview">
+          <img id="capturedImage" alt="Preview">
           
           <div class="empty-cam-hint" id="camHint">
-            <span class="editorial-badge">Atelier Studio</span>
-            <p class="editorial-sub">點擊拍攝或匯入實體衣物相片<br>剔除背景雜訊 · 本地精準解析主次多色光譜</p>
+            <svg viewBox="0 0 24 24"><path d="M4 7h4l2-3h4l2 3h4v12H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
           </div>
         </div>
 
         <div class="cam-actions">
-          <button class="action-btn" id="btnToggleCam" onclick="toggleCamera()">開啟相機</button>
-          <button class="action-btn primary" id="btnSnap" onclick="snapPhoto()" style="display: none;">拍攝並取樣</button>
+          <button class="icon-action-btn" id="btnToggleCam" onclick="toggleCamera()" title="開啟相機">
+            <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          </button>
           
-          <label class="action-btn" style="cursor: pointer;">
-            <span>上傳相片</span>
-            <input type="file" id="fileInput" accept="image/*" onchange="handleFileUpload(event)">
+          <button class="icon-action-btn primary" id="btnSnap" onclick="snapPhoto()" style="display: none;" title="拍攝取樣">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+          
+          <label class="icon-action-btn" title="批量上傳">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <input type="file" id="fileInput" accept="image/*" multiple onchange="handleBatchFileUpload(event)">
           </label>
         </div>
       </div>
 
       <div class="studio-summary-panel">
-        <div class="editorial-status-bar">
-          <span class="status-pulse-dot"></span>
-          <span>L'ARCHIVE · 典藏庫就緒</span>
-        </div>
-
-        <div class="editorial-lead-wrap">
-          <h3 class="editorial-h3">智能前景濾鏡 · 排除背景雜色</h3>
-          <p class="editorial-desc">
-            自動過濾背板雜色，並以模型判定品類與季節。支援單色及多色拼接色系分離與自由微調。
-          </p>
+        
+        <!-- 批量佇列檢視 (可點擊切換編輯) -->
+        <div class="batch-queue-container" id="batchQueueBox">
+          <div class="batch-queue-title">
+            <span>BATCH ITEMS</span>
+            <span id="batchQueueProgress">0 / 0</span>
+          </div>
+          <div class="batch-thumbs-scroll" id="batchThumbsScroll"></div>
         </div>
 
         <!-- 錄入編輯卡片 -->
         <div class="recent-scanned-card" id="recentCard">
           <div class="recent-card-header">
-            <span>01 / 最新辨識錄入</span>
             <span id="recentCatTag" style="color:var(--cat-outer); font-weight:600;">-</span>
+            <span id="recentItemSeq" style="color:var(--muted); font-size:0.55rem;">-</span>
           </div>
 
           <div class="recent-edit-group">
-            <label class="recent-label">單品名稱</label>
             <input type="text" id="recentNameInput" class="recent-input" placeholder="單品名稱" onchange="handleRecentNameChange(this.value)">
           </div>
 
           <!-- 多色編輯器 -->
           <div class="recent-edit-group">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <label class="recent-label">主次色彩 (支援單色／拼接多色)</label>
+              <label class="recent-label">色彩光譜</label>
               <button type="button" class="recalc-btn" onclick="recalcRecentItemColor()">↺ 重取色</button>
             </div>
             <div class="color-swatches-box" id="recentColorSwatchesBox"></div>
-            <button type="button" class="add-secondary-color-btn" id="btnAddSecondaryColor" onclick="addRecentSecondaryColor()">+ 新增拼色/次色</button>
+            <button type="button" class="add-secondary-color-btn" id="btnAddSecondaryColor" onclick="addRecentSecondaryColor()">+ 拼色</button>
           </div>
 
           <div class="recent-edit-group">
-            <label class="recent-label">修正品類分區</label>
+            <label class="recent-label">分區</label>
             <div class="recent-pills-grid">
               <button type="button" class="recent-cat-btn" data-drawer="outer" onclick="handleRecentDrawerChange('outer')">外套大衣</button>
               <button type="button" class="recent-cat-btn" data-drawer="top" onclick="handleRecentDrawerChange('top')">上裝內搭</button>
@@ -1718,7 +1738,7 @@
           </div>
 
           <div class="recent-edit-group">
-            <label class="recent-label">風格基調</label>
+            <label class="recent-label">風格</label>
             <div class="recent-pills-grid">
               <button type="button" class="recent-style-pill" data-style="smart" onclick="handleRecentStyleChange('smart')">雅痞/正裝</button>
               <button type="button" class="recent-style-pill" data-style="casual" onclick="handleRecentStyleChange('casual')">休閒日常</button>
@@ -1729,20 +1749,17 @@
           </div>
 
           <div class="recent-edit-group">
-            <label class="recent-label">適用季節</label>
+            <label class="recent-label">適用季節 (春秋聯動)</label>
             <div class="recent-pills-grid">
-              <button type="button" class="recent-season-pill" id="pillSeasonSpring" onclick="toggleRecentSeason('spring')">春 SPRING</button>
+              <button type="button" class="recent-season-pill" id="pillSeasonSpring" onclick="toggleRecentSeasonPair()">春 / 秋</button>
               <button type="button" class="recent-season-pill" id="pillSeasonSummer" onclick="toggleRecentSeason('summer')">夏 SUMMER</button>
-              <button type="button" class="recent-season-pill" id="pillSeasonAutumn" onclick="toggleRecentSeason('autumn')">秋 AUTUMN</button>
               <button type="button" class="recent-season-pill" id="pillSeasonWinter" onclick="toggleRecentSeason('winter')">冬 WINTER</button>
             </div>
           </div>
-
-          <div id="recentDetails" style="font-size:0.62rem; color:var(--muted); line-height:1.6; border-top:1px solid rgba(255,255,255,0.05); padding-top:8px;">-</div>
         </div>
 
-        <button class="action-btn primary" style="width: 100%; margin-top: auto; padding: 12px;" onclick="goToStyling()">
-          進入穿搭模擬 ⟶
+        <button class="icon-action-btn primary" style="width:100%; border-radius:3px; margin-top:auto;" onclick="goToStyling()" title="進入穿搭模擬">
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
       </div>
 
@@ -1770,19 +1787,17 @@
         </div>
 
         <div class="actions-cluster">
-          <button class="btn-capsule" onclick="saveCurrentLook()" title="收藏至私享典藏">
+          <button class="icon-capsule-btn" onclick="saveCurrentLook()" title="收藏當前造型">
             <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-            <span>收藏當前造型</span>
           </button>
-          <button class="btn-capsule" onclick="randomPickOutfit()" title="按照當前條件隨機抽取">
+          <button class="icon-capsule-btn" onclick="randomPickOutfit()" title="隨機抽取">
             <svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
-            <span>隨機抽取</span>
           </button>
-          <button class="btn-capsule gold" id="btnAiRecommend" onclick="triggerAiSmartRecommendation()">
-            智能美學推薦
+          <button class="icon-capsule-btn gold" id="btnAiRecommend" onclick="triggerAiSmartRecommendation()" title="美學推薦">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
           </button>
-          <button class="btn-capsule" id="btnAiAnalyze" onclick="triggerAiCritiqueCurrentOutfit()">
-            穿搭診斷
+          <button class="icon-capsule-btn" id="btnAiAnalyze" onclick="triggerAiCritiqueCurrentOutfit()" title="穿搭診斷">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
           </button>
         </div>
       </div>
@@ -1791,11 +1806,11 @@
     <!-- MAIN STYLING WORKSPACE -->
     <div class="style-main-layout">
       
-      <!-- 人體穿搭圖 (支援多色漸層) -->
+      <!-- 人體穿搭圖 -->
       <div class="mannequin-panel">
         <div class="mannequin-top-info">
-          <span class="mannequin-heading">色彩穿搭構圖</span>
-          <span class="mannequin-layer-tag" id="mannequinStatusTag">雙層疊穿 · 褲裝</span>
+          <span class="mannequin-heading">構圖</span>
+          <span class="mannequin-layer-tag" id="mannequinStatusTag">-</span>
         </div>
 
         <div class="mannequin-svg-container">
@@ -1915,19 +1930,16 @@
     <div class="closet-wardrobe-container">
       <div class="closet-header">
         <div class="closet-title-wrap">
-          <h2>ATELIER WALK-IN CLOSET</h2>
-          <p>私人典藏實體衣櫥</p>
+          <h2>WALK-IN CLOSET</h2>
         </div>
         <div style="display:flex; align-items:center; gap:10px;">
-          <button class="action-btn" onclick="recalcAllWardrobeColors()" style="padding:6px 14px; font-size:0.6rem; border-color:var(--cat-outer); color:var(--cat-outer);">
-            ↺ 重校全部色彩
-          </button>
+          <button class="recalc-btn" onclick="recalcAllWardrobeColors()">↺ 重測全部色彩</button>
           <button class="closet-close-btn" onclick="closeClosetModal()">✕</button>
         </div>
       </div>
 
       <div class="closet-stats-bar">
-        <div class="stat-pill"><span>全部單品:</span> <strong id="statTotal">0</strong></div>
+        <div class="stat-pill"><span>全部:</span> <strong id="statTotal">0</strong></div>
         <div class="stat-pill"><span class="stat-dot" style="background:var(--cat-outer);"></span><span>外套:</span> <strong id="statOuter">0</strong></div>
         <div class="stat-pill"><span class="stat-dot" style="background:var(--cat-top);"></span><span>上裝:</span> <strong id="statTop">0</strong></div>
         <div class="stat-pill"><span class="stat-dot" style="background:var(--cat-pants);"></span><span>褲裝:</span> <strong id="statPants">0</strong></div>
@@ -1938,40 +1950,40 @@
       <div class="closet-compartments-scroll">
         <div class="cabinet-section theme-outer">
           <div class="cabinet-section-title" style="color:var(--cat-outer);">
-            <span>01 / COATS & JACKETS</span>
-            <span id="countOuter">0 件</span>
+            <span>COATS & JACKETS</span>
+            <span id="countOuter">0</span>
           </div>
           <div class="cabinet-grid" id="cabinetOuter"></div>
         </div>
 
         <div class="cabinet-section theme-top">
           <div class="cabinet-section-title" style="color:var(--cat-top);">
-            <span>02 / TOPS & INNERS</span>
-            <span id="countTop">0 件</span>
+            <span>TOPS & INNERS</span>
+            <span id="countTop">0</span>
           </div>
           <div class="cabinet-grid" id="cabinetTop"></div>
         </div>
 
         <div class="cabinet-section theme-pants">
           <div class="cabinet-section-title" style="color:var(--cat-pants);">
-            <span>03 / TROUSERS</span>
-            <span id="countPants">0 件</span>
+            <span>TROUSERS</span>
+            <span id="countPants">0</span>
           </div>
           <div class="cabinet-grid" id="cabinetPants"></div>
         </div>
 
         <div class="cabinet-section theme-skirt">
           <div class="cabinet-section-title" style="color:var(--cat-skirt);">
-            <span>04 / SKIRTS</span>
-            <span id="countSkirts">0 件</span>
+            <span>SKIRTS</span>
+            <span id="countSkirts">0</span>
           </div>
           <div class="cabinet-grid" id="cabinetSkirts"></div>
         </div>
 
         <div class="cabinet-section theme-shoes">
           <div class="cabinet-section-title" style="color:var(--cat-shoes);">
-            <span>05 / FOOTWEAR</span>
-            <span id="countShoes">0 件</span>
+            <span>FOOTWEAR</span>
+            <span id="countShoes">0</span>
           </div>
           <div class="cabinet-grid" id="cabinetShoes"></div>
         </div>
@@ -1979,17 +1991,14 @@
     </div>
   </div>
 
-  <!-- MODAL: LOOKBOOK (SAVED LOOKS) -->
+  <!-- MODAL: LOOKBOOK -->
   <div class="lookbook-modal-overlay" id="lookbookModal">
     <div class="lookbook-container">
       <div class="lookbook-header">
-        <div>
-          <h2 style="font-family:'Cormorant Garamond',serif; font-size:1.45rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--cat-outer);">LOOKBOOK ARCHIVE</h2>
-          <p style="font-size:0.6rem; color:var(--muted); letter-spacing:0.12em; margin-top:2px;">私人收藏穿搭靈感冊</p>
-        </div>
+        <h2 style="font-family:'Cormorant Garamond',serif; font-size:1.45rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--cat-outer);">LOOKBOOK</h2>
         <div style="display:flex; align-items:center; gap:10px;">
-          <button class="action-btn" onclick="randomPickOutfit(true)" style="padding:6px 14px; font-size:0.6rem; border-color:var(--cat-outer); color:var(--cat-outer);">
-            隨機抽取一組
+          <button class="icon-action-btn" onclick="randomPickOutfit(true)" title="抽取一組">
+            <svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
           </button>
           <button class="closet-close-btn" onclick="closeLookbookModal()">✕</button>
         </div>
@@ -1999,7 +2008,7 @@
     </div>
   </div>
 
-  <div id="toast">提示訊息</div>
+  <div id="toast"></div>
 
   <script>
     /* =========================================================================
@@ -2012,14 +2021,14 @@
         method: "POST",
         body: JSON.stringify(payload)
       });
-      if (!res.ok) throw new Error("後端請求失敗: " + res.status);
+      if (!res.ok) throw new Error("API Error: " + res.status);
       const data = await res.json();
       if (data.error) throw new Error(data.error);
       return data;
     }
 
     /* =========================================================================
-     * 1. 品類校驗與風格判定
+     * 1. 春秋聯動與品類判定邏輯
      * ========================================================================= */
     function verifyAndCorrectDrawer(name, currentDrawer) {
       const lower = (name || "").toLowerCase().trim();
@@ -2031,43 +2040,49 @@
       return currentDrawer || 'top';
     }
 
+    // 春秋嚴格聯動：春天能穿秋天就能穿
+    function harmonizeSeasons(seasons) {
+      const set = new Set(seasons || ['spring', 'autumn', 'summer', 'winter']);
+      if (set.has('spring') || set.has('autumn')) {
+        set.add('spring');
+        set.add('autumn');
+      }
+      return Array.from(set);
+    }
+
     function inferItemSeasons(name, drawer) {
       const lower = (name || '').toLowerCase();
-      if (drawer === 'shoes') return ['spring', 'summer', 'autumn', 'winter'];
-      if (drawer === 'pants') {
-        if (/短褲|沙灘褲|熱褲/i.test(lower)) return ['summer', 'spring'];
-        if (/加絨|羽絨褲|厚棉褲/i.test(lower)) return ['winter'];
-        return ['spring', 'summer', 'autumn', 'winter'];
+      let s = ['spring', 'summer', 'autumn', 'winter'];
+      if (drawer === 'shoes') s = ['spring', 'summer', 'autumn', 'winter'];
+      else if (drawer === 'pants') {
+        if (/短褲|沙灘褲|熱褲/i.test(lower)) s = ['summer'];
+        else if (/加絨|羽絨褲|厚棉褲/i.test(lower)) s = ['winter'];
+        else s = ['spring', 'autumn', 'summer', 'winter'];
+      } else if (drawer === 'skirt') {
+        if (/毛呢裙|厚裙|皮裙/i.test(lower)) s = ['winter', 'spring', 'autumn'];
+        else s = ['spring', 'autumn', 'summer'];
+      } else if (drawer === 'outer') {
+        if (/羽絨|大衣|厚毛呢|皮草/i.test(lower)) s = ['winter'];
+        else if (/防曬|薄開衫/i.test(lower)) s = ['summer', 'spring', 'autumn'];
+        else s = ['spring', 'autumn', 'winter'];
+      } else if (drawer === 'top') {
+        if (/短袖|背心|吊帶/i.test(lower)) s = ['summer', 'spring', 'autumn'];
+        else if (/毛衣|羊絨|衛衣|加絨/i.test(lower)) s = ['winter', 'spring', 'autumn'];
+        else s = ['spring', 'autumn', 'summer', 'winter'];
       }
-      if (drawer === 'skirt') {
-        if (/毛呢裙|厚裙|皮裙/i.test(lower)) return ['autumn', 'winter'];
-        return ['spring', 'summer', 'autumn'];
-      }
-      if (drawer === 'outer') {
-        if (/羽絨|大衣|毛呢|加厚|皮草/i.test(lower)) return ['winter'];
-        if (/風衣|夾克|牛仔外套|西裝|皮衣|衛衣/i.test(lower)) return ['spring', 'autumn', 'winter'];
-        if (/防曬|薄開衫|薄紗/i.test(lower)) return ['spring', 'summer'];
-        return ['spring', 'autumn', 'winter'];
-      }
-      if (drawer === 'top') {
-        if (/短袖|背心|吊帶|polo|馬球|t恤/i.test(lower)) return ['spring', 'summer', 'autumn', 'winter'];
-        if (/毛衣|羊絨|衛衣|加絨/i.test(lower)) return ['autumn', 'winter'];
-        if (/襯衫|長袖/i.test(lower)) return ['spring', 'autumn', 'winter'];
-        return ['spring', 'summer', 'autumn', 'winter'];
-      }
-      return ['spring', 'summer', 'autumn', 'winter'];
+      return harmonizeSeasons(s);
     }
 
     function isItemSuitableForSeason(item, season, role) {
       if (!item) return false;
       if (item.drawer === 'shoes' || item.drawer === 'pants') return true;
-      const seasons = item.seasons || inferItemSeasons(item.name, item.drawer);
+      const seasons = harmonizeSeasons(item.seasons || inferItemSeasons(item.name, item.drawer));
       if (season === 'summer') {
         if (item.drawer === 'outer' && !seasons.includes('summer')) return false;
         if (/羽絨|大衣|厚毛呢|毛衣|加厚/i.test(item.name)) return false;
       }
       if (seasons.includes(season)) return true;
-      if ((season === 'winter' || season === 'autumn') && (role === 'inner' || role === 'mid')) {
+      if ((season === 'winter' || season === 'autumn' || season === 'spring') && (role === 'inner' || role === 'mid')) {
         if (item.drawer === 'top') return true;
       }
       return false;
@@ -2083,13 +2098,13 @@
       return 'casual';
     }
 
-    const CAT_LABELS = { outer: '01 / 外套大衣', top: '02 / 上裝內搭', pants: '03 / 褲裝系列', skirt: '04 / 裙裝系列', shoes: '05 / 鞋履系列' };
+    const CAT_LABELS = { outer: '外套大衣', top: '上裝內搭', pants: '褲裝系列', skirt: '裙裝系列', shoes: '鞋履系列' };
     const STYLE_LABELS = { smart: '雅痞/正裝', casual: '休閒日常', workwear: '工裝/粗獷', elegant: '優雅柔和', minimal: '極簡冷淡' };
 
     /* =========================================================================
-     * 2. INDEXED DB 原生持久化儲存 (衣物 + 收藏穿搭)
+     * 2. INDEXED DB 原生持久化儲存
      * ========================================================================= */
-    const DB_NAME = "LAllureWardrobeDB_v14";
+    const DB_NAME = "LAllureWardrobeDB_v15";
     const DB_VERSION = 1;
     const STORE_CLOTHES = "clothes";
     const STORE_LOOKS = "saved_looks";
@@ -2144,7 +2159,6 @@
       });
     }
 
-    // 穿搭典藏 (Looks) 資料操作
     async function dbSaveLook(look) {
       const db = await openDatabase();
       return new Promise((resolve, reject) => {
@@ -2179,7 +2193,7 @@
     }
 
     /* =========================================================================
-     * 3. 精確色彩學分析模型（支援主色與次色／多色拼接分離）
+     * 3. 精確色彩學分析模型（加權色差去背與高訂色彩分級）
      * ========================================================================= */
     function rgbToHsl(r, g, b) {
       r /= 255; g /= 255; b /= 255;
@@ -2214,14 +2228,14 @@
       let name = '';
       let colorType = 'accent';
 
-      if (l < 0.15) {
+      if (l < 0.14) {
         name = '炭黑'; colorType = 'neutral';
       } else if (l > 0.88 && s < 0.20) {
         name = '米白'; colorType = 'neutral';
-      } else if (s < 0.14 || chroma < 0.08) {
+      } else if (s < 0.13 || chroma < 0.08) {
         name = l > 0.65 ? '淺灰' : (l > 0.35 ? '煙灰' : '深灰');
         colorType = 'neutral';
-      } else if (h >= 24 && h <= 58 && l > 0.52 && s < 0.50) {
+      } else if (h >= 24 && h <= 58 && l > 0.52 && s < 0.52) {
         name = l > 0.72 ? '燕麥米色' : '卡其棕';
         colorType = 'earth';
       } else if (h >= 12 && h <= 45 && l < 0.52) {
@@ -2278,12 +2292,12 @@
       return { hex, name, h, s, l, chroma, colorType };
     }
 
-    // 智能提取多色陣列 [主色, 次色?]
     function extractDominantGarmentColors(canvas) {
       const ctx = canvas.getContext('2d');
       const { width, height } = canvas;
       const data = ctx.getImageData(0, 0, width, height).data;
 
+      // 採樣邊界像素以精準識別背景色彩
       const bgSamples = [];
       const borderX = Math.max(4, Math.floor(width * 0.10));
       const borderY = Math.max(4, Math.floor(height * 0.10));
@@ -2297,7 +2311,7 @@
         }
       }
 
-      let bgR = 220, bgG = 220, bgB = 220;
+      let bgR = 230, bgG = 230, bgB = 230;
       if (bgSamples.length > 0) {
         let sumR = 0, sumG = 0, sumB = 0;
         for (let s of bgSamples) {
@@ -2313,30 +2327,30 @@
       const maxDist = Math.sqrt(centerX * centerX + centerY * centerY);
 
       const foregroundBuckets = {};
-      const bgTolerance = 52;
+      const bgTolerance = 48;
       const startX = Math.floor(width * 0.12), endX = Math.floor(width * 0.88);
       const startY = Math.floor(height * 0.12), endY = Math.floor(height * 0.88);
-      const step = Math.max(1, Math.floor((width * height) / 16000));
+      const step = Math.max(1, Math.floor((width * height) / 18000));
 
       for (let y = startY; y < endY; y += step) {
         for (let x = startX; x < endX; x += step) {
           const idx = (y * width + x) * 4;
           const r = data[idx], g = data[idx + 1], b = data[idx + 2];
 
+          // 嚴密排除背景色與極亮曝光反光
           const distToBg = Math.sqrt((r - bgR) ** 2 + (g - bgG) ** 2 + (b - bgB) ** 2);
           if (distToBg < bgTolerance) continue;
           if (r > 248 && g > 248 && b > 248) continue;
 
           const dCenter = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
-          const weight = Math.max(0.3, 1.2 - (dCenter / maxDist));
+          const weight = Math.max(0.35, 1.3 - (dCenter / maxDist));
 
-          const qr = Math.round(r / 22) * 22;
-          const qg = Math.round(g / 22) * 22;
-          const qb = Math.round(b / 22) * 22;
+          const qr = Math.round(r / 20) * 20;
+          const qg = Math.round(g / 20) * 20;
+          const qb = Math.round(b / 20) * 20;
           const key = `${qr},${qg},${qb}`;
 
-          if (!foregroundBuckets[key]) foregroundBuckets[key] = { count: 0, r: 0, g: 0, b: 0, weight: 0 };
-          foregroundBuckets[key].count++;
+          if (!foregroundBuckets[key]) foregroundBuckets[key] = { r: 0, g: 0, b: 0, weight: 0 };
           foregroundBuckets[key].weight += weight;
           foregroundBuckets[key].r += r * weight;
           foregroundBuckets[key].g += g * weight;
@@ -2347,8 +2361,7 @@
       let sorted = Object.values(foregroundBuckets).sort((a, b) => b.weight - a.weight);
 
       if (sorted.length === 0) {
-        const fallback = getAccurateColorInfo(26, 42, 66);
-        return [fallback];
+        return [getAccurateColorInfo(34, 38, 48)];
       }
 
       const colors = [];
@@ -2358,8 +2371,8 @@
       const pB = Math.round(primaryB.b / primaryB.weight);
       colors.push(getAccurateColorInfo(pR, pG, pB));
 
-      // 尋找顯著不同的第二種拼接色 (權重大於主色的 25% 且色彩距離充足)
-      for (let i = 1; i < Math.min(sorted.length, 8); i++) {
+      // 提取顯著次色
+      for (let i = 1; i < Math.min(sorted.length, 10); i++) {
         const cand = sorted[i];
         if (cand.weight < primaryB.weight * 0.22) break;
 
@@ -2370,7 +2383,7 @@
         const colorDist = Math.sqrt((cR - pR) ** 2 + (cG - pG) ** 2 + (cB - pB) ** 2);
         if (colorDist > 65) {
           colors.push(getAccurateColorInfo(cR, cG, cB));
-          break; // 目前支援雙色拼接主次呈現
+          break;
         }
       }
 
@@ -2401,7 +2414,7 @@
         img.onerror = () => {
           resolve({
             cleanUrl: dataUrl,
-            colors: [getAccurateColorInfo(26, 42, 66)]
+            colors: [getAccurateColorInfo(34, 38, 48)]
           });
         };
         img.src = dataUrl;
@@ -2421,46 +2434,14 @@
           resolve(colors);
         };
         img.onerror = () => {
-          resolve([getAccurateColorInfo(26, 42, 66)]);
+          resolve([getAccurateColorInfo(34, 38, 48)]);
         };
         img.src = imgUrl;
       });
     }
 
     /* =========================================================================
-     * 4. 穿搭結構打包器
-     * ========================================================================= */
-    function buildOutfitPayload(items, season, layers) {
-      const roleMap = {
-        outer: layers === 1 ? "單穿上裝" : "外層外套",
-        mid: "中層保暖開衫",
-        inner: "底層打底內搭",
-        bottom: "下身褲裙",
-        shoes: "足部鞋履"
-      };
-
-      const pieces = [];
-      Object.keys(items).forEach(slotKey => {
-        const it = items[slotKey];
-        if (it) {
-          pieces.push({
-            id: it.id,
-            slot: slotKey,
-            roleTitle: roleMap[slotKey] || slotKey,
-            name: it.name,
-            category: it.drawer,
-            style: it.style || 'casual',
-            colors: it.colors || [it.color],
-            color: it.color
-          });
-        }
-      });
-
-      return { season: season, layerCount: layers, pieces: pieces };
-    }
-
-    /* =========================================================================
-     * 5. 全域狀態與初始化
+     * 4. 全域狀態與初始化
      * ========================================================================= */
     let myWardrobe = []; 
     let mySavedLooks = [];
@@ -2485,6 +2466,10 @@
       shoes: null
     };
 
+    // 批量佇列與節流控制
+    let batchQueue = [];
+    let isProcessingBatchQueue = false;
+
     window.addEventListener('DOMContentLoaded', async () => {
       try {
         let loaded = await dbGetAllItems();
@@ -2502,13 +2487,11 @@
             item.style = inferItemStyle(item.name, item.drawer);
             changed = true;
           }
-          if (!item.seasons || item.seasons.length === 0) {
-            item.seasons = inferItemSeasons(item.name, item.drawer);
-            changed = true;
-          }
-          // 向後相容多色資料結構
+          // 同步春秋聯動
+          item.seasons = harmonizeSeasons(item.seasons || inferItemSeasons(item.name, item.drawer));
+          
           if (!item.colors || item.colors.length === 0) {
-            item.colors = [item.color || getAccurateColorInfo(26, 42, 66)];
+            item.colors = [item.color || getAccurateColorInfo(34, 38, 48)];
             changed = true;
           }
           item.color = item.colors[0];
@@ -2520,7 +2503,7 @@
         mySavedLooks = await dbGetAllLooks();
         updateLookbookCountUi();
       } catch (e) {
-        console.warn("載入資料庫失敗", e);
+        console.warn("DB Load error", e);
       }
       setupLayerOptions();
     });
@@ -2546,12 +2529,11 @@
     }
 
     /* =========================================================================
-     * 6. 相機控制
+     * 5. 相機控制
      * ========================================================================= */
     async function toggleCamera() {
       const video = document.getElementById('cameraVideo');
       const snapBtn = document.getElementById('btnSnap');
-      const toggleBtn = document.getElementById('btnToggleCam');
       const hint = document.getElementById('camHint');
       const img = document.getElementById('capturedImage');
 
@@ -2565,10 +2547,9 @@
           img.style.display = 'none';
           hint.style.display = 'none';
           snapBtn.style.display = 'inline-flex';
-          toggleBtn.innerText = '關閉相機';
           cameraActive = true;
         } catch (err) {
-          showToast('無法啟動相機，請點選「上傳相片」');
+          showToast('無法存取相機');
         }
       } else {
         stopCamera();
@@ -2583,10 +2564,8 @@
       cameraActive = false;
       const video = document.getElementById('cameraVideo');
       const snapBtn = document.getElementById('btnSnap');
-      const toggleBtn = document.getElementById('btnToggleCam');
       if (video) video.style.display = 'none';
       if (snapBtn) snapBtn.style.display = 'none';
-      if (toggleBtn) toggleBtn.innerText = '開啟相機';
     }
 
     function snapPhoto() {
@@ -2599,52 +2578,133 @@
 
       const base64 = cvs.toDataURL('image/jpeg', 0.9);
       stopCamera();
-      processAndStoreImage(base64);
-    }
-
-    function handleFileUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (evt) => {
-        processAndStoreImage(evt.target.result);
-      };
-      reader.readAsDataURL(file);
+      handleSingleImageWorkflow(base64);
     }
 
     /* =========================================================================
-     * 7. 智能錄入與多色提取
+     * 6. 批量上傳與節流處理 (Rate Per Minute 保護)
      * ========================================================================= */
-    async function processAndStoreImage(originalBase64) {
+    async function handleBatchFileUpload(e) {
+      const files = Array.from(e.target.files || []);
+      if (files.length === 0) return;
+
+      showToast(`已載入 ${files.length} 件衣物，解析中...`);
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const dataUrl = await readFileAsDataUrl(file);
+        const { cleanUrl, colors } = await processOriginalImageAndExtractColors(dataUrl);
+
+        const tempItem = {
+          id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+          img: cleanUrl,
+          name: file.name.replace(/\.[^/.]+$/, "").substring(0, 16) || '典藏單品',
+          drawer: 'top',
+          style: 'casual',
+          colors: colors,
+          color: colors[0],
+          seasons: ['spring', 'autumn', 'summer', 'winter'],
+          createdAt: Date.now(),
+          userConfirmed: false,
+          isAiPending: true
+        };
+
+        // 預測抽屜
+        tempItem.drawer = verifyAndCorrectDrawer(tempItem.name, tempItem.drawer);
+        tempItem.style = inferItemStyle(tempItem.name, tempItem.drawer);
+        tempItem.seasons = inferItemSeasons(tempItem.name, tempItem.drawer);
+
+        await dbSaveItem(tempItem);
+        myWardrobe.push(tempItem);
+        batchQueue.push(tempItem);
+      }
+
+      updateWardrobeCountUi();
+      renderBatchQueueUi();
+
+      if (batchQueue.length > 0) {
+        selectBatchItemForReview(batchQueue[0].id);
+      }
+
+      // 觸發背景節流 AI 處理
+      if (!isProcessingBatchQueue) {
+        processBatchQueueThrottled();
+      }
+    }
+
+    function readFileAsDataUrl(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (evt) => resolve(evt.target.result);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleSingleImageWorkflow(base64) {
       const laser = document.getElementById('scanLaser');
       laser.style.display = 'block';
-      showToast('精準分離與特徵辨識中...');
 
-      const { cleanUrl, colors } = await processOriginalImageAndExtractColors(originalBase64);
+      const { cleanUrl, colors } = await processOriginalImageAndExtractColors(base64);
 
-      const img = document.getElementById('capturedImage');
-      const hint = document.getElementById('camHint');
-      img.src = cleanUrl;
-      img.style.display = 'block';
-      hint.style.display = 'none';
+      const newItem = {
+        id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+        img: cleanUrl,
+        name: '典藏單品',
+        drawer: 'top',
+        style: 'casual',
+        colors: colors,
+        color: colors[0],
+        seasons: ['spring', 'autumn', 'summer', 'winter'],
+        createdAt: Date.now(),
+        userConfirmed: false,
+        isAiPending: true
+      };
 
-      const prompt = `你是頂尖服裝造型顧問。請精確分析圖片衣物，僅回傳標準 JSON（無 markdown）：
+      await dbSaveItem(newItem);
+      myWardrobe.push(newItem);
+      batchQueue.unshift(newItem);
+
+      updateWardrobeCountUi();
+      renderBatchQueueUi();
+      selectBatchItemForReview(newItem.id);
+
+      laser.style.display = 'none';
+
+      if (!isProcessingBatchQueue) {
+        processBatchQueueThrottled();
+      }
+    }
+
+    // 智能排隊調用 AI，確保間隔 >= 1200ms，杜絕 RPM 觸發超限
+    async function processBatchQueueThrottled() {
+      if (batchQueue.length === 0) {
+        isProcessingBatchQueue = false;
+        return;
+      }
+      isProcessingBatchQueue = true;
+
+      const item = batchQueue.find(x => x.isAiPending);
+      if (!item) {
+        isProcessingBatchQueue = false;
+        renderBatchQueueUi();
+        return;
+      }
+
+      try {
+        const prompt = `你是服裝專家。精確分析圖片衣物，僅回傳標準 JSON（無 markdown）：
 {
-  "name": "中文衣物名稱 (例如: 深藍條紋牛仔外套 / 羊絨立領拼色毛衣 / 黑色工裝束腳褲 / 德訓皮鞋)",
+  "name": "中文衣物名稱 (例如: 深藍條紋牛仔外套 / 羊絨立領毛衣 / 黑色休閒褲)",
   "drawer": "outer" 或 "top" 或 "pants" 或 "skirt" 或 "shoes",
   "style": "smart" 或 "casual" 或 "workwear" 或 "elegant" 或 "minimal",
-  "seasons": ["spring", "summer", "autumn", "winter"],
-  "thickness": "light" 或 "medium" 或 "heavy"
+  "seasons": ["spring", "autumn", "summer", "winter"]
 }`;
 
-      let parsed = null;
-      try {
         const data = await callBackendAi({
           model: "glm-4v-flash",
           messages: [{
             role: "user",
             content: [
-              { type: "image_url", image_url: { url: cleanUrl } },
+              { type: "image_url", image_url: { url: item.img } },
               { type: "text", text: prompt }
             ]
           }],
@@ -2652,52 +2712,30 @@
         });
 
         if (data && data.choices && data.choices[0]) {
-          parsed = extractJson(data.choices[0].message.content);
+          const parsed = extractJson(data.choices[0].message.content);
+          if (parsed) {
+            item.name = parsed.name || item.name;
+            item.drawer = verifyAndCorrectDrawer(parsed.name, parsed.drawer);
+            item.style = parsed.style || inferItemStyle(item.name, item.drawer);
+            item.seasons = harmonizeSeasons(parsed.seasons || inferItemSeasons(item.name, item.drawer));
+          }
         }
       } catch (err) {
-        console.warn("後端 API 調用失敗", err);
+        console.warn("AI recognition throttled or bypassed", err);
+      } finally {
+        item.isAiPending = false;
+        await dbSaveItem(item);
+        const idx = myWardrobe.findIndex(x => x.id === item.id);
+        if (idx !== -1) myWardrobe[idx] = item;
+
+        if (lastRecordedItem && lastRecordedItem.id === item.id) {
+          renderRecentCardUi(item);
+        }
+        renderBatchQueueUi();
+
+        // 節流保護等待 1.3 秒再處理下一件
+        setTimeout(processBatchQueueThrottled, 1300);
       }
-
-      if (!parsed) {
-        parsed = {
-          name: "典藏單品",
-          drawer: "top",
-          style: "casual",
-          seasons: ['spring', 'summer', 'autumn', 'winter'],
-          thickness: "medium"
-        };
-      }
-
-      laser.style.display = 'none';
-
-      const finalDrawer = verifyAndCorrectDrawer(parsed.name, parsed.drawer);
-      const style = parsed.style || inferItemStyle(parsed.name, finalDrawer);
-      const finalSeasons = (Array.isArray(parsed.seasons) && parsed.seasons.length > 0)
-        ? parsed.seasons
-        : inferItemSeasons(parsed.name, finalDrawer);
-
-      const newItem = {
-        id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
-        img: cleanUrl,
-        name: parsed.name,
-        drawer: finalDrawer,
-        style: style,
-        colors: colors,
-        color: colors[0],
-        seasons: finalSeasons,
-        thickness: parsed.thickness || 'medium',
-        createdAt: Date.now(),
-        userConfirmed: false
-      };
-
-      await dbSaveItem(newItem);
-      myWardrobe.push(newItem);
-      updateWardrobeCountUi();
-
-      lastRecordedItem = newItem;
-      renderRecentCardUi(newItem);
-
-      showToast(`已錄入「${newItem.name}」(${colors.map(c=>c.name).join('+')})`);
     }
 
     function extractJson(text) {
@@ -2711,11 +2749,56 @@
       }
     }
 
+    function renderBatchQueueUi() {
+      const box = document.getElementById('batchQueueBox');
+      const scroll = document.getElementById('batchThumbsScroll');
+      const progress = document.getElementById('batchQueueProgress');
+
+      if (batchQueue.length === 0) {
+        box.style.display = 'none';
+        return;
+      }
+
+      box.style.display = 'flex';
+      const pendingCount = batchQueue.filter(x => x.isAiPending).length;
+      progress.innerText = pendingCount > 0 ? `解析中 (${pendingCount})` : `完成 (${batchQueue.length})`;
+
+      scroll.innerHTML = batchQueue.map(item => {
+        const isSelected = lastRecordedItem && lastRecordedItem.id === item.id;
+        return `
+          <div class="batch-thumb-item ${isSelected ? 'active' : ''}" onclick="selectBatchItemForReview('${item.id}')">
+            <img src="${item.img}" alt="${item.name}">
+            ${item.isAiPending ? `
+              <div class="batch-thumb-loader">
+                <svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectBatchItemForReview(id) {
+      const item = myWardrobe.find(x => x.id === id);
+      if (!item) return;
+      lastRecordedItem = item;
+
+      const img = document.getElementById('capturedImage');
+      const hint = document.getElementById('camHint');
+      img.src = item.img;
+      img.style.display = 'block';
+      hint.style.display = 'none';
+
+      renderRecentCardUi(item);
+      renderBatchQueueUi();
+    }
+
     function renderRecentCardUi(item) {
       const recentCard = document.getElementById('recentCard');
       recentCard.style.display = 'flex';
 
-      document.getElementById('recentCatTag').innerText = CAT_LABELS[item.drawer];
+      document.getElementById('recentCatTag').innerText = CAT_LABELS[item.drawer] || item.drawer;
+      document.getElementById('recentItemSeq').innerText = item.isAiPending ? '解析中' : '已就緒';
       document.getElementById('recentNameInput').value = item.name;
 
       renderRecentColorSwatches(item);
@@ -2728,17 +2811,10 @@
         btn.classList.toggle('active', btn.getAttribute('data-style') === (item.style || 'casual'));
       });
 
-      const sList = item.seasons || ['spring', 'summer', 'autumn', 'winter'];
-      document.getElementById('pillSeasonSpring').classList.toggle('active', sList.includes('spring'));
+      const sList = harmonizeSeasons(item.seasons);
+      document.getElementById('pillSeasonSpring').classList.toggle('active', sList.includes('spring') || sList.includes('autumn'));
       document.getElementById('pillSeasonSummer').classList.toggle('active', sList.includes('summer'));
-      document.getElementById('pillSeasonAutumn').classList.toggle('active', sList.includes('autumn'));
       document.getElementById('pillSeasonWinter').classList.toggle('active', sList.includes('winter'));
-
-      const seasonChineseMap = { spring:'春', summer:'夏', autumn:'秋', winter:'冬' };
-      const seasonText = sList.map(s => seasonChineseMap[s]).join('·');
-
-      document.getElementById('recentDetails').innerText = 
-        `分區: ${CAT_LABELS[item.drawer]} ｜ 風格: ${STYLE_LABELS[item.style] || item.style} ｜ 適用季節: [${seasonText}]`;
     }
 
     function renderRecentColorSwatches(item) {
@@ -2748,15 +2824,14 @@
       box.innerHTML = colors.map((c, idx) => `
         <div class="color-swatch-row">
           <input type="color" value="${c.hex}" class="color-picker-input" onchange="handleRecentColorChange(${idx}, this.value)">
-          <span class="swatch-role-tag">${idx === 0 ? '主色' : '次色'}</span>
+          <span class="swatch-role-tag">${idx === 0 ? '主' : '拼'}</span>
           <span class="recent-color-name">${c.name}</span>
           <span class="recent-color-hex">${c.hex}</span>
-          ${idx > 0 ? `<button type="button" class="swatch-btn-action" onclick="removeRecentColor(${idx})" title="移除拼色">✕</button>` : ''}
+          ${idx > 0 ? `<button type="button" class="swatch-btn-action" onclick="removeRecentColor(${idx})">✕</button>` : ''}
         </div>
       `).join('');
 
-      const addBtn = document.getElementById('btnAddSecondaryColor');
-      addBtn.style.display = colors.length >= 2 ? 'none' : 'block';
+      document.getElementById('btnAddSecondaryColor').style.display = colors.length >= 2 ? 'none' : 'block';
     }
 
     async function handleRecentColorChange(index, newHex) {
@@ -2777,7 +2852,7 @@
       if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
 
       renderRecentColorSwatches(lastRecordedItem);
-      showToast(`色彩已修訂為【${info.name}】`);
+      showToast(`${info.name}`);
     }
 
     async function addRecentSecondaryColor() {
@@ -2785,8 +2860,7 @@
       if (!lastRecordedItem.colors) lastRecordedItem.colors = [lastRecordedItem.color];
       if (lastRecordedItem.colors.length >= 2) return;
 
-      const secondary = getAccurateColorInfo(200, 200, 205);
-      lastRecordedItem.colors.push(secondary);
+      lastRecordedItem.colors.push(getAccurateColorInfo(200, 200, 205));
       lastRecordedItem.userConfirmed = true;
 
       await dbSaveItem(lastRecordedItem);
@@ -2794,7 +2868,6 @@
       if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
 
       renderRecentColorSwatches(lastRecordedItem);
-      showToast(`已新增次色拼色`);
     }
 
     async function removeRecentColor(index) {
@@ -2808,27 +2881,46 @@
       if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
 
       renderRecentColorSwatches(lastRecordedItem);
-      showToast(`已移除拼色`);
     }
 
-    async function toggleRecentSeason(season) {
+    async function toggleRecentSeasonPair() {
       if (!lastRecordedItem) return;
-      if (!lastRecordedItem.seasons) lastRecordedItem.seasons = [];
-      const idx = lastRecordedItem.seasons.indexOf(season);
-      if (idx > -1) {
-        if (lastRecordedItem.seasons.length > 1) lastRecordedItem.seasons.splice(idx, 1);
-        else return showToast("至少需保留一個季節");
+      let s = new Set(lastRecordedItem.seasons || []);
+      if (s.has('spring') || s.has('autumn')) {
+        if (s.size <= 2) return showToast("需保留至少一季");
+        s.delete('spring');
+        s.delete('autumn');
       } else {
-        lastRecordedItem.seasons.push(season);
+        s.add('spring');
+        s.add('autumn');
       }
+      lastRecordedItem.seasons = Array.from(s);
       lastRecordedItem.userConfirmed = true;
       await dbSaveItem(lastRecordedItem);
-      
+
       const wIdx = myWardrobe.findIndex(x => x.id === lastRecordedItem.id);
       if (wIdx !== -1) myWardrobe[wIdx] = lastRecordedItem;
 
       renderRecentCardUi(lastRecordedItem);
-      showToast("適用季節已更新");
+    }
+
+    async function toggleRecentSeason(season) {
+      if (!lastRecordedItem) return;
+      let s = new Set(lastRecordedItem.seasons || []);
+      if (s.has(season)) {
+        if (s.size <= 1) return showToast("需保留至少一季");
+        s.delete(season);
+      } else {
+        s.add(season);
+      }
+      lastRecordedItem.seasons = Array.from(s);
+      lastRecordedItem.userConfirmed = true;
+      await dbSaveItem(lastRecordedItem);
+
+      const wIdx = myWardrobe.findIndex(x => x.id === lastRecordedItem.id);
+      if (wIdx !== -1) myWardrobe[wIdx] = lastRecordedItem;
+
+      renderRecentCardUi(lastRecordedItem);
     }
 
     async function handleRecentStyleChange(newStyle) {
@@ -2841,7 +2933,6 @@
       if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
 
       renderRecentCardUi(lastRecordedItem);
-      showToast(`風格調性已更新為【${STYLE_LABELS[newStyle]}】`);
     }
 
     async function handleRecentNameChange(newName) {
@@ -2854,12 +2945,11 @@
       if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
 
       renderRecentCardUi(lastRecordedItem);
-      showToast("單品名稱已更新");
     }
 
     async function recalcRecentItemColor() {
       if (!lastRecordedItem || !lastRecordedItem.img) return;
-      showToast("重新萃取主次色彩中...");
+      showToast("重新取色中...");
       const newColors = await extractColorsFromImageUrl(lastRecordedItem.img);
       lastRecordedItem.colors = newColors;
       lastRecordedItem.color = newColors[0];
@@ -2869,7 +2959,7 @@
       if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
 
       renderRecentCardUi(lastRecordedItem);
-      showToast(`色彩已校準 (${newColors.map(c=>c.name).join('+')})`);
+      showToast(`${newColors.map(c=>c.name).join(' + ')}`);
     }
 
     async function handleRecentDrawerChange(newDrawer) {
@@ -2884,19 +2974,18 @@
 
       renderRecentCardUi(lastRecordedItem);
       updateWardrobeCountUi();
-      showToast(`已修正為【${CAT_LABELS[newDrawer]}】`);
     }
 
     function goToStyling() {
       if (myWardrobe.length === 0) {
-        showToast("衣櫥目前為空，請先錄入衣物");
+        showToast("請先錄入衣物");
         return;
       }
       switchView('style');
     }
 
     /* =========================================================================
-     * 8. 季節控制器
+     * 7. 穿搭季節與層次控制器
      * ========================================================================= */
     function selectSeason(season) {
       currentSeason = season;
@@ -2930,15 +3019,13 @@
     }
 
     /* =========================================================================
-     * 9. 本地穿搭組裝與 UI 渲染 (多色人體動態漸層)
+     * 8. 穿搭組裝與無重復嚴格校驗 (防重邏輯核心)
      * ========================================================================= */
     function renderOutfitViewLocal() {
       if (myWardrobe.length === 0) {
         document.getElementById('outfitCardsContainer').innerHTML = `
           <div class="outfit-card empty-slot" style="grid-column: 1 / -1;">
-            <div style="font-size:0.75rem; color:var(--muted); line-height:1.8;">
-              衣櫥目前無單品。請至「01 拍照錄入」建立典藏。
-            </div>
+            <div style="font-size:0.75rem; color:var(--muted);">衣櫥目前無單品</div>
           </div>
         `;
         clearMannequin();
@@ -2951,36 +3038,72 @@
       const bottoms = myWardrobe.filter(x => (x.drawer === 'pants' || x.drawer === 'skirt') && isItemSuitableForSeason(x, currentSeason, 'bottom'));
       const shoesList = myWardrobe.filter(x => x.drawer === 'shoes' && isItemSuitableForSeason(x, currentSeason, 'shoes'));
 
-      if (!currentOutfit.bottom || !isItemSuitableForSeason(currentOutfit.bottom, currentSeason, 'bottom')) {
-        currentOutfit.bottom = bottoms[0] || null;
-      }
-      if (!currentOutfit.shoes || !isItemSuitableForSeason(currentOutfit.shoes, currentSeason, 'shoes')) {
-        currentOutfit.shoes = shoesList[0] || null;
+      // 嚴格防止同一件衣服重覆出現的 Set
+      const assignedIds = new Set();
+
+      // 1. 下裝
+      if (currentOutfit.bottom && isItemSuitableForSeason(currentOutfit.bottom, currentSeason, 'bottom') && !assignedIds.has(currentOutfit.bottom.id)) {
+        assignedIds.add(currentOutfit.bottom.id);
+      } else {
+        currentOutfit.bottom = bottoms.find(b => !assignedIds.has(b.id)) || null;
+        if (currentOutfit.bottom) assignedIds.add(currentOutfit.bottom.id);
       }
 
+      // 2. 鞋履
+      if (currentOutfit.shoes && isItemSuitableForSeason(currentOutfit.shoes, currentSeason, 'shoes') && !assignedIds.has(currentOutfit.shoes.id)) {
+        assignedIds.add(currentOutfit.shoes.id);
+      } else {
+        currentOutfit.shoes = shoesList.find(s => !assignedIds.has(s.id)) || null;
+        if (currentOutfit.shoes) assignedIds.add(currentOutfit.shoes.id);
+      }
+
+      // 3. 上裝與外套配置（保證 outer, mid, inner 各不相同）
       if (currentLayerCount === 1) {
-        if (!currentOutfit.outer || currentOutfit.outer.drawer !== 'top' || !isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer')) {
-          currentOutfit.outer = tops[0] || outers[0] || null;
+        if (currentOutfit.outer && (currentOutfit.outer.drawer === 'top' || currentOutfit.outer.drawer === 'outer') && isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer') && !assignedIds.has(currentOutfit.outer.id)) {
+          assignedIds.add(currentOutfit.outer.id);
+        } else {
+          currentOutfit.outer = tops.find(t => !assignedIds.has(t.id)) || outers.find(o => !assignedIds.has(o.id)) || null;
+          if (currentOutfit.outer) assignedIds.add(currentOutfit.outer.id);
         }
         currentOutfit.mid = null;
         currentOutfit.inner = null;
       } else if (currentLayerCount === 2) {
-        if (!currentOutfit.outer || currentOutfit.outer.drawer !== 'outer' || !isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer')) {
-          currentOutfit.outer = outers[0] || null;
+        // 外層
+        if (currentOutfit.outer && currentOutfit.outer.drawer === 'outer' && isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer') && !assignedIds.has(currentOutfit.outer.id)) {
+          assignedIds.add(currentOutfit.outer.id);
+        } else {
+          currentOutfit.outer = outers.find(o => !assignedIds.has(o.id)) || null;
+          if (currentOutfit.outer) assignedIds.add(currentOutfit.outer.id);
         }
-        if (!currentOutfit.inner || currentOutfit.inner.drawer !== 'top' || !isItemSuitableForSeason(currentOutfit.inner, currentSeason, 'inner')) {
-          currentOutfit.inner = tops[0] || null;
+        // 內搭
+        if (currentOutfit.inner && currentOutfit.inner.drawer === 'top' && isItemSuitableForSeason(currentOutfit.inner, currentSeason, 'inner') && !assignedIds.has(currentOutfit.inner.id)) {
+          assignedIds.add(currentOutfit.inner.id);
+        } else {
+          currentOutfit.inner = tops.find(t => !assignedIds.has(t.id)) || null;
+          if (currentOutfit.inner) assignedIds.add(currentOutfit.inner.id);
         }
         currentOutfit.mid = null;
       } else if (currentLayerCount === 3) {
-        if (!currentOutfit.outer || currentOutfit.outer.drawer !== 'outer' || !isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer')) {
-          currentOutfit.outer = outers[0] || null;
+        // 外層
+        if (currentOutfit.outer && currentOutfit.outer.drawer === 'outer' && isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer') && !assignedIds.has(currentOutfit.outer.id)) {
+          assignedIds.add(currentOutfit.outer.id);
+        } else {
+          currentOutfit.outer = outers.find(o => !assignedIds.has(o.id)) || null;
+          if (currentOutfit.outer) assignedIds.add(currentOutfit.outer.id);
         }
-        if (!currentOutfit.inner || currentOutfit.inner.drawer !== 'top' || !isItemSuitableForSeason(currentOutfit.inner, currentSeason, 'inner')) {
-          currentOutfit.inner = tops[0] || null;
+        // 裡層打底
+        if (currentOutfit.inner && currentOutfit.inner.drawer === 'top' && isItemSuitableForSeason(currentOutfit.inner, currentSeason, 'inner') && !assignedIds.has(currentOutfit.inner.id)) {
+          assignedIds.add(currentOutfit.inner.id);
+        } else {
+          currentOutfit.inner = tops.find(t => !assignedIds.has(t.id)) || null;
+          if (currentOutfit.inner) assignedIds.add(currentOutfit.inner.id);
         }
-        if (!currentOutfit.mid || currentOutfit.mid.drawer !== 'top' || !isItemSuitableForSeason(currentOutfit.mid, currentSeason, 'mid')) {
-          currentOutfit.mid = tops[1] || tops[0] || null;
+        // 中層保暖（絕對不能等於 inner）
+        if (currentOutfit.mid && currentOutfit.mid.drawer === 'top' && isItemSuitableForSeason(currentOutfit.mid, currentSeason, 'mid') && !assignedIds.has(currentOutfit.mid.id)) {
+          assignedIds.add(currentOutfit.mid.id);
+        } else {
+          currentOutfit.mid = tops.find(t => !assignedIds.has(t.id)) || null;
+          if (currentOutfit.mid) assignedIds.add(currentOutfit.mid.id);
         }
       }
 
@@ -3003,7 +3126,6 @@
       const spectrum = document.getElementById('paletteSpectrum');
       const tags = document.getElementById('paletteTags');
 
-      // 展開所有主次色彩
       const allColors = [];
       items.forEach(it => {
         const colors = it.colors && it.colors.length > 0 ? it.colors : [it.color];
@@ -3034,23 +3156,23 @@
       cardsContainer.innerHTML = '';
 
       if (currentLayerCount === 1) {
-        cardsContainer.appendChild(createRealCard('outer', '單穿上裝', currentOutfit.outer, '需錄入上裝單品', 'top'));
+        cardsContainer.appendChild(createRealCard('outer', '上裝', currentOutfit.outer, 'top'));
       } else if (currentLayerCount === 2) {
-        cardsContainer.appendChild(createRealCard('outer', '外層外套', currentOutfit.outer, '需錄入外套單品', 'outer'));
-        cardsContainer.appendChild(createRealCard('inner', '裡層內搭', currentOutfit.inner, '需錄入內搭單品', 'top'));
+        cardsContainer.appendChild(createRealCard('outer', '外套', currentOutfit.outer, 'outer'));
+        cardsContainer.appendChild(createRealCard('inner', '內搭', currentOutfit.inner, 'top'));
       } else if (currentLayerCount === 3) {
-        cardsContainer.appendChild(createRealCard('outer', '外層大衣', currentOutfit.outer, '需錄入大衣單品', 'outer'));
-        cardsContainer.appendChild(createRealCard('mid', '中層保暖', currentOutfit.mid, '尚缺中層單品', 'top'));
-        cardsContainer.appendChild(createRealCard('inner', '底層打底', currentOutfit.inner, '需錄入打底單品', 'top'));
+        cardsContainer.appendChild(createRealCard('outer', '外套', currentOutfit.outer, 'outer'));
+        cardsContainer.appendChild(createRealCard('mid', '中層', currentOutfit.mid, 'top'));
+        cardsContainer.appendChild(createRealCard('inner', '內搭', currentOutfit.inner, 'top'));
       }
 
       const isSkirt = currentOutfit.bottom && currentOutfit.bottom.drawer === 'skirt';
-      const bottomRole = isSkirt ? '下裝 · 裙裝' : '下裝 · 褲裝';
-      cardsContainer.appendChild(createRealCard('bottom', bottomRole, currentOutfit.bottom, '需錄入下裝單品', isSkirt ? 'skirt' : 'pants'));
-      cardsContainer.appendChild(createRealCard('shoes', '鞋履系列', currentOutfit.shoes, '需錄入鞋履單品', 'shoes'));
+      const bottomRole = isSkirt ? '裙裝' : '褲裝';
+      cardsContainer.appendChild(createRealCard('bottom', bottomRole, currentOutfit.bottom, isSkirt ? 'skirt' : 'pants'));
+      cardsContainer.appendChild(createRealCard('shoes', '鞋履', currentOutfit.shoes, 'shoes'));
     }
 
-    function createRealCard(roleKey, roleTitle, item, missingTip, themeCat) {
+    function createRealCard(roleKey, roleTitle, item, themeCat) {
       const card = document.createElement('div');
       card.className = 'outfit-card';
 
@@ -3067,8 +3189,9 @@
         card.classList.add('empty-slot');
         card.innerHTML = `
           <div style="font-size:0.58rem; letter-spacing:0.18em; color:${themeColor}; text-transform:uppercase;">${roleTitle}</div>
-          <div style="font-size:0.68rem; color:var(--muted); margin-top:6px;">未配置單品</div>
-          <button class="action-btn" style="margin-top:10px; font-size:0.58rem; padding:4px 10px;" onclick="openItemPicker('${roleKey}')">選擇</button>
+          <button class="icon-capsule-btn" style="margin-top:10px;" onclick="openItemPicker('${roleKey}')" title="選擇單品">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
         `;
         return card;
       }
@@ -3080,22 +3203,18 @@
       card.innerHTML = `
         <div class="card-meta-bar">
           <span style="color:${themeColor}">${roleTitle}</span>
-          <span style="font-size:0.55rem; color:var(--muted);">[替換]</span>
+          <span style="font-size:0.55rem; color:var(--muted);">[${STYLE_LABELS[item.style] || '休閒'}]</span>
         </div>
         <div class="card-photo-box" onclick="openItemPicker('${roleKey}')">
           <img class="card-photo" src="${item.img}" alt="${item.name}">
           <div class="click-replace-hint">
             <svg viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-            <span>更換</span>
           </div>
         </div>
         <div class="card-title" title="${item.name}">${item.name}</div>
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <div class="card-color-indicator">
-            <span class="color-dots-inline">${dotsHtml}</span>
-            <span>${namesText}</span>
-          </div>
-          <span style="font-size:0.55rem; color:var(--muted);">[${STYLE_LABELS[item.style] || '休閒'}]</span>
+        <div class="card-color-indicator">
+          <span class="color-dots-inline">${dotsHtml}</span>
+          <span>${namesText}</span>
         </div>
       `;
       return card;
@@ -3159,18 +3278,18 @@
         svgPants.style.display = 'block';
       }
 
-      const bottomName = isSkirt ? '傘狀裙裝' : '修身長褲';
-      statusTag.innerText = `${layerCount}層疊穿 · ${bottomName}`;
+      const bottomName = isSkirt ? '裙裝' : '褲裝';
+      statusTag.innerText = `${layerCount}層 · ${bottomName}`;
 
       const legend = document.getElementById('mannequinLegend');
       let legHtml = '';
 
       if (layerCount === 1) {
-        legHtml += makeLegendRow('單穿上裝', outer);
+        legHtml += makeLegendRow('上裝', outer);
       } else {
-        legHtml += makeLegendRow('外層外套', outer);
-        if (layerCount === 3) legHtml += makeLegendRow('中層開衫', mid);
-        legHtml += makeLegendRow('底層打底', inner);
+        legHtml += makeLegendRow('外套', outer);
+        if (layerCount === 3) legHtml += makeLegendRow('中層', mid);
+        legHtml += makeLegendRow('內搭', inner);
       }
 
       legHtml += makeLegendRow(isSkirt ? '裙裝' : '褲裝', bottom);
@@ -3186,7 +3305,7 @@
               <span class="legend-dot" style="background:#2A2A33"></span>
               <span>${label}</span>
             </div>
-            <span style="font-size:0.6rem; color:var(--muted);">未選中</span>
+            <span style="font-size:0.6rem; color:var(--muted);">-</span>
           </div>
         `;
       }
@@ -3199,7 +3318,7 @@
             <div class="legend-dots">${dots}</div>
             <span>${label}</span>
           </div>
-          <span style="font-size:0.6rem; color:var(--muted); max-width:130px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${names} (${item.name})</span>
+          <span style="font-size:0.6rem; color:var(--muted); max-width:130px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${names}</span>
         </div>
       `;
     }
@@ -3215,7 +3334,7 @@
     }
 
     /* =========================================================================
-     * 10. 點擊圖片手動替換單品
+     * 9. 點擊替換單品（嚴格排除已在其他層次穿戴的單品）
      * ========================================================================= */
     function openItemPicker(roleKey) {
       currentPickerSlot = roleKey;
@@ -3224,32 +3343,42 @@
       const grid = document.getElementById('pickerGrid');
 
       const roleTitles = {
-        outer: currentLayerCount === 1 ? '替換單穿上裝' : '替換外層外套',
-        mid: '替換中層開衫',
-        inner: '替換底層內搭',
+        outer: currentLayerCount === 1 ? '替換上裝' : '替換外套',
+        mid: '替換中層',
+        inner: '替換內搭',
         bottom: '替換下裝',
         shoes: '替換鞋履'
       };
 
       title.innerText = roleTitles[roleKey] || '替換單品';
 
-      let candidates = [];
-      const seasonItems = myWardrobe.filter(x => isItemSuitableForSeason(x, currentSeason, roleKey));
+      // 取得其他槽位已佔用的單品 ID 集合
+      const alreadyUsedInOtherSlots = new Set();
+      Object.entries(currentOutfit).forEach(([k, item]) => {
+        if (k !== roleKey && item) {
+          alreadyUsedInOtherSlots.add(item.id);
+        }
+      });
+
+      let candidates = myWardrobe.filter(x => 
+        isItemSuitableForSeason(x, currentSeason, roleKey) && 
+        !alreadyUsedInOtherSlots.has(x.id)
+      );
 
       if (roleKey === 'outer') {
         candidates = currentLayerCount === 1 
-          ? seasonItems.filter(x => x.drawer === 'top' || x.drawer === 'outer')
-          : seasonItems.filter(x => x.drawer === 'outer');
+          ? candidates.filter(x => x.drawer === 'top' || x.drawer === 'outer')
+          : candidates.filter(x => x.drawer === 'outer');
       } else if (roleKey === 'mid' || roleKey === 'inner') {
-        candidates = seasonItems.filter(x => x.drawer === 'top');
+        candidates = candidates.filter(x => x.drawer === 'top');
       } else if (roleKey === 'bottom') {
-        candidates = seasonItems.filter(x => x.drawer === 'pants' || x.drawer === 'skirt');
+        candidates = candidates.filter(x => x.drawer === 'pants' || x.drawer === 'skirt');
       } else if (roleKey === 'shoes') {
-        candidates = seasonItems.filter(x => x.drawer === 'shoes');
+        candidates = candidates.filter(x => x.drawer === 'shoes');
       }
 
       if (candidates.length === 0) {
-        grid.innerHTML = `<div style="grid-column: 1 / -1; font-size:0.75rem; color:var(--muted); text-align:center; padding:30px;">該分區暫無適用單品</div>`;
+        grid.innerHTML = `<div style="grid-column: 1 / -1; font-size:0.75rem; color:var(--muted); text-align:center; padding:30px;">暫無可用單品</div>`;
       } else {
         const currentSelectedId = currentOutfit[roleKey] ? currentOutfit[roleKey].id : null;
         grid.innerHTML = candidates.map(item => {
@@ -3284,12 +3413,7 @@
       updateMannequin(currentLayerCount, currentOutfit.outer, currentOutfit.mid, currentOutfit.inner, currentOutfit.bottom, currentOutfit.shoes);
       renderOutfitCardsUi();
       renderSpectrumBar(currentOutfit);
-
-      document.getElementById('styleMatchScore').innerText = '--';
-      document.getElementById('styleMatchScore').className = 'style-match-score';
-      document.getElementById('styleVerdictText').innerHTML = `
-        <span style="color:var(--muted); font-size:0.75rem;">已更換為「${selected.name}」，待診斷</span>
-      `;
+      resetAnalysisPanelToIdle();
     }
 
     function closeItemPicker() {
@@ -3298,17 +3422,17 @@
     }
 
     /* =========================================================================
-     * 11. 典藏穿搭 (Saved Looks) 與隨機抽取 (Random Pick)
+     * 10. 典藏造型與隨機抽取
      * ========================================================================= */
     async function saveCurrentLook() {
       const activePieces = Object.values(currentOutfit).filter(Boolean);
       if (activePieces.length === 0) {
-        showToast("當前無可收藏的穿搭");
+        showToast("無可收藏穿搭");
         return;
       }
 
       const seasonZh = { spring: '春季', summer: '夏季', autumn: '秋季', winter: '冬季' }[currentSeason];
-      const lookName = `${seasonZh} ${currentLayerCount}層 · 專屬搭配`;
+      const lookName = `${seasonZh} ${currentLayerCount}層搭配`;
 
       const newLook = {
         id: 'look_' + Date.now(),
@@ -3322,33 +3446,30 @@
       await dbSaveLook(newLook);
       mySavedLooks.unshift(newLook);
       updateLookbookCountUi();
-      showToast(`已收藏為「${lookName}」`);
+      showToast("已收藏");
     }
 
     function randomPickOutfit(forceFromLookbook = false) {
-      // 1. 優先嘗試從收藏庫中，篩選符合目前季節與層數的心水穿搭
       const matchingSaved = mySavedLooks.filter(l => l.season === currentSeason && l.layerCount === currentLayerCount);
 
       if (matchingSaved.length > 0) {
         const picked = matchingSaved[Math.floor(Math.random() * matchingSaved.length)];
         applyLookToWorkspace(picked);
-        showToast(`已隨機抽取私享典藏「${picked.name}」`);
+        showToast("已抽取私享典藏");
         if (forceFromLookbook) closeLookbookModal();
         return;
       }
 
-      // 如果從 Lookbook 觸發但當前條件無配對，且收藏庫有其他造型，則全庫隨機
       if (forceFromLookbook && mySavedLooks.length > 0) {
         const picked = mySavedLooks[Math.floor(Math.random() * mySavedLooks.length)];
         applyLookToWorkspace(picked);
-        showToast(`已隨機抽取「${picked.name}」`);
+        showToast("已抽取私享典藏");
         closeLookbookModal();
         return;
       }
 
-      // 2. 若收藏庫暫無，則自動自衣櫥單品庫進行隨機混搭推薦
       if (myWardrobe.length === 0) {
-        showToast("衣櫥目前為空，請先錄入衣物");
+        showToast("衣櫥目前為空");
         return;
       }
 
@@ -3359,9 +3480,9 @@
         renderOutfitCardsUi();
         renderSpectrumBar(currentOutfit);
         renderMinimalVerdictUi(rec.critique);
-        showToast("已依當季與層數從實體衣櫥隨機抽取優選組合");
+        showToast("隨機抽取搭配");
       } else {
-        showToast("當季可搭配單品不足，無法生成隨機穿搭");
+        showToast("單品不足以隨機搭配");
       }
     }
 
@@ -3369,13 +3490,11 @@
       currentSeason = look.season;
       currentLayerCount = look.layerCount;
 
-      // 更新季節標籤
       document.querySelectorAll('.season-btn').forEach(btn => {
         btn.classList.toggle('active', btn.id === `btnSeason${currentSeason.charAt(0).toUpperCase() + currentSeason.slice(1)}`);
       });
       setupLayerOptions();
 
-      // 還原單品物件（確保與 myWardrobe 同步最新色彩）
       currentOutfit = {
         outer: look.outfit.outer ? myWardrobe.find(x => x.id === look.outfit.outer.id) || look.outfit.outer : null,
         mid: look.outfit.mid ? myWardrobe.find(x => x.id === look.outfit.mid.id) || look.outfit.mid : null,
@@ -3388,7 +3507,6 @@
       renderOutfitCardsUi();
       renderSpectrumBar(currentOutfit);
 
-      // 自動給出評析
       const payload = buildOutfitPayload(currentOutfit, currentSeason, currentLayerCount);
       const critique = computeDynamicHeuristicCritique(payload);
       renderMinimalVerdictUi(critique);
@@ -3406,7 +3524,7 @@
     function renderLookbookList() {
       const grid = document.getElementById('lookbookGrid');
       if (mySavedLooks.length === 0) {
-        grid.innerHTML = `<div style="grid-column: 1 / -1; font-size:0.75rem; color:var(--muted); text-align:center; padding:50px;">目前尚無收藏造型。搭配完成後點擊「收藏當前造型」即可入冊。</div>`;
+        grid.innerHTML = `<div style="grid-column: 1 / -1; font-size:0.75rem; color:var(--muted); text-align:center; padding:50px;">暫無收藏造型</div>`;
         return;
       }
 
@@ -3432,8 +3550,8 @@
             <div class="look-thumbs-strip">${thumbs}</div>
             <div class="look-palette-bar">${palette}</div>
             <div class="look-card-actions">
-              <button class="action-btn" style="padding:4px 10px; font-size:0.58rem;" onclick="applySavedLookFromModal('${look.id}')">套用此造型</button>
-              <button class="look-del-btn" onclick="deleteSavedLook('${look.id}')">移除</button>
+              <button class="recalc-btn" onclick="applySavedLookFromModal('${look.id}')">套用</button>
+              <button class="look-del-btn" onclick="deleteSavedLook('${look.id}')">✕</button>
             </div>
           </div>
         `;
@@ -3445,7 +3563,7 @@
       if (!look) return;
       applyLookToWorkspace(look);
       closeLookbookModal();
-      showToast(`已套用「${look.name}」`);
+      showToast("已套用");
     }
 
     async function deleteSavedLook(lookId) {
@@ -3453,11 +3571,11 @@
       mySavedLooks = mySavedLooks.filter(x => x.id !== lookId);
       updateLookbookCountUi();
       renderLookbookList();
-      showToast("已移除典藏造型");
+      showToast("已移除");
     }
 
     /* =========================================================================
-     * 12. 智能推薦組合
+     * 11. 智能推薦組合（杜絕任何重複單品）
      * ========================================================================= */
     async function triggerAiSmartRecommendation() {
       if (myWardrobe.length === 0) {
@@ -3467,7 +3585,7 @@
 
       const availableItems = myWardrobe.filter(x => isItemSuitableForSeason(x, currentSeason, ''));
       if (availableItems.length < 2) {
-        showToast("當季單品數量不足");
+        showToast("當季單品不足");
         return;
       }
 
@@ -3479,8 +3597,9 @@
         renderOutfitCardsUi();
         renderSpectrumBar(currentOutfit);
         renderMinimalVerdictUi(bestCombination.critique);
+        showToast("美學推薦就緒");
       } else {
-        showToast("無法生成推薦組合");
+        showToast("無法生成組合");
       }
     }
 
@@ -3496,26 +3615,52 @@
       let bestCritique = null;
       let bestScore = -1;
 
-      const maxIters = 60;
+      const maxIters = 80;
       for (let i = 0; i < maxIters; i++) {
-        let candidate = { outer: null, mid: null, inner: null, bottom: null, shoes: null };
+        const candidate = { outer: null, mid: null, inner: null, bottom: null, shoes: null };
+        const usedIds = new Set();
+
         candidate.bottom = bottoms[Math.floor(Math.random() * bottoms.length)];
-        candidate.shoes = shoesList[Math.floor(Math.random() * shoesList.length)];
+        usedIds.add(candidate.bottom.id);
+
+        const validShoes = shoesList.filter(s => !usedIds.has(s.id));
+        if (validShoes.length > 0) {
+          candidate.shoes = validShoes[Math.floor(Math.random() * validShoes.length)];
+          usedIds.add(candidate.shoes.id);
+        }
 
         if (currentLayerCount === 1) {
-          const pool = tops.concat(outers);
-          if (pool.length > 0) candidate.outer = pool[Math.floor(Math.random() * pool.length)];
+          const pool = tops.concat(outers).filter(t => !usedIds.has(t.id));
+          if (pool.length > 0) {
+            candidate.outer = pool[Math.floor(Math.random() * pool.length)];
+            usedIds.add(candidate.outer.id);
+          }
         } else if (currentLayerCount === 2) {
-          if (outers.length > 0) candidate.outer = outers[Math.floor(Math.random() * outers.length)];
-          if (tops.length > 0) candidate.inner = tops[Math.floor(Math.random() * tops.length)];
+          const validOuters = outers.filter(o => !usedIds.has(o.id));
+          if (validOuters.length > 0) {
+            candidate.outer = validOuters[Math.floor(Math.random() * validOuters.length)];
+            usedIds.add(candidate.outer.id);
+          }
+          const validTops = tops.filter(t => !usedIds.has(t.id));
+          if (validTops.length > 0) {
+            candidate.inner = validTops[Math.floor(Math.random() * validTops.length)];
+            usedIds.add(candidate.inner.id);
+          }
         } else if (currentLayerCount === 3) {
-          if (outers.length > 0) candidate.outer = outers[Math.floor(Math.random() * outers.length)];
-          if (tops.length > 0) candidate.inner = tops[Math.floor(Math.random() * tops.length)];
-          if (tops.length > 1) {
-             let midPool = tops.filter(t => t.id !== candidate.inner?.id);
-             if (midPool.length > 0) candidate.mid = midPool[Math.floor(Math.random() * midPool.length)];
-          } else if (tops.length > 0) {
-             candidate.mid = tops[0];
+          const validOuters = outers.filter(o => !usedIds.has(o.id));
+          if (validOuters.length > 0) {
+            candidate.outer = validOuters[Math.floor(Math.random() * validOuters.length)];
+            usedIds.add(candidate.outer.id);
+          }
+          const validInners = tops.filter(t => !usedIds.has(t.id));
+          if (validInners.length > 0) {
+            candidate.inner = validInners[Math.floor(Math.random() * validInners.length)];
+            usedIds.add(candidate.inner.id);
+          }
+          const validMids = tops.filter(t => !usedIds.has(t.id));
+          if (validMids.length > 0) {
+            candidate.mid = validMids[Math.floor(Math.random() * validMids.length)];
+            usedIds.add(candidate.mid.id);
           }
         }
 
@@ -3528,7 +3673,7 @@
           bestCritique = critique;
         }
 
-        if (bestScore >= 95) break; 
+        if (bestScore >= 96) break; 
       }
 
       if (!bestOutfit || !bestCritique) return null;
@@ -3536,16 +3681,33 @@
     }
 
     /* =========================================================================
-     * 13. 極簡單句診斷與純色塊標記渲染 (支援多色整合判定)
+     * 12. 高精度色彩美學診斷模型
      * ========================================================================= */
+    function buildOutfitPayload(items, season, layers) {
+      const pieces = [];
+      Object.keys(items).forEach(slotKey => {
+        const it = items[slotKey];
+        if (it) {
+          pieces.push({
+            id: it.id,
+            slot: slotKey,
+            name: it.name,
+            category: it.drawer,
+            style: it.style || 'casual',
+            colors: it.colors || [it.color],
+            color: it.color
+          });
+        }
+      });
+      return { season, layerCount: layers, pieces };
+    }
+
     function triggerAiCritiqueCurrentOutfit() {
       const payload = buildOutfitPayload(currentOutfit, currentSeason, currentLayerCount);
-
       if (!payload.pieces || payload.pieces.length === 0) {
         showToast("無單品可診斷");
         return;
       }
-
       const canvasResult = computeDynamicHeuristicCritique(payload);
       renderMinimalVerdictUi(canvasResult);
     }
@@ -3564,7 +3726,6 @@
       if (!hasBottom) missingDeduction += 15;
       if (!hasShoes) missingDeduction += 10;
 
-      // 提取全體色彩 (包含拼接色)
       const allActiveColors = [];
       pieces.forEach(p => {
         const cols = p.colors && p.colors.length > 0 ? p.colors : [p.color];
@@ -3577,12 +3738,14 @@
       let oneLineHtml = "";
 
       if (accents.length === 0) {
-        baseScore = 92;
-        oneLineHtml = `全套中性與大地色系構築，極簡協調。`;
+        // 同色系或中性大地底盤
+        baseScore = 94;
+        oneLineHtml = `中性與大地色系構築，極簡協調。`;
       } else if (accents.length === 1) {
-        baseScore = 95;
+        // 單一視覺焦點 (60-30-10 法則)
+        baseScore = 96;
         const chip = createColorChipHtml(accents[0]);
-        oneLineHtml = `以 ${chip} 為單一視覺亮點，搭配中性底盤，配比和諧。`;
+        oneLineHtml = `以 ${chip} 為視覺亮點，依託沉穩底盤，比例和諧。`;
       } else if (accents.length === 2) {
         const c1 = accents[0];
         const c2 = accents[1];
@@ -3592,42 +3755,42 @@
         const diffH = Math.abs(c1.h - c2.h);
         const hueDist = Math.min(diffH, 360 - diffH);
 
-        if (hueDist <= 45) {
-          baseScore = 86;
+        if (hueDist <= 48) {
+          baseScore = 88;
           oneLineHtml = `${chip1} 與 ${chip2} 為相鄰和諧色，過渡自然。`;
         } else {
-          if (neutrals.length >= 1) {
-            baseScore = 74;
+          if (neutrals.length >= 2) {
+            baseScore = 80;
             oneLineHtml = `${chip1} 與 ${chip2} 形成撞色對比，依託中性色調和。`;
           } else {
-            baseScore = 55;
-            oneLineHtml = `${chip1} 與 ${chip2} 對抗過強，缺乏中性色過渡。`;
+            baseScore = 60;
+            oneLineHtml = `${chip1} 與 ${chip2} 對比過強，缺少中性過渡。`;
           }
         }
       } else {
-        baseScore = 40;
+        baseScore = 45;
         const chips = accents.map(a => createColorChipHtml(a)).join(' ');
-        oneLineHtml = `過多亮色 ${chips} 同時出現，視覺略顯繁複。`;
+        oneLineHtml = `飽和亮色 ${chips} 同時呈現，視覺略顯繁複。`;
       }
 
-      // 風格衝突微調
+      // 風格調性融合檢驗
       const styles = pieces.map(p => p.style);
       if (styles.includes('workwear') && styles.includes('elegant')) {
-        baseScore -= 12;
-        oneLineHtml += "（工裝與優雅氣質略有衝突）";
+        baseScore -= 10;
+        oneLineHtml += "（工裝與優雅調性略有衝突）";
       }
 
-      const finalScore = Math.max(35, Math.min(98, baseScore - missingDeduction));
+      const finalScore = Math.max(35, Math.min(99, baseScore - missingDeduction));
       return { score: finalScore, html: oneLineHtml };
     }
 
     function renderMinimalVerdictUi(res) {
       const scoreElem = document.getElementById('styleMatchScore');
-      scoreElem.innerText = `契合度 ${res.score}%`;
+      scoreElem.innerText = `${res.score}%`;
 
-      if (res.score >= 78) {
+      if (res.score >= 82) {
         scoreElem.className = 'style-match-score score-good';
-      } else if (res.score >= 65) {
+      } else if (res.score >= 68) {
         scoreElem.className = 'style-match-score score-warn';
       } else {
         scoreElem.className = 'style-match-score score-bad';
@@ -3637,7 +3800,7 @@
     }
 
     /* =========================================================================
-     * 14. WALK-IN CLOSET 管理
+     * 13. WALK-IN CLOSET 管理
      * ========================================================================= */
     function openClosetModal() {
       document.getElementById('closetModal').classList.add('open');
@@ -3670,16 +3833,16 @@
     }
 
     function fillCabinetGrid(gridId, countId, items) {
-      document.getElementById(countId).innerText = `${items.length} 件`;
+      document.getElementById(countId).innerText = items.length;
       const grid = document.getElementById(gridId);
 
       if (items.length === 0) {
-        grid.innerHTML = `<div class="empty-cabinet-slot" style="grid-column: 1 / -1;">此分區尚無單品</div>`;
+        grid.innerHTML = `<div class="empty-cabinet-slot" style="grid-column: 1 / -1;">無單品</div>`;
         return;
       }
 
       grid.innerHTML = items.map(item => {
-        const sList = item.seasons || ['spring', 'summer', 'autumn', 'winter'];
+        const sList = harmonizeSeasons(item.seasons);
         const colors = item.colors && item.colors.length > 0 ? item.colors : [item.color];
 
         const colorsHtml = colors.map((c, cIdx) => `
@@ -3687,7 +3850,7 @@
             <label class="cabinet-color-label">
               <input type="color" value="${c.hex}" class="cabinet-color-picker" onchange="updateCabinetItemColor('${item.id}', ${cIdx}, this.value)">
               <span class="cabinet-color-dot" style="background:${c.hex};"></span>
-              <span class="cabinet-color-name">${cIdx===0?'主':'拼'}: ${c.name}</span>
+              <span class="cabinet-color-name">${c.name}</span>
             </label>
             ${cIdx > 0 ? `<button type="button" class="swatch-btn-action" onclick="removeCabinetColor('${item.id}', ${cIdx})">✕</button>` : ''}
           </div>
@@ -3705,19 +3868,17 @@
               ${colorsHtml}
               <div style="display:flex; justify-content:space-between; align-items:center; margin-top:2px;">
                 ${colors.length < 2 ? `<button type="button" class="cabinet-recalc-btn" onclick="addCabinetSecondaryColor('${item.id}')">+ 拼色</button>` : '<span></span>'}
-                <button type="button" class="cabinet-recalc-btn" onclick="recalcItemColor('${item.id}')">↺ 重測色</button>
+                <button type="button" class="cabinet-recalc-btn" onclick="recalcItemColor('${item.id}')">↺ 重測</button>
               </div>
             </div>
 
             <div class="cabinet-season-chips">
-              <span class="season-micro-tag ${sList.includes('spring')?'on':''}" onclick="toggleCabinetItemSeason('${item.id}','spring')">春</span>
+              <span class="season-micro-tag ${sList.includes('spring')?'on':''}" onclick="toggleCabinetItemSeasonPair('${item.id}')">春秋</span>
               <span class="season-micro-tag ${sList.includes('summer')?'on':''}" onclick="toggleCabinetItemSeason('${item.id}','summer')">夏</span>
-              <span class="season-micro-tag ${sList.includes('autumn')?'on':''}" onclick="toggleCabinetItemSeason('${item.id}','autumn')">秋</span>
               <span class="season-micro-tag ${sList.includes('winter')?'on':''}" onclick="toggleCabinetItemSeason('${item.id}','winter')">冬</span>
             </div>
 
             <div class="cabinet-controls-row">
-              <span class="drawer-reassign-label">分區:</span>
               <select class="drawer-reassign-select" onchange="reassignItemDrawer('${item.id}', this.value)">
                 <option value="outer" ${item.drawer==='outer'?'selected':''}>外套大衣</option>
                 <option value="top" ${item.drawer==='top'?'selected':''}>上裝內搭</option>
@@ -3749,7 +3910,7 @@
       await dbSaveItem(item);
       renderClosetCompartments();
       renderOutfitViewLocal();
-      showToast(`色彩已修訂為【${info.name}】`);
+      showToast(`${info.name}`);
     }
 
     async function addCabinetSecondaryColor(id) {
@@ -3764,7 +3925,6 @@
       await dbSaveItem(item);
       renderClosetCompartments();
       renderOutfitViewLocal();
-      showToast("已新增次色拼色");
     }
 
     async function removeCabinetColor(id, colorIndex) {
@@ -3778,32 +3938,49 @@
       await dbSaveItem(item);
       renderClosetCompartments();
       renderOutfitViewLocal();
-      showToast("已移除拼色");
+    }
+
+    async function toggleCabinetItemSeasonPair(id) {
+      const item = myWardrobe.find(x => x.id === id);
+      if (!item) return;
+      let s = new Set(item.seasons || []);
+      if (s.has('spring') || s.has('autumn')) {
+        if (s.size <= 2) return showToast("需保留至少一季");
+        s.delete('spring');
+        s.delete('autumn');
+      } else {
+        s.add('spring');
+        s.add('autumn');
+      }
+      item.seasons = Array.from(s);
+      item.userConfirmed = true;
+      await dbSaveItem(item);
+      renderClosetCompartments();
+      renderOutfitViewLocal();
     }
 
     async function toggleCabinetItemSeason(id, season) {
       const item = myWardrobe.find(x => x.id === id);
       if (!item) return;
-      if (!item.seasons) item.seasons = [];
-      const idx = item.seasons.indexOf(season);
-      if (idx > -1) {
-        if (item.seasons.length > 1) item.seasons.splice(idx, 1);
-        else return showToast("至少需保留一個季節");
+      let s = new Set(item.seasons || []);
+      if (s.has(season)) {
+        if (s.size <= 1) return showToast("需保留至少一季");
+        s.delete(season);
       } else {
-        item.seasons.push(season);
+        s.add(season);
       }
+      item.seasons = Array.from(s);
       item.userConfirmed = true;
       await dbSaveItem(item);
       renderClosetCompartments();
       renderOutfitViewLocal();
-      showToast(`季節屬性已修訂`);
     }
 
     async function recalcItemColor(id) {
       const item = myWardrobe.find(x => x.id === id);
       if (!item || !item.img) return;
 
-      showToast(`重新校正主次色彩中...`);
+      showToast(`校正色彩中...`);
       const newColors = await extractColorsFromImageUrl(item.img);
       item.colors = newColors;
       item.color = newColors[0];
@@ -3816,15 +3993,15 @@
 
       renderClosetCompartments();
       renderOutfitViewLocal();
-      showToast(`色彩已校準 (${newColors.map(c=>c.name).join('+')})`);
+      showToast(`${newColors.map(c=>c.name).join('+')}`);
     }
 
     async function recalcAllWardrobeColors() {
       if (myWardrobe.length === 0) {
-        showToast("衣櫥內暫無單品");
+        showToast("衣櫥暫無單品");
         return;
       }
-      showToast("正在重新校正全部色彩...");
+      showToast("正在校正全庫色彩...");
       for (let item of myWardrobe) {
         if (item.img) {
           const colors = await extractColorsFromImageUrl(item.img);
@@ -3835,7 +4012,7 @@
       }
       renderClosetCompartments();
       renderOutfitViewLocal();
-      showToast("全部單品色彩校正完成");
+      showToast("全庫色彩校正完成");
     }
 
     async function reassignItemDrawer(id, newDrawer) {
@@ -3855,27 +4032,29 @@
       renderClosetCompartments();
       renderOutfitViewLocal();
       updateWardrobeCountUi();
-      showToast(`已移至【${CAT_LABELS[newDrawer]}】`);
+      showToast(`${CAT_LABELS[newDrawer]}`);
     }
 
     async function deleteFromCloset(id) {
       await dbDeleteItem(id);
       myWardrobe = myWardrobe.filter(x => x.id !== id);
+      batchQueue = batchQueue.filter(x => x.id !== id);
       if (lastRecordedItem && lastRecordedItem.id === id) {
         lastRecordedItem = null;
         document.getElementById('recentCard').style.display = 'none';
       }
       updateWardrobeCountUi();
       renderClosetCompartments();
+      renderBatchQueueUi();
       renderOutfitViewLocal();
-      showToast("已移除該單品");
+      showToast("已移除");
     }
 
     function showToast(text) {
       const t = document.getElementById('toast');
       t.innerText = text;
       t.style.display = 'block';
-      setTimeout(() => { t.style.display = 'none'; }, 2400);
+      setTimeout(() => { t.style.display = 'none'; }, 2000);
     }
   </script>
 </body>
