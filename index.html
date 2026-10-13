@@ -26,7 +26,7 @@
       --cat-skirt: #B0899E;
       --cat-shoes: #C7A27C;
 
-      /* 人體動態調色 */
+      /* 人體動態調色 (嚴格主色) */
       --c-outer-1: #282830;
       --c-outer-2: #282830;
       --c-mid-1: transparent;
@@ -744,15 +744,41 @@
       stroke-width: 1.6;
     }
 
+    /* 桌面排版 */
     .style-main-layout {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: 320px 1fr;
       gap: 20px;
     }
 
+  /* 桌面版排版：左側人形圖，右側上方為衣服、下方為色彩分析 */
     @media (min-width: 920px) {
       .style-main-layout {
+        display: grid;
         grid-template-columns: 320px 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+      .mannequin-panel {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+      }
+      .cards-responsive-grid {
+        grid-column: 2;
+        grid-row: 1;
+      }
+      .analysis-panel {
+        grid-column: 2;
+        grid-row: 2;
+      }
+    }
+
+    /* 手機版排版：自然由上至下排列 (1.衣服 ➔ 2.人形圖 ➔ 3.色彩分析) */
+    @media (max-width: 919px) {
+      .style-main-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
       }
     }
 
@@ -799,6 +825,7 @@
       height: 100%;
       max-width: 220px;
       filter: drop-shadow(0 14px 28px rgba(0,0,0,0.65));
+      transition: transform 0.3s ease;
     }
 
     #mannequinSvg path, #mannequinSvg ellipse {
@@ -1041,6 +1068,7 @@
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
+      line-height: 1.5;
     }
 
     .color-chip {
@@ -1061,6 +1089,17 @@
       height: 7px;
       border-radius: 50%;
       display: inline-block;
+    }
+
+    /* 抽卡過渡動效 */
+    @keyframes shuffleFlash {
+      0% { opacity: 0.3; transform: scale(0.97); filter: blur(2px); }
+      50% { opacity: 0.7; transform: scale(1.01); filter: blur(1px); }
+      100% { opacity: 1; transform: scale(1); filter: blur(0); }
+    }
+
+    .anim-shuffling {
+      animation: shuffleFlash 0.35s ease-out !important;
     }
 
     /* MODAL: ITEM PICKER */
@@ -1436,12 +1475,6 @@
       border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .drawer-reassign-label {
-      font-size: 0.54rem;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-
     .drawer-reassign-select {
       background: #151520;
       border: 1px solid var(--border);
@@ -1487,7 +1520,7 @@
       border-radius: 3px;
     }
 
-    /* MODAL: LOOKBOOK */
+    /* MODAL: LOOKBOOK (私享典藏改版) */
     .lookbook-modal-overlay {
       position: fixed;
       inset: 0;
@@ -1519,32 +1552,70 @@
     }
 
     .lookbook-header {
-      padding: 18px 24px;
+      padding: 16px 24px;
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
+    .lookbook-nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 24px;
+      background: #111116;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .lookbook-filter-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .lb-filter-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 4px 10px;
+      font-size: 0.62rem;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .lb-filter-btn.active {
+      border-color: var(--cat-outer);
+      color: var(--cat-outer);
+      background: rgba(197, 168, 128, 0.1);
+      font-weight: 600;
+    }
+
     .lookbook-scroll {
       flex: 1;
       overflow-y: auto;
-      padding: 24px;
+      padding: 20px 24px;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 18px;
+      gap: 16px;
+      align-items: start;
     }
 
+    /* 緊湊精緻卡片，去除底部大塊黑底空白 */
     .look-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 4px;
-      padding: 14px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 8px;
       position: relative;
       transition: all 0.2s;
+      height: auto;
     }
 
     .look-card:hover {
@@ -1567,16 +1638,16 @@
     .look-thumbs-strip {
       display: flex;
       gap: 6px;
-      height: 72px;
+      height: 58px;
       background: #0A0A0D;
-      padding: 6px;
+      padding: 5px 6px;
       border-radius: 3px;
       overflow-x: auto;
       align-items: center;
     }
 
     .look-mini-thumb {
-      width: 58px;
+      width: 48px;
       height: 100%;
       object-fit: contain;
       background: #14141B;
@@ -1585,7 +1656,7 @@
     }
 
     .look-palette-bar {
-      height: 6px;
+      height: 5px;
       border-radius: 2px;
       overflow: hidden;
       display: flex;
@@ -1593,10 +1664,10 @@
 
     .look-card-actions {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
-      margin-top: auto;
-      padding-top: 8px;
+      gap: 8px;
+      padding-top: 6px;
       border-top: 1px solid rgba(255,255,255,0.05);
     }
 
@@ -1605,7 +1676,8 @@
       border: none;
       color: var(--muted);
       cursor: pointer;
-      font-size: 0.65rem;
+      font-size: 0.7rem;
+      padding: 2px 6px;
       transition: color 0.2s;
     }
 
@@ -1696,7 +1768,7 @@
 
       <div class="studio-summary-panel">
         
-        <!-- 批量佇列檢視 (可點擊切換編輯) -->
+        <!-- 批量佇列檢視 -->
         <div class="batch-queue-container" id="batchQueueBox">
           <div class="batch-queue-title">
             <span>BATCH ITEMS</span>
@@ -1748,12 +1820,14 @@
             </div>
           </div>
 
+          <!-- 純粹季節 4 按鈕 (去除「春秋聯動」文字) -->
           <div class="recent-edit-group">
-            <label class="recent-label">適用季節 (春秋聯動)</label>
+            <label class="recent-label">適用季節</label>
             <div class="recent-pills-grid">
-              <button type="button" class="recent-season-pill" id="pillSeasonSpring" onclick="toggleRecentSeasonPair()">春 / 秋</button>
-              <button type="button" class="recent-season-pill" id="pillSeasonSummer" onclick="toggleRecentSeason('summer')">夏 SUMMER</button>
-              <button type="button" class="recent-season-pill" id="pillSeasonWinter" onclick="toggleRecentSeason('winter')">冬 WINTER</button>
+              <button type="button" class="recent-season-pill" id="pillSeasonSpring" onclick="toggleRecentSeason('spring')">春</button>
+              <button type="button" class="recent-season-pill" id="pillSeasonSummer" onclick="toggleRecentSeason('summer')">夏</button>
+              <button type="button" class="recent-season-pill" id="pillSeasonAutumn" onclick="toggleRecentSeason('autumn')">秋</button>
+              <button type="button" class="recent-season-pill" id="pillSeasonWinter" onclick="toggleRecentSeason('winter')">冬</button>
             </div>
           </div>
         </div>
@@ -1790,7 +1864,7 @@
           <button class="icon-capsule-btn" onclick="saveCurrentLook()" title="收藏當前造型">
             <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
           </button>
-          <button class="icon-capsule-btn" onclick="randomPickOutfit()" title="隨機抽取">
+          <button class="icon-capsule-btn" onclick="triggerDrawFromCollection()" title="隨機抽取私享典藏">
             <svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
           </button>
           <button class="icon-capsule-btn gold" id="btnAiRecommend" onclick="triggerAiSmartRecommendation()" title="美學推薦">
@@ -1803,10 +1877,13 @@
       </div>
     </div>
 
-    <!-- MAIN STYLING WORKSPACE -->
+ <!-- MAIN STYLING WORKSPACE -->
     <div class="style-main-layout">
       
-      <!-- 人體穿搭圖 -->
+      <!-- 1. 真實單品卡片 (移到最上方) -->
+      <div class="cards-responsive-grid" id="outfitCardsContainer"></div>
+      
+      <!-- 人體穿搭圖 (嚴格主色呈現) -->
       <div class="mannequin-panel">
         <div class="mannequin-top-info">
           <span class="mannequin-heading">構圖</span>
@@ -1816,27 +1893,27 @@
         <div class="mannequin-svg-container">
           <svg id="mannequinSvg" viewBox="0 0 200 480" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="gradSingleTop" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="gradSingleTop" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stop-color="var(--c-outer-1)"/>
                 <stop offset="100%" stop-color="var(--c-outer-2)"/>
               </linearGradient>
-              <linearGradient id="gradOuter" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="gradOuter" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stop-color="var(--c-outer-1)"/>
                 <stop offset="100%" stop-color="var(--c-outer-2)"/>
               </linearGradient>
-              <linearGradient id="gradMid" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="gradMid" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stop-color="var(--c-mid-1)"/>
                 <stop offset="100%" stop-color="var(--c-mid-2)"/>
               </linearGradient>
-              <linearGradient id="gradInner" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="gradInner" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stop-color="var(--c-inner-1)"/>
                 <stop offset="100%" stop-color="var(--c-inner-2)"/>
               </linearGradient>
-              <linearGradient id="gradBottom" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="gradBottom" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stop-color="var(--c-bottom-1)"/>
                 <stop offset="100%" stop-color="var(--c-bottom-2)"/>
               </linearGradient>
-              <linearGradient id="gradShoes" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="gradShoes" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stop-color="var(--c-shoes-1)"/>
                 <stop offset="100%" stop-color="var(--c-shoes-2)"/>
               </linearGradient>
@@ -1887,11 +1964,10 @@
         <div class="mannequin-legend" id="mannequinLegend"></div>
       </div>
 
-      <!-- 真實單品卡片 -->
+      <!-- 真實單品卡片與評析面板 -->
       <div class="outfit-display-wrap">
-        <div class="cards-responsive-grid" id="outfitCardsContainer"></div>
-
-        <!-- 極簡色彩光譜與單句評析面板 -->
+        
+        <!-- 極簡色彩光譜與日常評析面板 -->
         <div class="analysis-panel">
           <div>
             <div class="spectrum-bar" id="paletteSpectrum"></div>
@@ -1905,6 +1981,8 @@
             <span class="style-match-score" id="styleMatchScore">--</span>
           </div>
         </div>
+
+        <div class="cards-responsive-grid" id="outfitCardsContainer"></div>
 
       </div>
 
@@ -1991,16 +2069,32 @@
     </div>
   </div>
 
-  <!-- MODAL: LOOKBOOK -->
+  <!-- MODAL: LOOKBOOK (私享典藏改版：季節/層數歸檔) -->
   <div class="lookbook-modal-overlay" id="lookbookModal">
     <div class="lookbook-container">
       <div class="lookbook-header">
         <h2 style="font-family:'Cormorant Garamond',serif; font-size:1.45rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--cat-outer);">LOOKBOOK</h2>
         <div style="display:flex; align-items:center; gap:10px;">
-          <button class="icon-action-btn" onclick="randomPickOutfit(true)" title="抽取一組">
+          <button class="icon-action-btn" onclick="triggerDrawFromCollection(true)" title="抽取一組典藏">
             <svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
           </button>
           <button class="closet-close-btn" onclick="closeLookbookModal()">✕</button>
+        </div>
+      </div>
+
+      <!-- 季節與層數導航列 -->
+      <div class="lookbook-nav-bar">
+        <div class="lookbook-filter-group" id="lbSeasonFilters">
+          <button class="lb-filter-btn active" data-season="spring" onclick="setLookbookSeasonFilter('spring')">春</button>
+          <button class="lb-filter-btn" data-season="summer" onclick="setLookbookSeasonFilter('summer')">夏</button>
+          <button class="lb-filter-btn" data-season="autumn" onclick="setLookbookSeasonFilter('autumn')">秋</button>
+          <button class="lb-filter-btn" data-season="winter" onclick="setLookbookSeasonFilter('winter')">冬</button>
+        </div>
+        <div class="lookbook-filter-group" id="lbLayerFilters">
+          <button class="lb-filter-btn active" data-layer="0" onclick="setLookbookLayerFilter(0)">全部</button>
+          <button class="lb-filter-btn" data-layer="1" onclick="setLookbookLayerFilter(1)">1層</button>
+          <button class="lb-filter-btn" data-layer="2" onclick="setLookbookLayerFilter(2)">2層</button>
+          <button class="lb-filter-btn" data-layer="3" onclick="setLookbookLayerFilter(3)">3層</button>
         </div>
       </div>
 
@@ -2028,7 +2122,7 @@
     }
 
     /* =========================================================================
-     * 1. 春秋聯動與品類判定邏輯
+     * 1. 春秋聯動與品類判定
      * ========================================================================= */
     function verifyAndCorrectDrawer(name, currentDrawer) {
       const lower = (name || "").toLowerCase().trim();
@@ -2040,7 +2134,6 @@
       return currentDrawer || 'top';
     }
 
-    // 春秋嚴格聯動：春天能穿秋天就能穿
     function harmonizeSeasons(seasons) {
       const set = new Set(seasons || ['spring', 'autumn', 'summer', 'winter']);
       if (set.has('spring') || set.has('autumn')) {
@@ -2104,7 +2197,7 @@
     /* =========================================================================
      * 2. INDEXED DB 原生持久化儲存
      * ========================================================================= */
-    const DB_NAME = "LAllureWardrobeDB_v15";
+    const DB_NAME = "LAllureWardrobeDB_v16";
     const DB_VERSION = 1;
     const STORE_CLOTHES = "clothes";
     const STORE_LOOKS = "saved_looks";
@@ -2193,7 +2286,7 @@
     }
 
     /* =========================================================================
-     * 3. 精確色彩學分析模型（加權色差去背與高訂色彩分級）
+     * 3. 精確色彩分析模型
      * ========================================================================= */
     function rgbToHsl(r, g, b) {
       r /= 255; g /= 255; b /= 255;
@@ -2297,7 +2390,6 @@
       const { width, height } = canvas;
       const data = ctx.getImageData(0, 0, width, height).data;
 
-      // 採樣邊界像素以精準識別背景色彩
       const bgSamples = [];
       const borderX = Math.max(4, Math.floor(width * 0.10));
       const borderY = Math.max(4, Math.floor(height * 0.10));
@@ -2337,7 +2429,6 @@
           const idx = (y * width + x) * 4;
           const r = data[idx], g = data[idx + 1], b = data[idx + 2];
 
-          // 嚴密排除背景色與極亮曝光反光
           const distToBg = Math.sqrt((r - bgR) ** 2 + (g - bgG) ** 2 + (b - bgB) ** 2);
           if (distToBg < bgTolerance) continue;
           if (r > 248 && g > 248 && b > 248) continue;
@@ -2371,7 +2462,6 @@
       const pB = Math.round(primaryB.b / primaryB.weight);
       colors.push(getAccurateColorInfo(pR, pG, pB));
 
-      // 提取顯著次色
       for (let i = 1; i < Math.min(sorted.length, 10); i++) {
         const cand = sorted[i];
         if (cand.weight < primaryB.weight * 0.22) break;
@@ -2466,9 +2556,12 @@
       shoes: null
     };
 
-    // 批量佇列與節流控制
     let batchQueue = [];
     let isProcessingBatchQueue = false;
+
+    // 私享典藏當前過濾器
+    let lookbookSeasonFilter = 'spring';
+    let lookbookLayerFilter = 0; // 0 代表全部
 
     window.addEventListener('DOMContentLoaded', async () => {
       try {
@@ -2487,7 +2580,6 @@
             item.style = inferItemStyle(item.name, item.drawer);
             changed = true;
           }
-          // 同步春秋聯動
           item.seasons = harmonizeSeasons(item.seasons || inferItemSeasons(item.name, item.drawer));
           
           if (!item.colors || item.colors.length === 0) {
@@ -2582,13 +2674,13 @@
     }
 
     /* =========================================================================
-     * 6. 批量上傳與節流處理 (Rate Per Minute 保護)
+     * 6. 批量上傳與節流處理
      * ========================================================================= */
     async function handleBatchFileUpload(e) {
       const files = Array.from(e.target.files || []);
       if (files.length === 0) return;
 
-      showToast(`已載入 ${files.length} 件衣物，解析中...`);
+      showToast(`已載入 ${files.length} 件單品`);
 
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
@@ -2609,7 +2701,6 @@
           isAiPending: true
         };
 
-        // 預測抽屜
         tempItem.drawer = verifyAndCorrectDrawer(tempItem.name, tempItem.drawer);
         tempItem.style = inferItemStyle(tempItem.name, tempItem.drawer);
         tempItem.seasons = inferItemSeasons(tempItem.name, tempItem.drawer);
@@ -2626,7 +2717,6 @@
         selectBatchItemForReview(batchQueue[0].id);
       }
 
-      // 觸發背景節流 AI 處理
       if (!isProcessingBatchQueue) {
         processBatchQueueThrottled();
       }
@@ -2675,7 +2765,6 @@
       }
     }
 
-    // 智能排隊調用 AI，確保間隔 >= 1200ms，杜絕 RPM 觸發超限
     async function processBatchQueueThrottled() {
       if (batchQueue.length === 0) {
         isProcessingBatchQueue = false;
@@ -2721,7 +2810,7 @@
           }
         }
       } catch (err) {
-        console.warn("AI recognition throttled or bypassed", err);
+        console.warn("AI recognition bypassed", err);
       } finally {
         item.isAiPending = false;
         await dbSaveItem(item);
@@ -2732,8 +2821,6 @@
           renderRecentCardUi(item);
         }
         renderBatchQueueUi();
-
-        // 節流保護等待 1.3 秒再處理下一件
         setTimeout(processBatchQueueThrottled, 1300);
       }
     }
@@ -2812,8 +2899,9 @@
       });
 
       const sList = harmonizeSeasons(item.seasons);
-      document.getElementById('pillSeasonSpring').classList.toggle('active', sList.includes('spring') || sList.includes('autumn'));
+      document.getElementById('pillSeasonSpring').classList.toggle('active', sList.includes('spring'));
       document.getElementById('pillSeasonSummer').classList.toggle('active', sList.includes('summer'));
+      document.getElementById('pillSeasonAutumn').classList.toggle('active', sList.includes('autumn'));
       document.getElementById('pillSeasonWinter').classList.toggle('active', sList.includes('winter'));
     }
 
@@ -2883,35 +2971,28 @@
       renderRecentColorSwatches(lastRecordedItem);
     }
 
-    async function toggleRecentSeasonPair() {
-      if (!lastRecordedItem) return;
-      let s = new Set(lastRecordedItem.seasons || []);
-      if (s.has('spring') || s.has('autumn')) {
-        if (s.size <= 2) return showToast("需保留至少一季");
-        s.delete('spring');
-        s.delete('autumn');
-      } else {
-        s.add('spring');
-        s.add('autumn');
-      }
-      lastRecordedItem.seasons = Array.from(s);
-      lastRecordedItem.userConfirmed = true;
-      await dbSaveItem(lastRecordedItem);
-
-      const wIdx = myWardrobe.findIndex(x => x.id === lastRecordedItem.id);
-      if (wIdx !== -1) myWardrobe[wIdx] = lastRecordedItem;
-
-      renderRecentCardUi(lastRecordedItem);
-    }
-
+    // 春秋點選任一項，後台自然聯動
     async function toggleRecentSeason(season) {
       if (!lastRecordedItem) return;
       let s = new Set(lastRecordedItem.seasons || []);
-      if (s.has(season)) {
-        if (s.size <= 1) return showToast("需保留至少一季");
-        s.delete(season);
+      const isSpringAutumn = (season === 'spring' || season === 'autumn');
+
+      if (isSpringAutumn) {
+        if (s.has('spring') || s.has('autumn')) {
+          if (s.size <= 2) return showToast("需保留至少一季");
+          s.delete('spring');
+          s.delete('autumn');
+        } else {
+          s.add('spring');
+          s.add('autumn');
+        }
       } else {
-        s.add(season);
+        if (s.has(season)) {
+          if (s.size <= 1) return showToast("需保留至少一季");
+          s.delete(season);
+        } else {
+          s.add(season);
+        }
       }
       lastRecordedItem.seasons = Array.from(s);
       lastRecordedItem.userConfirmed = true;
@@ -3019,7 +3100,7 @@
     }
 
     /* =========================================================================
-     * 8. 穿搭組裝與無重復嚴格校驗 (防重邏輯核心)
+     * 8. 穿搭組裝與無重復嚴格校驗 (外套禁止在1層單穿)
      * ========================================================================= */
     function renderOutfitViewLocal() {
       if (myWardrobe.length === 0) {
@@ -3038,7 +3119,6 @@
       const bottoms = myWardrobe.filter(x => (x.drawer === 'pants' || x.drawer === 'skirt') && isItemSuitableForSeason(x, currentSeason, 'bottom'));
       const shoesList = myWardrobe.filter(x => x.drawer === 'shoes' && isItemSuitableForSeason(x, currentSeason, 'shoes'));
 
-      // 嚴格防止同一件衣服重覆出現的 Set
       const assignedIds = new Set();
 
       // 1. 下裝
@@ -3057,25 +3137,26 @@
         if (currentOutfit.shoes) assignedIds.add(currentOutfit.shoes.id);
       }
 
-      // 3. 上裝與外套配置（保證 outer, mid, inner 各不相同）
+      // 3. 上裝與外套配置（外套在 1 層時嚴格禁止作為單穿上裝）
       if (currentLayerCount === 1) {
-        if (currentOutfit.outer && (currentOutfit.outer.drawer === 'top' || currentOutfit.outer.drawer === 'outer') && isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer') && !assignedIds.has(currentOutfit.outer.id)) {
+        if (currentOutfit.outer && currentOutfit.outer.drawer === 'top' && isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer') && !assignedIds.has(currentOutfit.outer.id)) {
           assignedIds.add(currentOutfit.outer.id);
         } else {
-          currentOutfit.outer = tops.find(t => !assignedIds.has(t.id)) || outers.find(o => !assignedIds.has(o.id)) || null;
+          // 只從 tops 挑選
+          currentOutfit.outer = tops.find(t => !assignedIds.has(t.id)) || null;
           if (currentOutfit.outer) assignedIds.add(currentOutfit.outer.id);
         }
         currentOutfit.mid = null;
         currentOutfit.inner = null;
       } else if (currentLayerCount === 2) {
-        // 外層
+        // 外層：只能是 outer
         if (currentOutfit.outer && currentOutfit.outer.drawer === 'outer' && isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer') && !assignedIds.has(currentOutfit.outer.id)) {
           assignedIds.add(currentOutfit.outer.id);
         } else {
           currentOutfit.outer = outers.find(o => !assignedIds.has(o.id)) || null;
           if (currentOutfit.outer) assignedIds.add(currentOutfit.outer.id);
         }
-        // 內搭
+        // 內搭：只能是 top
         if (currentOutfit.inner && currentOutfit.inner.drawer === 'top' && isItemSuitableForSeason(currentOutfit.inner, currentSeason, 'inner') && !assignedIds.has(currentOutfit.inner.id)) {
           assignedIds.add(currentOutfit.inner.id);
         } else {
@@ -3220,6 +3301,16 @@
       return card;
     }
 
+    /* 人形圖嚴格主色呈現，徹底消除次色干擾 */
+    function getItemPrimaryHex(it, fallbackHex) {
+      if (!it) return fallbackHex;
+      if (it.colors && it.colors.length > 0 && it.colors[0].hex) {
+        return it.colors[0].hex;
+      }
+      if (it.color && it.color.hex) return it.color.hex;
+      return fallbackHex;
+    }
+
     function updateMannequin(layerCount, outer, mid, inner, bottom, shoes) {
       const svgSingle = document.getElementById('layerSingleTop');
       const svgInner = document.getElementById('layerInner');
@@ -3229,28 +3320,23 @@
       const svgSkirt = document.getElementById('layerSkirt');
       const statusTag = document.getElementById('mannequinStatusTag');
 
-      function getItemColorPair(it, defaultHex) {
-        if (!it) return [defaultHex, defaultHex];
-        const colors = it.colors && it.colors.length > 0 ? it.colors : [it.color];
-        return [colors[0].hex, colors[1] ? colors[1].hex : colors[0].hex];
-      }
+      const cOuter = getItemPrimaryHex(outer, '#282830');
+      const cMid = getItemPrimaryHex(mid, 'transparent');
+      const cInner = getItemPrimaryHex(inner, 'transparent');
+      const cBottom = getItemPrimaryHex(bottom, '#1E1E26');
+      const cShoes = getItemPrimaryHex(shoes, '#111114');
 
-      const [cOuter1, cOuter2] = getItemColorPair(outer, '#24242C');
-      const [cMid1, cMid2] = getItemColorPair(mid, 'transparent');
-      const [cInner1, cInner2] = getItemColorPair(inner, 'transparent');
-      const [cBottom1, cBottom2] = getItemColorPair(bottom, '#1A1A22');
-      const [cShoes1, cShoes2] = getItemColorPair(shoes, '#111114');
-
-      document.documentElement.style.setProperty('--c-outer-1', cOuter1);
-      document.documentElement.style.setProperty('--c-outer-2', cOuter2);
-      document.documentElement.style.setProperty('--c-mid-1', cMid1);
-      document.documentElement.style.setProperty('--c-mid-2', cMid2);
-      document.documentElement.style.setProperty('--c-inner-1', cInner1);
-      document.documentElement.style.setProperty('--c-inner-2', cInner2);
-      document.documentElement.style.setProperty('--c-bottom-1', cBottom1);
-      document.documentElement.style.setProperty('--c-bottom-2', cBottom2);
-      document.documentElement.style.setProperty('--c-shoes-1', cShoes1);
-      document.documentElement.style.setProperty('--c-shoes-2', cShoes2);
+      // 停用漸層過渡到次色，嚴格將二端均設為主色
+      document.documentElement.style.setProperty('--c-outer-1', cOuter);
+      document.documentElement.style.setProperty('--c-outer-2', cOuter);
+      document.documentElement.style.setProperty('--c-mid-1', cMid);
+      document.documentElement.style.setProperty('--c-mid-2', cMid);
+      document.documentElement.style.setProperty('--c-inner-1', cInner);
+      document.documentElement.style.setProperty('--c-inner-2', cInner);
+      document.documentElement.style.setProperty('--c-bottom-1', cBottom);
+      document.documentElement.style.setProperty('--c-bottom-2', cBottom);
+      document.documentElement.style.setProperty('--c-shoes-1', cShoes);
+      document.documentElement.style.setProperty('--c-shoes-2', cShoes);
 
       if (layerCount === 1) {
         svgSingle.style.display = 'block';
@@ -3309,16 +3395,14 @@
           </div>
         `;
       }
-      const colors = item.colors && item.colors.length > 0 ? item.colors : [item.color];
-      const dots = colors.map(c => `<span class="legend-dot" style="background:${c.hex}"></span>`).join('');
-      const names = colors.map(c => c.name).join('/');
+      const primaryColor = (item.colors && item.colors.length > 0) ? item.colors[0] : item.color;
       return `
         <div class="legend-row">
           <div class="legend-left">
-            <div class="legend-dots">${dots}</div>
+            <span class="legend-dot" style="background:${primaryColor.hex}"></span>
             <span>${label}</span>
           </div>
-          <span style="font-size:0.6rem; color:var(--muted); max-width:130px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${names}</span>
+          <span style="font-size:0.6rem; color:var(--muted); max-width:130px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${primaryColor.name}</span>
         </div>
       `;
     }
@@ -3334,7 +3418,7 @@
     }
 
     /* =========================================================================
-     * 9. 點擊替換單品（嚴格排除已在其他層次穿戴的單品）
+     * 9. 點擊替換單品 (外套嚴格禁止在1層作為單穿)
      * ========================================================================= */
     function openItemPicker(roleKey) {
       currentPickerSlot = roleKey;
@@ -3352,7 +3436,6 @@
 
       title.innerText = roleTitles[roleKey] || '替換單品';
 
-      // 取得其他槽位已佔用的單品 ID 集合
       const alreadyUsedInOtherSlots = new Set();
       Object.entries(currentOutfit).forEach(([k, item]) => {
         if (k !== roleKey && item) {
@@ -3367,7 +3450,7 @@
 
       if (roleKey === 'outer') {
         candidates = currentLayerCount === 1 
-          ? candidates.filter(x => x.drawer === 'top' || x.drawer === 'outer')
+          ? candidates.filter(x => x.drawer === 'top')
           : candidates.filter(x => x.drawer === 'outer');
       } else if (roleKey === 'mid' || roleKey === 'inner') {
         candidates = candidates.filter(x => x.drawer === 'top');
@@ -3422,7 +3505,7 @@
     }
 
     /* =========================================================================
-     * 10. 典藏造型與隨機抽取
+     * 10. 私享典藏收藏（防重）與專屬隨機抽取 UX
      * ========================================================================= */
     async function saveCurrentLook() {
       const activePieces = Object.values(currentOutfit).filter(Boolean);
@@ -3431,8 +3514,29 @@
         return;
       }
 
+      // 重複性嚴格檢驗：同一套單品不能重複收錄
+      const isDuplicate = mySavedLooks.some(l => {
+        const sameOuter = (l.outfit?.outer?.id || null) === (currentOutfit.outer?.id || null);
+        const sameMid = (l.outfit?.mid?.id || null) === (currentOutfit.mid?.id || null);
+        const sameInner = (l.outfit?.inner?.id || null) === (currentOutfit.inner?.id || null);
+        const sameBottom = (l.outfit?.bottom?.id || null) === (currentOutfit.bottom?.id || null);
+        const sameShoes = (l.outfit?.shoes?.id || null) === (currentOutfit.shoes?.id || null);
+        const sameLayers = l.layerCount === currentLayerCount;
+        
+        // 春秋視為互通季節
+        const sameSeason = (l.season === currentSeason) || 
+          ((currentSeason === 'spring' || currentSeason === 'autumn') && (l.season === 'spring' || l.season === 'autumn'));
+
+        return sameOuter && sameMid && sameInner && sameBottom && sameShoes && sameLayers && sameSeason;
+      });
+
+      if (isDuplicate) {
+        showToast("此套穿搭已在典藏中，請勿重複加入");
+        return;
+      }
+
       const seasonZh = { spring: '春季', summer: '夏季', autumn: '秋季', winter: '冬季' }[currentSeason];
-      const lookName = `${seasonZh} ${currentLayerCount}層搭配`;
+      const lookName = `${seasonZh} · ${currentLayerCount}層搭配`;
 
       const newLook = {
         id: 'look_' + Date.now(),
@@ -3446,44 +3550,49 @@
       await dbSaveLook(newLook);
       mySavedLooks.unshift(newLook);
       updateLookbookCountUi();
-      showToast("已收藏");
+      showToast("已收入私享典藏");
     }
 
-    function randomPickOutfit(forceFromLookbook = false) {
-      const matchingSaved = mySavedLooks.filter(l => l.season === currentSeason && l.layerCount === currentLayerCount);
+    // 從「私享典藏」中隨機抽取穿搭，帶有專屬動畫
+    function triggerDrawFromCollection(fromModal = false) {
+      if (mySavedLooks.length === 0) {
+        showToast("私享典藏尚無穿搭，請先收藏喜愛造型");
+        return;
+      }
 
-      if (matchingSaved.length > 0) {
-        const picked = matchingSaved[Math.floor(Math.random() * matchingSaved.length)];
+      // 優先抽取符合當前季節或春秋互通的典藏
+      let candidates = mySavedLooks.filter(l => {
+        if (currentSeason === 'spring' || currentSeason === 'autumn') {
+          return l.season === 'spring' || l.season === 'autumn';
+        }
+        return l.season === currentSeason;
+      });
+
+      if (candidates.length === 0) {
+        candidates = mySavedLooks;
+      }
+
+      const picked = candidates[Math.floor(Math.random() * candidates.length)];
+
+      // 觸發視覺抽卡動畫
+      playShuffleAnimation();
+
+      setTimeout(() => {
         applyLookToWorkspace(picked);
-        showToast("已抽取私享典藏");
-        if (forceFromLookbook) closeLookbookModal();
-        return;
-      }
+        showToast(`已抽取私享典藏 (${picked.name})`);
+        if (fromModal) closeLookbookModal();
+      }, 350);
+    }
 
-      if (forceFromLookbook && mySavedLooks.length > 0) {
-        const picked = mySavedLooks[Math.floor(Math.random() * mySavedLooks.length)];
-        applyLookToWorkspace(picked);
-        showToast("已抽取私享典藏");
-        closeLookbookModal();
-        return;
-      }
-
-      if (myWardrobe.length === 0) {
-        showToast("衣櫥目前為空");
-        return;
-      }
-
-      const rec = generateLocalSmartRecommendation();
-      if (rec) {
-        currentOutfit = rec.outfit;
-        updateMannequin(currentLayerCount, currentOutfit.outer, currentOutfit.mid, currentOutfit.inner, currentOutfit.bottom, currentOutfit.shoes);
-        renderOutfitCardsUi();
-        renderSpectrumBar(currentOutfit);
-        renderMinimalVerdictUi(rec.critique);
-        showToast("隨機抽取搭配");
-      } else {
-        showToast("單品不足以隨機搭配");
-      }
+    function playShuffleAnimation() {
+      const svg = document.getElementById('mannequinSvg');
+      const cards = document.getElementById('outfitCardsContainer');
+      svg.classList.add('anim-shuffling');
+      cards.classList.add('anim-shuffling');
+      setTimeout(() => {
+        svg.classList.remove('anim-shuffling');
+        cards.classList.remove('anim-shuffling');
+      }, 360);
     }
 
     function applyLookToWorkspace(look) {
@@ -3513,7 +3622,9 @@
     }
 
     function openLookbookModal() {
+      lookbookSeasonFilter = currentSeason;
       document.getElementById('lookbookModal').classList.add('open');
+      updateLookbookNavUi();
       renderLookbookList();
     }
 
@@ -3521,14 +3632,53 @@
       document.getElementById('lookbookModal').classList.remove('open');
     }
 
+    function setLookbookSeasonFilter(season) {
+      lookbookSeasonFilter = season;
+      updateLookbookNavUi();
+      renderLookbookList();
+    }
+
+    function setLookbookLayerFilter(layer) {
+      lookbookLayerFilter = layer;
+      updateLookbookNavUi();
+      renderLookbookList();
+    }
+
+    function updateLookbookNavUi() {
+      document.querySelectorAll('#lbSeasonFilters .lb-filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-season') === lookbookSeasonFilter);
+      });
+      document.querySelectorAll('#lbLayerFilters .lb-filter-btn').forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.getAttribute('data-layer')) === lookbookLayerFilter);
+      });
+    }
+
     function renderLookbookList() {
       const grid = document.getElementById('lookbookGrid');
-      if (mySavedLooks.length === 0) {
-        grid.innerHTML = `<div style="grid-column: 1 / -1; font-size:0.75rem; color:var(--muted); text-align:center; padding:50px;">暫無收藏造型</div>`;
+
+      // 按季節過濾（春秋互通），再按層數過濾
+      let filtered = mySavedLooks.filter(look => {
+        let seasonMatch = false;
+        if (lookbookSeasonFilter === 'spring' || lookbookSeasonFilter === 'autumn') {
+          seasonMatch = (look.season === 'spring' || look.season === 'autumn');
+        } else {
+          seasonMatch = (look.season === lookbookSeasonFilter);
+        }
+
+        let layerMatch = true;
+        if (lookbookLayerFilter > 0) {
+          layerMatch = (look.layerCount === lookbookLayerFilter);
+        }
+
+        return seasonMatch && layerMatch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1 / -1; font-size:0.72rem; color:var(--muted); text-align:center; padding:40px;">該分區暫無典藏搭配</div>`;
         return;
       }
 
-      grid.innerHTML = mySavedLooks.map(look => {
+      grid.innerHTML = filtered.map(look => {
         const seasonZh = { spring: '春季', summer: '夏季', autumn: '秋季', winter: '冬季' }[look.season] || look.season;
         const items = [look.outfit.outer, look.outfit.mid, look.outfit.inner, look.outfit.bottom, look.outfit.shoes].filter(Boolean);
         const thumbs = items.map(it => `<img class="look-mini-thumb" src="${it.img}" alt="${it.name}">`).join('');
@@ -3536,7 +3686,7 @@
         const allColors = [];
         items.forEach(it => {
           const cols = it.colors && it.colors.length > 0 ? it.colors : [it.color];
-          cols.forEach(c => allColors.push(c.hex));
+          allColors.push(cols[0].hex);
         });
         const segWidth = (100 / Math.max(1, allColors.length)).toFixed(1) + '%';
         const palette = allColors.map(hex => `<span style="width:${segWidth}; background:${hex}; height:100%;"></span>`).join('');
@@ -3561,9 +3711,10 @@
     function applySavedLookFromModal(lookId) {
       const look = mySavedLooks.find(x => x.id === lookId);
       if (!look) return;
+      playShuffleAnimation();
       applyLookToWorkspace(look);
       closeLookbookModal();
-      showToast("已套用");
+      showToast("已套用私享穿搭");
     }
 
     async function deleteSavedLook(lookId) {
@@ -3575,7 +3726,7 @@
     }
 
     /* =========================================================================
-     * 11. 智能推薦組合（杜絕任何重複單品）
+     * 11. 美學推薦（嚴格防止外套在1層作上裝）
      * ========================================================================= */
     async function triggerAiSmartRecommendation() {
       if (myWardrobe.length === 0) {
@@ -3592,6 +3743,7 @@
       const bestCombination = generateLocalSmartRecommendation();
 
       if (bestCombination) {
+        playShuffleAnimation();
         currentOutfit = bestCombination.outfit;
         updateMannequin(currentLayerCount, currentOutfit.outer, currentOutfit.mid, currentOutfit.inner, currentOutfit.bottom, currentOutfit.shoes);
         renderOutfitCardsUi();
@@ -3630,7 +3782,8 @@
         }
 
         if (currentLayerCount === 1) {
-          const pool = tops.concat(outers).filter(t => !usedIds.has(t.id));
+          // 1層時只允許 tops
+          const pool = tops.filter(t => !usedIds.has(t.id));
           if (pool.length > 0) {
             candidate.outer = pool[Math.floor(Math.random() * pool.length)];
             usedIds.add(candidate.outer.id);
@@ -3681,7 +3834,7 @@
     }
 
     /* =========================================================================
-     * 12. 高精度色彩美學診斷模型
+     * 12. 日常化口吻的色彩穿搭審美診斷
      * ========================================================================= */
     function buildOutfitPayload(items, season, layers) {
       const pieces = [];
@@ -3702,7 +3855,7 @@
       return { season, layerCount: layers, pieces };
     }
 
-    function triggerAiCritiqueCurrentOutfit() {
+   function triggerAiCritiqueCurrentOutfit() {
       const payload = buildOutfitPayload(currentOutfit, currentSeason, currentLayerCount);
       if (!payload.pieces || payload.pieces.length === 0) {
         showToast("無單品可診斷");
@@ -3710,6 +3863,12 @@
       }
       const canvasResult = computeDynamicHeuristicCritique(payload);
       renderMinimalVerdictUi(canvasResult);
+
+      // ▼ 新增：自動平滑滾動跳轉到色彩分析面板
+      const analysisElem = document.querySelector('.analysis-panel');
+      if (analysisElem) {
+        analysisElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     function createColorChipHtml(color) {
@@ -3738,14 +3897,12 @@
       let oneLineHtml = "";
 
       if (accents.length === 0) {
-        // 同色系或中性大地底盤
-        baseScore = 94;
-        oneLineHtml = `中性與大地色系構築，極簡協調。`;
+        baseScore = 95;
+        oneLineHtml = `全套以黑白灰與大地色打底，乾淨耐看，怎麼穿都不易出錯。`;
       } else if (accents.length === 1) {
-        // 單一視覺焦點 (60-30-10 法則)
         baseScore = 96;
         const chip = createColorChipHtml(accents[0]);
-        oneLineHtml = `以 ${chip} 為視覺亮點，依託沉穩底盤，比例和諧。`;
+        oneLineHtml = `全身以 ${chip} 作為視覺重點，其餘搭配低調基礎色，亮眼又不會太花哨。`;
       } else if (accents.length === 2) {
         const c1 = accents[0];
         const c2 = accents[1];
@@ -3757,27 +3914,26 @@
 
         if (hueDist <= 48) {
           baseScore = 88;
-          oneLineHtml = `${chip1} 與 ${chip2} 為相鄰和諧色，過渡自然。`;
+          oneLineHtml = `${chip1} 和 ${chip2} 色調相近，過渡得很自然，整體柔和協調。`;
         } else {
           if (neutrals.length >= 2) {
-            baseScore = 80;
-            oneLineHtml = `${chip1} 與 ${chip2} 形成撞色對比，依託中性色調和。`;
+            baseScore = 82;
+            oneLineHtml = `${chip1} 與 ${chip2} 是搶眼的對比撞色，好在有沉穩的基礎色壓陣，活潑又有型。`;
           } else {
-            baseScore = 60;
-            oneLineHtml = `${chip1} 與 ${chip2} 對比過強，缺少中性過渡。`;
+            baseScore = 62;
+            oneLineHtml = `${chip1} 與 ${chip2} 同時出現有些搶戲，少了基礎色來中和，視覺上稍顯突兀。`;
           }
         }
       } else {
-        baseScore = 45;
+        baseScore = 48;
         const chips = accents.map(a => createColorChipHtml(a)).join(' ');
-        oneLineHtml = `飽和亮色 ${chips} 同時呈現，視覺略顯繁複。`;
+        oneLineHtml = `身上亮色偏多（${chips}），視覺焦點分散，建議換成一兩件素色單品會更俐落。`;
       }
 
-      // 風格調性融合檢驗
       const styles = pieces.map(p => p.style);
       if (styles.includes('workwear') && styles.includes('elegant')) {
         baseScore -= 10;
-        oneLineHtml += "（工裝與優雅調性略有衝突）";
+        oneLineHtml += "（工裝偏粗獷，優雅單品稍顯斯文，混搭時可多留意風格呼應）";
       }
 
       const finalScore = Math.max(35, Math.min(99, baseScore - missingDeduction));
@@ -3873,8 +4029,9 @@
             </div>
 
             <div class="cabinet-season-chips">
-              <span class="season-micro-tag ${sList.includes('spring')?'on':''}" onclick="toggleCabinetItemSeasonPair('${item.id}')">春秋</span>
+              <span class="season-micro-tag ${sList.includes('spring')?'on':''}" onclick="toggleCabinetItemSeason('${item.id}','spring')">春</span>
               <span class="season-micro-tag ${sList.includes('summer')?'on':''}" onclick="toggleCabinetItemSeason('${item.id}','summer')">夏</span>
+              <span class="season-micro-tag ${sList.includes('autumn')?'on':''}" onclick="toggleCabinetItemSeason('${item.id}','autumn')">秋</span>
               <span class="season-micro-tag ${sList.includes('winter')?'on':''}" onclick="toggleCabinetItemSeason('${item.id}','winter')">冬</span>
             </div>
 
@@ -3940,34 +4097,28 @@
       renderOutfitViewLocal();
     }
 
-    async function toggleCabinetItemSeasonPair(id) {
-      const item = myWardrobe.find(x => x.id === id);
-      if (!item) return;
-      let s = new Set(item.seasons || []);
-      if (s.has('spring') || s.has('autumn')) {
-        if (s.size <= 2) return showToast("需保留至少一季");
-        s.delete('spring');
-        s.delete('autumn');
-      } else {
-        s.add('spring');
-        s.add('autumn');
-      }
-      item.seasons = Array.from(s);
-      item.userConfirmed = true;
-      await dbSaveItem(item);
-      renderClosetCompartments();
-      renderOutfitViewLocal();
-    }
-
     async function toggleCabinetItemSeason(id, season) {
       const item = myWardrobe.find(x => x.id === id);
       if (!item) return;
       let s = new Set(item.seasons || []);
-      if (s.has(season)) {
-        if (s.size <= 1) return showToast("需保留至少一季");
-        s.delete(season);
+      const isSpringAutumn = (season === 'spring' || season === 'autumn');
+
+      if (isSpringAutumn) {
+        if (s.has('spring') || s.has('autumn')) {
+          if (s.size <= 2) return showToast("需保留至少一季");
+          s.delete('spring');
+          s.delete('autumn');
+        } else {
+          s.add('spring');
+          s.add('autumn');
+        }
       } else {
-        s.add(season);
+        if (s.has(season)) {
+          if (s.size <= 1) return showToast("需保留至少一季");
+          s.delete(season);
+        } else {
+          s.add(season);
+        }
       }
       item.seasons = Array.from(s);
       item.userConfirmed = true;
