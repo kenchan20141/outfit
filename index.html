@@ -29,11 +29,16 @@
       --cat-shoes: #C7A27C;     /* 鞋履 */
 
       /* 人體動態調色 */
-      --c-outer: #282830;
-      --c-mid: transparent;
-      --c-inner: transparent;
-      --c-bottom: #1E1E26;
-      --c-shoes: #111114;
+      --c-outer-1: #282830;
+      --c-outer-2: #282830;
+      --c-mid-1: transparent;
+      --c-mid-2: transparent;
+      --c-inner-1: transparent;
+      --c-inner-2: transparent;
+      --c-bottom-1: #1E1E26;
+      --c-bottom-2: #1E1E26;
+      --c-shoes-1: #111114;
+      --c-shoes-2: #111114;
     }
 
     * {
@@ -95,6 +100,7 @@
       display: flex;
       gap: 10px;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     .nav-tabs {
@@ -142,11 +148,11 @@
       stroke: var(--bg);
     }
 
-    .closet-trigger-btn {
+    .top-action-btn {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      color: var(--cat-outer);
-      padding: 8px 18px;
+      color: var(--text);
+      padding: 8px 16px;
       border-radius: 24px;
       font-size: 0.65rem;
       letter-spacing: 0.14em;
@@ -158,15 +164,24 @@
       transition: all 0.25s;
     }
 
-    .closet-trigger-btn svg {
+    .top-action-btn.gold {
+      color: var(--cat-outer);
+      border-color: rgba(197, 168, 128, 0.4);
+    }
+
+    .top-action-btn.gold svg {
+      stroke: var(--cat-outer);
+    }
+
+    .top-action-btn svg {
       width: 14px;
       height: 14px;
-      stroke: var(--cat-outer);
       stroke-width: 1.6;
+      stroke: currentColor;
       fill: none;
     }
 
-    .closet-trigger-btn:hover {
+    .top-action-btn:hover {
       border-color: var(--cat-outer);
       background: rgba(197, 168, 128, 0.08);
     }
@@ -457,27 +472,35 @@
       font-weight: 600;
     }
 
-    .color-picker-row {
+    /* 多色編輯器 */
+    .color-swatches-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .color-swatch-row {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       background: #111116;
       border: 1px solid var(--border);
-      padding: 8px 12px;
+      padding: 6px 10px;
       border-radius: 3px;
     }
 
     .color-picker-input {
       appearance: none;
       -webkit-appearance: none;
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
       border: 1px solid var(--border-focus);
       border-radius: 50%;
       cursor: pointer;
       background: transparent;
       padding: 0;
       outline: none;
+      flex-shrink: 0;
     }
 
     .color-picker-input::-webkit-color-swatch-wrapper {
@@ -489,16 +512,55 @@
       border-radius: 50%;
     }
 
+    .swatch-role-tag {
+      font-size: 0.58rem;
+      color: var(--cat-outer);
+      letter-spacing: 0.1em;
+      min-width: 42px;
+    }
+
     .recent-color-name {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--text);
       font-weight: 500;
+      flex: 1;
     }
 
     .recent-color-hex {
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       color: var(--muted);
       font-family: monospace;
+    }
+
+    .swatch-btn-action {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      transition: color 0.2s;
+    }
+
+    .swatch-btn-action:hover {
+      color: #E06C75;
+    }
+
+    .add-secondary-color-btn {
+      background: transparent;
+      border: 1px dashed var(--border);
+      color: var(--muted);
+      font-size: 0.6rem;
+      padding: 6px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .add-secondary-color-btn:hover {
+      border-color: var(--cat-outer);
+      color: var(--cat-outer);
     }
 
     .recalc-btn {
@@ -603,52 +665,50 @@
 
     .actions-cluster {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
       flex-wrap: wrap;
     }
 
-    .ai-magic-btn {
-      background: linear-gradient(135deg, rgba(197, 168, 128, 0.2) 0%, rgba(197, 168, 128, 0.05) 100%);
-      border: 1px solid var(--cat-outer);
-      color: var(--cat-outer);
-      padding: 8px 18px;
-      font-size: 0.65rem;
-      letter-spacing: 0.14em;
+    .btn-capsule {
+      background: var(--card-inner);
+      border: 1px solid var(--border-focus);
+      color: var(--text);
+      padding: 8px 14px;
+      font-size: 0.63rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       cursor: pointer;
       border-radius: 20px;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      font-weight: 600;
+      gap: 6px;
       transition: all 0.25s;
     }
 
-    .ai-magic-btn:hover {
+    .btn-capsule:hover {
+      border-color: var(--accent);
+      background: #22222C;
+    }
+
+    .btn-capsule.gold {
+      background: linear-gradient(135deg, rgba(197, 168, 128, 0.2) 0%, rgba(197, 168, 128, 0.05) 100%);
+      border-color: var(--cat-outer);
+      color: var(--cat-outer);
+      font-weight: 600;
+    }
+
+    .btn-capsule.gold:hover {
       background: var(--cat-outer);
       color: var(--bg);
     }
 
-    .ai-analyze-btn {
-      background: var(--card-inner);
-      border: 1px solid var(--border-focus);
-      color: var(--text);
-      padding: 8px 16px;
-      font-size: 0.65rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      cursor: pointer;
-      border-radius: 20px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.25s;
-    }
-
-    .ai-analyze-btn:hover {
-      border-color: var(--accent);
-      background: #22222C;
+    .btn-capsule svg {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.6;
     }
 
     .style-main-layout {
@@ -734,6 +794,12 @@
       display: flex;
       align-items: center;
       gap: 6px;
+    }
+
+    .legend-dots {
+      display: inline-flex;
+      gap: 2px;
+      align-items: center;
     }
 
     .legend-dot {
@@ -857,6 +923,15 @@
       gap: 6px;
       font-size: 0.62rem;
       color: var(--muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .color-dots-inline {
+      display: inline-flex;
+      gap: 3px;
+      align-items: center;
     }
 
     /* 極簡評析面板 */
@@ -1206,7 +1281,7 @@
 
     .cabinet-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
       gap: 14px;
     }
 
@@ -1247,12 +1322,17 @@
       color: var(--text);
     }
 
+    .cabinet-colors-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
     .cabinet-color-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 6px;
-      margin-top: 2px;
     }
 
     .cabinet-color-label {
@@ -1261,6 +1341,8 @@
       gap: 5px;
       cursor: pointer;
       position: relative;
+      flex: 1;
+      min-width: 0;
     }
 
     .cabinet-color-picker {
@@ -1279,12 +1361,16 @@
       border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.25);
       display: inline-block;
+      flex-shrink: 0;
     }
 
     .cabinet-color-name {
       font-size: 0.58rem;
       color: var(--muted);
       letter-spacing: 0.05em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .cabinet-recalc-btn {
@@ -1380,6 +1466,132 @@
       border-radius: 3px;
     }
 
+    /* MODAL: LOOKBOOK (SAVED LOOKS) */
+    .lookbook-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 4, 6, 0.86);
+      backdrop-filter: blur(16px);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .lookbook-modal-overlay.open {
+      display: flex;
+    }
+
+    .lookbook-container {
+      background: #0D0D11;
+      border: 1px solid var(--border);
+      width: 100%;
+      max-width: 920px;
+      height: 85vh;
+      max-height: 760px;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+      overflow: hidden;
+    }
+
+    .lookbook-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .lookbook-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    .look-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .look-card:hover {
+      border-color: rgba(197, 168, 128, 0.4);
+    }
+
+    .look-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .look-season-tag {
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cat-outer);
+    }
+
+    .look-thumbs-strip {
+      display: flex;
+      gap: 6px;
+      height: 72px;
+      background: #0A0A0D;
+      padding: 6px;
+      border-radius: 3px;
+      overflow-x: auto;
+      align-items: center;
+    }
+
+    .look-mini-thumb {
+      width: 58px;
+      height: 100%;
+      object-fit: contain;
+      background: #14141B;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .look-palette-bar {
+      height: 6px;
+      border-radius: 2px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .look-card-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .look-del-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.65rem;
+      transition: color 0.2s;
+    }
+
+    .look-del-btn:hover {
+      color: #E06C75;
+    }
+
     /* TOAST */
     #toast {
       position: fixed;
@@ -1420,7 +1632,12 @@
         </button>
       </div>
 
-      <button class="closet-trigger-btn" onclick="openClosetModal()">
+      <button class="top-action-btn" onclick="openLookbookModal()">
+        <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <span>私享典藏 (<span id="btnLookbookCount">0</span>)</span>
+      </button>
+
+      <button class="top-action-btn gold" onclick="openClosetModal()">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><line x1="12" y1="3" x2="12" y2="21"/><line x1="9" y1="12" x2="9" y2="14"/><line x1="15" y1="12" x2="15" y2="14"/></svg>
         <span>衣櫥一覽 (<span id="btnWardrobeCount">0</span>)</span>
       </button>
@@ -1439,7 +1656,7 @@
           
           <div class="empty-cam-hint" id="camHint">
             <span class="editorial-badge">Atelier Studio</span>
-            <p class="editorial-sub">點擊拍攝或匯入實體衣物相片<br>剔除背景干擾 · 本地精準提取主體真實色相</p>
+            <p class="editorial-sub">點擊拍攝或匯入實體衣物相片<br>剔除背景雜訊 · 本地精準解析主次多色光譜</p>
           </div>
         </div>
 
@@ -1463,7 +1680,7 @@
         <div class="editorial-lead-wrap">
           <h3 class="editorial-h3">智能前景濾鏡 · 排除背景雜色</h3>
           <p class="editorial-desc">
-            自動過濾背板雜色，並以模型判定品類與季節。色彩提取純靠 Canvas 物理演算法。
+            自動過濾背板雜色，並以模型判定品類與季節。支援單色及多色拼接色系分離與自由微調。
           </p>
         </div>
 
@@ -1479,16 +1696,14 @@
             <input type="text" id="recentNameInput" class="recent-input" placeholder="單品名稱" onchange="handleRecentNameChange(this.value)">
           </div>
 
+          <!-- 多色編輯器 -->
           <div class="recent-edit-group">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <label class="recent-label">主體顏色校正 (已排除背景)</label>
+              <label class="recent-label">主次色彩 (支援單色／拼接多色)</label>
               <button type="button" class="recalc-btn" onclick="recalcRecentItemColor()">↺ 重取色</button>
             </div>
-            <div class="color-picker-row">
-              <input type="color" id="recentColorPicker" class="color-picker-input" onchange="handleRecentColorPickerChange(this.value)">
-              <span id="recentColorName" class="recent-color-name">-</span>
-              <span id="recentColorHex" class="recent-color-hex">-</span>
-            </div>
+            <div class="color-swatches-box" id="recentColorSwatchesBox"></div>
+            <button type="button" class="add-secondary-color-btn" id="btnAddSecondaryColor" onclick="addRecentSecondaryColor()">+ 新增拼色/次色</button>
           </div>
 
           <div class="recent-edit-group">
@@ -1555,10 +1770,18 @@
         </div>
 
         <div class="actions-cluster">
-          <button class="ai-magic-btn" id="btnAiRecommend" onclick="triggerAiSmartRecommendation()">
-            智能推薦
+          <button class="btn-capsule" onclick="saveCurrentLook()" title="收藏至私享典藏">
+            <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            <span>收藏當前造型</span>
           </button>
-          <button class="ai-analyze-btn" id="btnAiAnalyze" onclick="triggerAiCritiqueCurrentOutfit()">
+          <button class="btn-capsule" onclick="randomPickOutfit()" title="按照當前條件隨機抽取">
+            <svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+            <span>隨機抽取</span>
+          </button>
+          <button class="btn-capsule gold" id="btnAiRecommend" onclick="triggerAiSmartRecommendation()">
+            智能美學推薦
+          </button>
+          <button class="btn-capsule" id="btnAiAnalyze" onclick="triggerAiCritiqueCurrentOutfit()">
             穿搭診斷
           </button>
         </div>
@@ -1568,7 +1791,7 @@
     <!-- MAIN STYLING WORKSPACE -->
     <div class="style-main-layout">
       
-      <!-- 人體穿搭圖 -->
+      <!-- 人體穿搭圖 (支援多色漸層) -->
       <div class="mannequin-panel">
         <div class="mannequin-top-info">
           <span class="mannequin-heading">色彩穿搭構圖</span>
@@ -1577,44 +1800,71 @@
 
         <div class="mannequin-svg-container">
           <svg id="mannequinSvg" viewBox="0 0 200 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gradSingleTop" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--c-outer-1)"/>
+                <stop offset="100%" stop-color="var(--c-outer-2)"/>
+              </linearGradient>
+              <linearGradient id="gradOuter" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--c-outer-1)"/>
+                <stop offset="100%" stop-color="var(--c-outer-2)"/>
+              </linearGradient>
+              <linearGradient id="gradMid" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--c-mid-1)"/>
+                <stop offset="100%" stop-color="var(--c-mid-2)"/>
+              </linearGradient>
+              <linearGradient id="gradInner" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--c-inner-1)"/>
+                <stop offset="100%" stop-color="var(--c-inner-2)"/>
+              </linearGradient>
+              <linearGradient id="gradBottom" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--c-bottom-1)"/>
+                <stop offset="100%" stop-color="var(--c-bottom-2)"/>
+              </linearGradient>
+              <linearGradient id="gradShoes" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="var(--c-shoes-1)"/>
+                <stop offset="100%" stop-color="var(--c-shoes-2)"/>
+              </linearGradient>
+            </defs>
+
             <ellipse cx="100" cy="466" rx="40" ry="3.5" fill="#000" opacity="0.5"/>
             <ellipse cx="100" cy="38" rx="13" ry="18" fill="#1C1C22"/>
             <path d="M94 54 L94 68 L106 68 L106 54 Z" fill="#18181E"/>
 
             <g id="layerSingleTop" style="display: none;">
-              <path d="M88 68 Q100 78 112 68 L126 94 L138 122 L124 126 L118 102 L116 166 L84 166 L82 102 L76 126 L62 122 L74 94 Z" fill="var(--c-outer)"/>
+              <path d="M88 68 Q100 78 112 68 L126 94 L138 122 L124 126 L118 102 L116 166 L84 166 L82 102 L76 126 L62 122 L74 94 Z" fill="url(#gradSingleTop)"/>
             </g>
 
             <g id="layerInner" style="display: none;">
-              <path id="pathInnerBody" d="M91 68 Q100 76 109 68 L107 142 L93 142 Z" fill="var(--c-inner)"/>
+              <path id="pathInnerBody" d="M91 68 Q100 76 109 68 L107 142 L93 142 Z" fill="url(#gradInner)"/>
             </g>
 
             <g id="layerMid" style="display: none;">
-              <path d="M86 70 L93 148 L99 148 L95 72 Z" fill="var(--c-mid)"/>
-              <path d="M114 70 L107 148 L101 148 L105 72 Z" fill="var(--c-mid)"/>
+              <path d="M86 70 L93 148 L99 148 L95 72 Z" fill="url(#gradMid)"/>
+              <path d="M114 70 L107 148 L101 148 L105 72 Z" fill="url(#gradMid)"/>
             </g>
 
             <g id="layerOuter" style="display: none;">
-              <path d="M91 68 L58 88 L46 195 L58 198 L68 122 L82 154 L88 154 L84 72 Z" fill="var(--c-outer)"/>
-              <path d="M109 68 L142 88 L154 195 L142 198 L132 122 L118 154 L112 154 L116 72 Z" fill="var(--c-outer)"/>
+              <path d="M91 68 L58 88 L46 195 L58 198 L68 122 L82 154 L88 154 L84 72 Z" fill="url(#gradOuter)"/>
+              <path d="M109 68 L142 88 L154 195 L142 198 L132 122 L118 154 L112 154 L116 72 Z" fill="url(#gradOuter)"/>
             </g>
 
             <g id="layerPants" style="display: block;">
               <path d="M78 166 L122 166 L122 172 L78 172 Z" fill="#131317"/>
-              <path d="M78 172 L97 174 L95 385 L76 385 Z" fill="var(--c-bottom)"/>
-              <path d="M103 174 L122 172 L124 385 L105 385 Z" fill="var(--c-bottom)"/>
+              <path d="M78 172 L97 174 L95 385 L76 385 Z" fill="url(#gradBottom)"/>
+              <path d="M103 174 L122 172 L124 385 L105 385 Z" fill="url(#gradBottom)"/>
             </g>
 
             <g id="layerSkirt" style="display: none;">
               <path d="M78 166 L122 166 L122 172 L78 172 Z" fill="#131317"/>
-              <path d="M78 172 L122 172 L138 296 L62 296 Z" fill="var(--c-bottom)"/>
+              <path d="M78 172 L122 172 L138 296 L62 296 Z" fill="url(#gradBottom)"/>
               <path d="M82 296 L92 296 L91 385 L81 385 Z" fill="#191920"/>
               <path d="M108 296 L118 296 L119 385 L109 385 Z" fill="#191920"/>
             </g>
 
             <g id="layerShoes">
-              <path d="M75 385 L95 387 L96 422 L68 422 Q66 400 75 385 Z" fill="var(--c-shoes)"/>
-              <path d="M125 385 L105 387 L104 422 L132 422 Q134 400 125 385 Z" fill="var(--c-shoes)"/>
+              <path d="M75 385 L95 387 L96 422 L68 422 Q66 400 75 385 Z" fill="url(#gradShoes)"/>
+              <path d="M125 385 L105 387 L104 422 L132 422 Q134 400 125 385 Z" fill="url(#gradShoes)"/>
             </g>
           </svg>
         </div>
@@ -1729,6 +1979,26 @@
     </div>
   </div>
 
+  <!-- MODAL: LOOKBOOK (SAVED LOOKS) -->
+  <div class="lookbook-modal-overlay" id="lookbookModal">
+    <div class="lookbook-container">
+      <div class="lookbook-header">
+        <div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:1.45rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--cat-outer);">LOOKBOOK ARCHIVE</h2>
+          <p style="font-size:0.6rem; color:var(--muted); letter-spacing:0.12em; margin-top:2px;">私人收藏穿搭靈感冊</p>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <button class="action-btn" onclick="randomPickOutfit(true)" style="padding:6px 14px; font-size:0.6rem; border-color:var(--cat-outer); color:var(--cat-outer);">
+            隨機抽取一組
+          </button>
+          <button class="closet-close-btn" onclick="closeLookbookModal()">✕</button>
+        </div>
+      </div>
+
+      <div class="lookbook-scroll" id="lookbookGrid"></div>
+    </div>
+  </div>
+
   <div id="toast">提示訊息</div>
 
   <script>
@@ -1817,19 +2087,23 @@
     const STYLE_LABELS = { smart: '雅痞/正裝', casual: '休閒日常', workwear: '工裝/粗獷', elegant: '優雅柔和', minimal: '極簡冷淡' };
 
     /* =========================================================================
-     * 2. INDEXED DB 原生持久化儲存
+     * 2. INDEXED DB 原生持久化儲存 (衣物 + 收藏穿搭)
      * ========================================================================= */
-    const DB_NAME = "LAllureWardrobeDB_v12";
+    const DB_NAME = "LAllureWardrobeDB_v14";
     const DB_VERSION = 1;
-    const STORE_NAME = "clothes";
+    const STORE_CLOTHES = "clothes";
+    const STORE_LOOKS = "saved_looks";
 
     function openDatabase() {
       return new Promise((resolve, reject) => {
         const req = indexedDB.open(DB_NAME, DB_VERSION);
         req.onupgradeneeded = (e) => {
           const db = e.target.result;
-          if (!db.objectStoreNames.contains(STORE_NAME)) {
-            db.createObjectStore(STORE_NAME, { keyPath: "id" });
+          if (!db.objectStoreNames.contains(STORE_CLOTHES)) {
+            db.createObjectStore(STORE_CLOTHES, { keyPath: "id" });
+          }
+          if (!db.objectStoreNames.contains(STORE_LOOKS)) {
+            db.createObjectStore(STORE_LOOKS, { keyPath: "id" });
           }
         };
         req.onsuccess = (e) => resolve(e.target.result);
@@ -1840,8 +2114,8 @@
     async function dbSaveItem(item) {
       const db = await openDatabase();
       return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, "readwrite");
-        const store = tx.objectStore(STORE_NAME);
+        const tx = db.transaction(STORE_CLOTHES, "readwrite");
+        const store = tx.objectStore(STORE_CLOTHES);
         const req = store.put(item);
         req.onsuccess = () => resolve();
         req.onerror = (e) => reject(e.target.error);
@@ -1851,8 +2125,8 @@
     async function dbGetAllItems() {
       const db = await openDatabase();
       return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, "readonly");
-        const store = tx.objectStore(STORE_NAME);
+        const tx = db.transaction(STORE_CLOTHES, "readonly");
+        const store = tx.objectStore(STORE_CLOTHES);
         const req = store.getAll();
         req.onsuccess = (e) => resolve(e.target.result || []);
         req.onerror = (e) => reject(e.target.error);
@@ -1862,8 +2136,42 @@
     async function dbDeleteItem(id) {
       const db = await openDatabase();
       return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, "readwrite");
-        const store = tx.objectStore(STORE_NAME);
+        const tx = db.transaction(STORE_CLOTHES, "readwrite");
+        const store = tx.objectStore(STORE_CLOTHES);
+        const req = store.delete(id);
+        req.onsuccess = () => resolve();
+        req.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    // 穿搭典藏 (Looks) 資料操作
+    async function dbSaveLook(look) {
+      const db = await openDatabase();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_LOOKS, "readwrite");
+        const store = tx.objectStore(STORE_LOOKS);
+        const req = store.put(look);
+        req.onsuccess = () => resolve();
+        req.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    async function dbGetAllLooks() {
+      const db = await openDatabase();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_LOOKS, "readonly");
+        const store = tx.objectStore(STORE_LOOKS);
+        const req = store.getAll();
+        req.onsuccess = (e) => resolve(e.target.result || []);
+        req.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    async function dbDeleteLook(id) {
+      const db = await openDatabase();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_LOOKS, "readwrite");
+        const store = tx.objectStore(STORE_LOOKS);
         const req = store.delete(id);
         req.onsuccess = () => resolve();
         req.onerror = (e) => reject(e.target.error);
@@ -1871,7 +2179,7 @@
     }
 
     /* =========================================================================
-     * 3. 精確色彩學分析模型（徹底消除「個性原色」，全面自然色相標註）
+     * 3. 精確色彩學分析模型（支援主色與次色／多色拼接分離）
      * ========================================================================= */
     function rgbToHsl(r, g, b) {
       r /= 255; g /= 255; b /= 255;
@@ -1906,7 +2214,6 @@
       let name = '';
       let colorType = 'accent';
 
-      // 1. 中性黑白灰判定
       if (l < 0.15) {
         name = '炭黑'; colorType = 'neutral';
       } else if (l > 0.88 && s < 0.20) {
@@ -1914,17 +2221,13 @@
       } else if (s < 0.14 || chroma < 0.08) {
         name = l > 0.65 ? '淺灰' : (l > 0.35 ? '煙灰' : '深灰');
         colorType = 'neutral';
-      }
-      // 2. 大地色系 (卡其/米褐/深棕)
-      else if (h >= 24 && h <= 58 && l > 0.52 && s < 0.50) {
+      } else if (h >= 24 && h <= 58 && l > 0.52 && s < 0.50) {
         name = l > 0.72 ? '燕麥米色' : '卡其棕';
         colorType = 'earth';
       } else if (h >= 12 && h <= 45 && l < 0.52) {
         name = l < 0.25 ? '濃黑咖啡棕' : '復古深棕';
         colorType = 'earth';
-      }
-      // 3. 藍色與海軍深藍
-      else if (h >= 185 && h <= 255) {
+      } else if (h >= 185 && h <= 255) {
         if (l < 0.28) {
           name = '海軍深藍';
           colorType = 'earth';
@@ -1935,9 +2238,7 @@
           name = '丹寧藍';
           colorType = 'accent';
         }
-      }
-      // 4. 綠色系
-      else if (h > 68 && h < 185) {
+      } else if (h > 68 && h < 185) {
         if (s < 0.28) {
           name = '鼠尾草綠';
           colorType = 'earth';
@@ -1948,17 +2249,13 @@
           name = '森綠';
           colorType = 'accent';
         }
-      }
-      // 5. 黃橙色系
-      else if (h >= 40 && h <= 68) {
+      } else if (h >= 40 && h <= 68) {
         name = s > 0.6 ? '明亮黃' : '芥末黃';
         colorType = 'accent';
       } else if (h >= 15 && h < 40) {
         name = '陶土橙';
         colorType = 'accent';
-      }
-      // 6. 紅色與酒紅、粉色
-      else if (h < 15 || h > 340) {
+      } else if (h < 15 || h > 340) {
         if (l < 0.26) {
           name = '深酒紅';
           colorType = 'earth';
@@ -1969,9 +2266,7 @@
           name = s > 0.55 ? '正紅' : '磚紅';
           colorType = 'accent';
         }
-      }
-      // 7. 紫色與洋紅 (徹底填補「個性原色」缺口)
-      else if (h >= 256 && h <= 310) {
+      } else if (h >= 256 && h <= 310) {
         name = l < 0.35 ? '暗紫' : '薰衣草紫';
         colorType = 'accent';
       } else {
@@ -1979,10 +2274,12 @@
         colorType = 'accent';
       }
 
-      return { name, h, s, l, chroma, colorType };
+      const hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+      return { hex, name, h, s, l, chroma, colorType };
     }
 
-    function extractDominantGarmentColor(canvas) {
+    // 智能提取多色陣列 [主色, 次色?]
+    function extractDominantGarmentColors(canvas) {
       const ctx = canvas.getContext('2d');
       const { width, height } = canvas;
       const data = ctx.getImageData(0, 0, width, height).data;
@@ -2033,9 +2330,9 @@
           const dCenter = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
           const weight = Math.max(0.3, 1.2 - (dCenter / maxDist));
 
-          const qr = Math.round(r / 20) * 20;
-          const qg = Math.round(g / 20) * 20;
-          const qb = Math.round(b / 20) * 20;
+          const qr = Math.round(r / 22) * 22;
+          const qg = Math.round(g / 22) * 22;
+          const qb = Math.round(b / 22) * 22;
           const key = `${qr},${qg},${qb}`;
 
           if (!foregroundBuckets[key]) foregroundBuckets[key] = { count: 0, r: 0, g: 0, b: 0, weight: 0 };
@@ -2050,30 +2347,37 @@
       let sorted = Object.values(foregroundBuckets).sort((a, b) => b.weight - a.weight);
 
       if (sorted.length === 0) {
-        return { hex: '#1A2A42', name: '海軍深藍', h: 216, s: 0.43, l: 0.18, chroma: 0.22, colorType: 'earth' };
+        const fallback = getAccurateColorInfo(26, 42, 66);
+        return [fallback];
       }
 
-      let best = sorted[0];
-      for (let i = 0; i < Math.min(sorted.length, 6); i++) {
-        const b = sorted[i];
-        const avgR = b.r / b.weight, avgG = b.g / b.weight, avgB = b.b / b.weight;
-        const [, s, l] = rgbToHsl(avgR, avgG, avgB);
-        if (s > 0.12 && l > 0.12 && l < 0.86) {
-          best = b;
-          break;
+      const colors = [];
+      const primaryB = sorted[0];
+      const pR = Math.round(primaryB.r / primaryB.weight);
+      const pG = Math.round(primaryB.g / primaryB.weight);
+      const pB = Math.round(primaryB.b / primaryB.weight);
+      colors.push(getAccurateColorInfo(pR, pG, pB));
+
+      // 尋找顯著不同的第二種拼接色 (權重大於主色的 25% 且色彩距離充足)
+      for (let i = 1; i < Math.min(sorted.length, 8); i++) {
+        const cand = sorted[i];
+        if (cand.weight < primaryB.weight * 0.22) break;
+
+        const cR = Math.round(cand.r / cand.weight);
+        const cG = Math.round(cand.g / cand.weight);
+        const cB = Math.round(cand.b / cand.weight);
+
+        const colorDist = Math.sqrt((cR - pR) ** 2 + (cG - pG) ** 2 + (cB - pB) ** 2);
+        if (colorDist > 65) {
+          colors.push(getAccurateColorInfo(cR, cG, cB));
+          break; // 目前支援雙色拼接主次呈現
         }
       }
 
-      const finalR = Math.round(best.r / best.weight);
-      const finalG = Math.round(best.g / best.weight);
-      const finalB = Math.round(best.b / best.weight);
-      const hex = "#" + ((1 << 24) + (finalR << 16) + (finalG << 8) + finalB).toString(16).slice(1).toUpperCase();
-      const info = getAccurateColorInfo(finalR, finalG, finalB);
-
-      return { hex, ...info };
+      return colors;
     }
 
-    async function processOriginalImageAndExtractColor(dataUrl) {
+    async function processOriginalImageAndExtractColors(dataUrl) {
       return new Promise((resolve) => {
         const img = new Image();
         img.crossOrigin = "anonymous";
@@ -2090,21 +2394,21 @@
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, w, h);
 
-          const accurateColor = extractDominantGarmentColor(canvas);
+          const colors = extractDominantGarmentColors(canvas);
           const cleanUrl = canvas.toDataURL('image/jpeg', 0.88);
-          resolve({ cleanUrl, accurateColor });
+          resolve({ cleanUrl, colors });
         };
         img.onerror = () => {
           resolve({
             cleanUrl: dataUrl,
-            accurateColor: { hex: '#1A2A42', name: '海軍深藍', colorType: 'earth', h: 216, s: 0.43, l: 0.18, chroma: 0.22 }
+            colors: [getAccurateColorInfo(26, 42, 66)]
           });
         };
         img.src = dataUrl;
       });
     }
 
-    async function extractColorFromImageUrl(imgUrl) {
+    async function extractColorsFromImageUrl(imgUrl) {
       return new Promise((resolve) => {
         const img = new Image();
         img.crossOrigin = "anonymous";
@@ -2113,11 +2417,11 @@
           canvas.width = img.width; canvas.height = img.height;
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0);
-          const color = extractDominantGarmentColor(canvas);
-          resolve(color);
+          const colors = extractDominantGarmentColors(canvas);
+          resolve(colors);
         };
         img.onerror = () => {
-          resolve({ hex: '#1A2A42', name: '海軍深藍', colorType: 'earth', h: 216, s: 0.43, l: 0.18, chroma: 0.22 });
+          resolve([getAccurateColorInfo(26, 42, 66)]);
         };
         img.src = imgUrl;
       });
@@ -2146,13 +2450,8 @@
             name: it.name,
             category: it.drawer,
             style: it.style || 'casual',
-            color: {
-              name: it.color.name,
-              hex: it.color.hex,
-              hsl: [it.color.h, it.color.s, it.color.l],
-              chroma: it.color.chroma,
-              colorType: it.color.colorType
-            }
+            colors: it.colors || [it.color],
+            color: it.color
           });
         }
       });
@@ -2164,6 +2463,7 @@
      * 5. 全域狀態與初始化
      * ========================================================================= */
     let myWardrobe = []; 
+    let mySavedLooks = [];
     let currentSeason = 'spring';
     const SEASON_LAYER_MAP = {
       spring: { options: [1, 2], default: 2 },
@@ -2206,10 +2506,19 @@
             item.seasons = inferItemSeasons(item.name, item.drawer);
             changed = true;
           }
+          // 向後相容多色資料結構
+          if (!item.colors || item.colors.length === 0) {
+            item.colors = [item.color || getAccurateColorInfo(26, 42, 66)];
+            changed = true;
+          }
+          item.color = item.colors[0];
           if (changed) await dbSaveItem(item);
         }
         myWardrobe = loaded;
         updateWardrobeCountUi();
+
+        mySavedLooks = await dbGetAllLooks();
+        updateLookbookCountUi();
       } catch (e) {
         console.warn("載入資料庫失敗", e);
       }
@@ -2218,6 +2527,10 @@
 
     function updateWardrobeCountUi() {
       document.getElementById('btnWardrobeCount').innerText = myWardrobe.length;
+    }
+
+    function updateLookbookCountUi() {
+      document.getElementById('btnLookbookCount').innerText = mySavedLooks.length;
     }
 
     function switchView(view) {
@@ -2300,14 +2613,14 @@
     }
 
     /* =========================================================================
-     * 7. 智能錄入與結構化提取
+     * 7. 智能錄入與多色提取
      * ========================================================================= */
     async function processAndStoreImage(originalBase64) {
       const laser = document.getElementById('scanLaser');
       laser.style.display = 'block';
       showToast('精準分離與特徵辨識中...');
 
-      const { cleanUrl, accurateColor } = await processOriginalImageAndExtractColor(originalBase64);
+      const { cleanUrl, colors } = await processOriginalImageAndExtractColors(originalBase64);
 
       const img = document.getElementById('capturedImage');
       const hint = document.getElementById('camHint');
@@ -2317,7 +2630,7 @@
 
       const prompt = `你是頂尖服裝造型顧問。請精確分析圖片衣物，僅回傳標準 JSON（無 markdown）：
 {
-  "name": "中文衣物名稱 (例如: 深藍牛仔外套 / 羊絨立領毛衣 / 工裝束腳褲 / 德訓皮鞋)",
+  "name": "中文衣物名稱 (例如: 深藍條紋牛仔外套 / 羊絨立領拼色毛衣 / 黑色工裝束腳褲 / 德訓皮鞋)",
   "drawer": "outer" 或 "top" 或 "pants" 或 "skirt" 或 "shoes",
   "style": "smart" 或 "casual" 或 "workwear" 或 "elegant" 或 "minimal",
   "seasons": ["spring", "summer", "autumn", "winter"],
@@ -2369,7 +2682,8 @@
         name: parsed.name,
         drawer: finalDrawer,
         style: style,
-        color: accurateColor,
+        colors: colors,
+        color: colors[0],
         seasons: finalSeasons,
         thickness: parsed.thickness || 'medium',
         createdAt: Date.now(),
@@ -2383,7 +2697,7 @@
       lastRecordedItem = newItem;
       renderRecentCardUi(newItem);
 
-      showToast(`已錄入「${newItem.name}」(${newItem.color.name})`);
+      showToast(`已錄入「${newItem.name}」(${colors.map(c=>c.name).join('+')})`);
     }
 
     function extractJson(text) {
@@ -2404,9 +2718,7 @@
       document.getElementById('recentCatTag').innerText = CAT_LABELS[item.drawer];
       document.getElementById('recentNameInput').value = item.name;
 
-      document.getElementById('recentColorPicker').value = item.color.hex;
-      document.getElementById('recentColorName').innerText = item.color.name;
-      document.getElementById('recentColorHex').innerText = item.color.hex;
+      renderRecentColorSwatches(item);
 
       document.querySelectorAll('.recent-cat-btn').forEach(btn => {
         btn.classList.toggle('active', btn.getAttribute('data-drawer') === item.drawer);
@@ -2427,6 +2739,76 @@
 
       document.getElementById('recentDetails').innerText = 
         `分區: ${CAT_LABELS[item.drawer]} ｜ 風格: ${STYLE_LABELS[item.style] || item.style} ｜ 適用季節: [${seasonText}]`;
+    }
+
+    function renderRecentColorSwatches(item) {
+      const box = document.getElementById('recentColorSwatchesBox');
+      const colors = item.colors || [item.color];
+
+      box.innerHTML = colors.map((c, idx) => `
+        <div class="color-swatch-row">
+          <input type="color" value="${c.hex}" class="color-picker-input" onchange="handleRecentColorChange(${idx}, this.value)">
+          <span class="swatch-role-tag">${idx === 0 ? '主色' : '次色'}</span>
+          <span class="recent-color-name">${c.name}</span>
+          <span class="recent-color-hex">${c.hex}</span>
+          ${idx > 0 ? `<button type="button" class="swatch-btn-action" onclick="removeRecentColor(${idx})" title="移除拼色">✕</button>` : ''}
+        </div>
+      `).join('');
+
+      const addBtn = document.getElementById('btnAddSecondaryColor');
+      addBtn.style.display = colors.length >= 2 ? 'none' : 'block';
+    }
+
+    async function handleRecentColorChange(index, newHex) {
+      if (!lastRecordedItem) return;
+      const hex = newHex.toUpperCase();
+      const r = parseInt(hex.substr(1, 2), 16);
+      const g = parseInt(hex.substr(3, 2), 16);
+      const b = parseInt(hex.substr(5, 2), 16);
+      const info = getAccurateColorInfo(r, g, b);
+
+      if (!lastRecordedItem.colors) lastRecordedItem.colors = [lastRecordedItem.color];
+      lastRecordedItem.colors[index] = info;
+      lastRecordedItem.color = lastRecordedItem.colors[0];
+      lastRecordedItem.userConfirmed = true;
+
+      await dbSaveItem(lastRecordedItem);
+      const idx = myWardrobe.findIndex(x => x.id === lastRecordedItem.id);
+      if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
+
+      renderRecentColorSwatches(lastRecordedItem);
+      showToast(`色彩已修訂為【${info.name}】`);
+    }
+
+    async function addRecentSecondaryColor() {
+      if (!lastRecordedItem) return;
+      if (!lastRecordedItem.colors) lastRecordedItem.colors = [lastRecordedItem.color];
+      if (lastRecordedItem.colors.length >= 2) return;
+
+      const secondary = getAccurateColorInfo(200, 200, 205);
+      lastRecordedItem.colors.push(secondary);
+      lastRecordedItem.userConfirmed = true;
+
+      await dbSaveItem(lastRecordedItem);
+      const idx = myWardrobe.findIndex(x => x.id === lastRecordedItem.id);
+      if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
+
+      renderRecentColorSwatches(lastRecordedItem);
+      showToast(`已新增次色拼色`);
+    }
+
+    async function removeRecentColor(index) {
+      if (!lastRecordedItem || !lastRecordedItem.colors || lastRecordedItem.colors.length <= 1) return;
+      lastRecordedItem.colors.splice(index, 1);
+      lastRecordedItem.color = lastRecordedItem.colors[0];
+      lastRecordedItem.userConfirmed = true;
+
+      await dbSaveItem(lastRecordedItem);
+      const idx = myWardrobe.findIndex(x => x.id === lastRecordedItem.id);
+      if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
+
+      renderRecentColorSwatches(lastRecordedItem);
+      showToast(`已移除拼色`);
     }
 
     async function toggleRecentSeason(season) {
@@ -2475,37 +2857,19 @@
       showToast("單品名稱已更新");
     }
 
-    async function handleRecentColorPickerChange(newHex) {
-      if (!lastRecordedItem) return;
-      const hex = newHex.toUpperCase();
-      const r = parseInt(hex.substr(1, 2), 16);
-      const g = parseInt(hex.substr(3, 2), 16);
-      const b = parseInt(hex.substr(5, 2), 16);
-      const info = getAccurateColorInfo(r, g, b);
-
-      lastRecordedItem.color = { hex, ...info };
-      lastRecordedItem.userConfirmed = true;
-      await dbSaveItem(lastRecordedItem);
-
-      const idx = myWardrobe.findIndex(x => x.id === lastRecordedItem.id);
-      if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
-
-      renderRecentCardUi(lastRecordedItem);
-      showToast(`色彩已調整為【${info.name}】(${hex})`);
-    }
-
     async function recalcRecentItemColor() {
       if (!lastRecordedItem || !lastRecordedItem.img) return;
-      showToast("重新萃取色彩中...");
-      const newColor = await extractColorFromImageUrl(lastRecordedItem.img);
-      lastRecordedItem.color = newColor;
+      showToast("重新萃取主次色彩中...");
+      const newColors = await extractColorsFromImageUrl(lastRecordedItem.img);
+      lastRecordedItem.colors = newColors;
+      lastRecordedItem.color = newColors[0];
       await dbSaveItem(lastRecordedItem);
 
       const idx = myWardrobe.findIndex(x => x.id === lastRecordedItem.id);
       if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
 
       renderRecentCardUi(lastRecordedItem);
-      showToast(`色彩已更新為【${newColor.name}】`);
+      showToast(`色彩已校準 (${newColors.map(c=>c.name).join('+')})`);
     }
 
     async function handleRecentDrawerChange(newDrawer) {
@@ -2566,7 +2930,7 @@
     }
 
     /* =========================================================================
-     * 9. 本地穿搭組裝與 UI 渲染
+     * 9. 本地穿搭組裝與 UI 渲染 (多色人體動態漸層)
      * ========================================================================= */
     function renderOutfitViewLocal() {
       if (myWardrobe.length === 0) {
@@ -2639,21 +3003,28 @@
       const spectrum = document.getElementById('paletteSpectrum');
       const tags = document.getElementById('paletteTags');
 
-      if (items.length === 0) {
+      // 展開所有主次色彩
+      const allColors = [];
+      items.forEach(it => {
+        const colors = it.colors && it.colors.length > 0 ? it.colors : [it.color];
+        colors.forEach(c => allColors.push({ ...c, itemName: it.name }));
+      });
+
+      if (allColors.length === 0) {
         spectrum.innerHTML = '<div style="width:100%; background:#222;"></div>';
         tags.innerHTML = '';
         return;
       }
 
-      const ratio = (100 / items.length).toFixed(1) + '%';
-      spectrum.innerHTML = items.map(it => `
-        <div class="spectrum-segment" style="width:${ratio}; background:${it.color.hex};"></div>
+      const ratio = (100 / allColors.length).toFixed(1) + '%';
+      spectrum.innerHTML = allColors.map(c => `
+        <div class="spectrum-segment" style="width:${ratio}; background:${c.hex};" title="${c.name} (${c.itemName})"></div>
       `).join('');
 
-      tags.innerHTML = items.map(it => `
+      tags.innerHTML = allColors.map(c => `
         <div class="tag-item">
-          <span style="width:6px; height:6px; border-radius:50%; background:${it.color.hex}"></span>
-          <span>${it.color.name}</span>
+          <span style="width:6px; height:6px; border-radius:50%; background:${c.hex}"></span>
+          <span>${c.name}</span>
         </div>
       `).join('');
     }
@@ -2702,6 +3073,10 @@
         return card;
       }
 
+      const colors = item.colors && item.colors.length > 0 ? item.colors : [item.color];
+      const dotsHtml = colors.map(c => `<span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${c.hex}"></span>`).join('');
+      const namesText = colors.map(c => c.name).join(' / ');
+
       card.innerHTML = `
         <div class="card-meta-bar">
           <span style="color:${themeColor}">${roleTitle}</span>
@@ -2717,8 +3092,8 @@
         <div class="card-title" title="${item.name}">${item.name}</div>
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <div class="card-color-indicator">
-            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${item.color.hex}"></span>
-            <span>${item.color.name}</span>
+            <span class="color-dots-inline">${dotsHtml}</span>
+            <span>${namesText}</span>
           </div>
           <span style="font-size:0.55rem; color:var(--muted);">[${STYLE_LABELS[item.style] || '休閒'}]</span>
         </div>
@@ -2735,17 +3110,28 @@
       const svgSkirt = document.getElementById('layerSkirt');
       const statusTag = document.getElementById('mannequinStatusTag');
 
-      const outerHex = outer ? outer.color.hex : '#24242C';
-      const midHex = mid ? mid.color.hex : 'transparent';
-      const innerHex = inner ? inner.color.hex : 'transparent';
-      const bottomHex = bottom ? bottom.color.hex : '#1A1A22';
-      const shoesHex = shoes ? shoes.color.hex : '#111114';
+      function getItemColorPair(it, defaultHex) {
+        if (!it) return [defaultHex, defaultHex];
+        const colors = it.colors && it.colors.length > 0 ? it.colors : [it.color];
+        return [colors[0].hex, colors[1] ? colors[1].hex : colors[0].hex];
+      }
 
-      document.documentElement.style.setProperty('--c-outer', outerHex);
-      document.documentElement.style.setProperty('--c-mid', midHex);
-      document.documentElement.style.setProperty('--c-inner', innerHex);
-      document.documentElement.style.setProperty('--c-bottom', bottomHex);
-      document.documentElement.style.setProperty('--c-shoes', shoesHex);
+      const [cOuter1, cOuter2] = getItemColorPair(outer, '#24242C');
+      const [cMid1, cMid2] = getItemColorPair(mid, 'transparent');
+      const [cInner1, cInner2] = getItemColorPair(inner, 'transparent');
+      const [cBottom1, cBottom2] = getItemColorPair(bottom, '#1A1A22');
+      const [cShoes1, cShoes2] = getItemColorPair(shoes, '#111114');
+
+      document.documentElement.style.setProperty('--c-outer-1', cOuter1);
+      document.documentElement.style.setProperty('--c-outer-2', cOuter2);
+      document.documentElement.style.setProperty('--c-mid-1', cMid1);
+      document.documentElement.style.setProperty('--c-mid-2', cMid2);
+      document.documentElement.style.setProperty('--c-inner-1', cInner1);
+      document.documentElement.style.setProperty('--c-inner-2', cInner2);
+      document.documentElement.style.setProperty('--c-bottom-1', cBottom1);
+      document.documentElement.style.setProperty('--c-bottom-2', cBottom2);
+      document.documentElement.style.setProperty('--c-shoes-1', cShoes1);
+      document.documentElement.style.setProperty('--c-shoes-2', cShoes2);
 
       if (layerCount === 1) {
         svgSingle.style.display = 'block';
@@ -2793,15 +3179,27 @@
     }
 
     function makeLegendRow(label, item) {
-      const hex = item ? item.color.hex : '#2A2A33';
-      const name = item ? `${item.color.name} (${item.name})` : '未選中';
+      if (!item) {
+        return `
+          <div class="legend-row">
+            <div class="legend-left">
+              <span class="legend-dot" style="background:#2A2A33"></span>
+              <span>${label}</span>
+            </div>
+            <span style="font-size:0.6rem; color:var(--muted);">未選中</span>
+          </div>
+        `;
+      }
+      const colors = item.colors && item.colors.length > 0 ? item.colors : [item.color];
+      const dots = colors.map(c => `<span class="legend-dot" style="background:${c.hex}"></span>`).join('');
+      const names = colors.map(c => c.name).join('/');
       return `
         <div class="legend-row">
           <div class="legend-left">
-            <span class="legend-dot" style="background:${hex}"></span>
+            <div class="legend-dots">${dots}</div>
             <span>${label}</span>
           </div>
-          <span style="font-size:0.6rem; color:var(--muted); max-width:130px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${name}</span>
+          <span style="font-size:0.6rem; color:var(--muted); max-width:130px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${names} (${item.name})</span>
         </div>
       `;
     }
@@ -2856,6 +3254,8 @@
         const currentSelectedId = currentOutfit[roleKey] ? currentOutfit[roleKey].id : null;
         grid.innerHTML = candidates.map(item => {
           const isSelected = item.id === currentSelectedId;
+          const colors = item.colors && item.colors.length > 0 ? item.colors : [item.color];
+          const dots = colors.map(c => `<span style="width:7px; height:7px; border-radius:50%; background:${c.hex}"></span>`).join('');
           return `
             <div class="picker-option-card ${isSelected ? 'selected' : ''}" onclick="selectItemForSlot('${item.id}')">
               <div class="picker-thumb-wrap">
@@ -2863,8 +3263,8 @@
               </div>
               <div class="picker-name" title="${item.name}">${item.name}</div>
               <div class="picker-color-tag">
-                <span style="width:7px; height:7px; border-radius:50%; background:${item.color.hex}"></span>
-                <span>${item.color.name}</span>
+                <div class="color-dots-inline">${dots}</div>
+                <span>${colors.map(c=>c.name).join('/')}</span>
               </div>
             </div>
           `;
@@ -2898,7 +3298,166 @@
     }
 
     /* =========================================================================
-     * 11. 智能推薦組合
+     * 11. 典藏穿搭 (Saved Looks) 與隨機抽取 (Random Pick)
+     * ========================================================================= */
+    async function saveCurrentLook() {
+      const activePieces = Object.values(currentOutfit).filter(Boolean);
+      if (activePieces.length === 0) {
+        showToast("當前無可收藏的穿搭");
+        return;
+      }
+
+      const seasonZh = { spring: '春季', summer: '夏季', autumn: '秋季', winter: '冬季' }[currentSeason];
+      const lookName = `${seasonZh} ${currentLayerCount}層 · 專屬搭配`;
+
+      const newLook = {
+        id: 'look_' + Date.now(),
+        name: lookName,
+        season: currentSeason,
+        layerCount: currentLayerCount,
+        outfit: { ...currentOutfit },
+        createdAt: Date.now()
+      };
+
+      await dbSaveLook(newLook);
+      mySavedLooks.unshift(newLook);
+      updateLookbookCountUi();
+      showToast(`已收藏為「${lookName}」`);
+    }
+
+    function randomPickOutfit(forceFromLookbook = false) {
+      // 1. 優先嘗試從收藏庫中，篩選符合目前季節與層數的心水穿搭
+      const matchingSaved = mySavedLooks.filter(l => l.season === currentSeason && l.layerCount === currentLayerCount);
+
+      if (matchingSaved.length > 0) {
+        const picked = matchingSaved[Math.floor(Math.random() * matchingSaved.length)];
+        applyLookToWorkspace(picked);
+        showToast(`已隨機抽取私享典藏「${picked.name}」`);
+        if (forceFromLookbook) closeLookbookModal();
+        return;
+      }
+
+      // 如果從 Lookbook 觸發但當前條件無配對，且收藏庫有其他造型，則全庫隨機
+      if (forceFromLookbook && mySavedLooks.length > 0) {
+        const picked = mySavedLooks[Math.floor(Math.random() * mySavedLooks.length)];
+        applyLookToWorkspace(picked);
+        showToast(`已隨機抽取「${picked.name}」`);
+        closeLookbookModal();
+        return;
+      }
+
+      // 2. 若收藏庫暫無，則自動自衣櫥單品庫進行隨機混搭推薦
+      if (myWardrobe.length === 0) {
+        showToast("衣櫥目前為空，請先錄入衣物");
+        return;
+      }
+
+      const rec = generateLocalSmartRecommendation();
+      if (rec) {
+        currentOutfit = rec.outfit;
+        updateMannequin(currentLayerCount, currentOutfit.outer, currentOutfit.mid, currentOutfit.inner, currentOutfit.bottom, currentOutfit.shoes);
+        renderOutfitCardsUi();
+        renderSpectrumBar(currentOutfit);
+        renderMinimalVerdictUi(rec.critique);
+        showToast("已依當季與層數從實體衣櫥隨機抽取優選組合");
+      } else {
+        showToast("當季可搭配單品不足，無法生成隨機穿搭");
+      }
+    }
+
+    function applyLookToWorkspace(look) {
+      currentSeason = look.season;
+      currentLayerCount = look.layerCount;
+
+      // 更新季節標籤
+      document.querySelectorAll('.season-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.id === `btnSeason${currentSeason.charAt(0).toUpperCase() + currentSeason.slice(1)}`);
+      });
+      setupLayerOptions();
+
+      // 還原單品物件（確保與 myWardrobe 同步最新色彩）
+      currentOutfit = {
+        outer: look.outfit.outer ? myWardrobe.find(x => x.id === look.outfit.outer.id) || look.outfit.outer : null,
+        mid: look.outfit.mid ? myWardrobe.find(x => x.id === look.outfit.mid.id) || look.outfit.mid : null,
+        inner: look.outfit.inner ? myWardrobe.find(x => x.id === look.outfit.inner.id) || look.outfit.inner : null,
+        bottom: look.outfit.bottom ? myWardrobe.find(x => x.id === look.outfit.bottom.id) || look.outfit.bottom : null,
+        shoes: look.outfit.shoes ? myWardrobe.find(x => x.id === look.outfit.shoes.id) || look.outfit.shoes : null,
+      };
+
+      updateMannequin(currentLayerCount, currentOutfit.outer, currentOutfit.mid, currentOutfit.inner, currentOutfit.bottom, currentOutfit.shoes);
+      renderOutfitCardsUi();
+      renderSpectrumBar(currentOutfit);
+
+      // 自動給出評析
+      const payload = buildOutfitPayload(currentOutfit, currentSeason, currentLayerCount);
+      const critique = computeDynamicHeuristicCritique(payload);
+      renderMinimalVerdictUi(critique);
+    }
+
+    function openLookbookModal() {
+      document.getElementById('lookbookModal').classList.add('open');
+      renderLookbookList();
+    }
+
+    function closeLookbookModal() {
+      document.getElementById('lookbookModal').classList.remove('open');
+    }
+
+    function renderLookbookList() {
+      const grid = document.getElementById('lookbookGrid');
+      if (mySavedLooks.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1 / -1; font-size:0.75rem; color:var(--muted); text-align:center; padding:50px;">目前尚無收藏造型。搭配完成後點擊「收藏當前造型」即可入冊。</div>`;
+        return;
+      }
+
+      grid.innerHTML = mySavedLooks.map(look => {
+        const seasonZh = { spring: '春季', summer: '夏季', autumn: '秋季', winter: '冬季' }[look.season] || look.season;
+        const items = [look.outfit.outer, look.outfit.mid, look.outfit.inner, look.outfit.bottom, look.outfit.shoes].filter(Boolean);
+        const thumbs = items.map(it => `<img class="look-mini-thumb" src="${it.img}" alt="${it.name}">`).join('');
+
+        const allColors = [];
+        items.forEach(it => {
+          const cols = it.colors && it.colors.length > 0 ? it.colors : [it.color];
+          cols.forEach(c => allColors.push(c.hex));
+        });
+        const segWidth = (100 / Math.max(1, allColors.length)).toFixed(1) + '%';
+        const palette = allColors.map(hex => `<span style="width:${segWidth}; background:${hex}; height:100%;"></span>`).join('');
+
+        return `
+          <div class="look-card">
+            <div class="look-card-top">
+              <span class="look-season-tag">${seasonZh} · ${look.layerCount}層</span>
+              <span style="font-size:0.55rem; color:var(--muted);">${new Date(look.createdAt).toLocaleDateString()}</span>
+            </div>
+            <div class="look-thumbs-strip">${thumbs}</div>
+            <div class="look-palette-bar">${palette}</div>
+            <div class="look-card-actions">
+              <button class="action-btn" style="padding:4px 10px; font-size:0.58rem;" onclick="applySavedLookFromModal('${look.id}')">套用此造型</button>
+              <button class="look-del-btn" onclick="deleteSavedLook('${look.id}')">移除</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function applySavedLookFromModal(lookId) {
+      const look = mySavedLooks.find(x => x.id === lookId);
+      if (!look) return;
+      applyLookToWorkspace(look);
+      closeLookbookModal();
+      showToast(`已套用「${look.name}」`);
+    }
+
+    async function deleteSavedLook(lookId) {
+      await dbDeleteLook(lookId);
+      mySavedLooks = mySavedLooks.filter(x => x.id !== lookId);
+      updateLookbookCountUi();
+      renderLookbookList();
+      showToast("已移除典藏造型");
+    }
+
+    /* =========================================================================
+     * 12. 智能推薦組合
      * ========================================================================= */
     async function triggerAiSmartRecommendation() {
       if (myWardrobe.length === 0) {
@@ -2977,7 +3536,7 @@
     }
 
     /* =========================================================================
-     * 12. 極簡單句診斷與純色塊標記渲染
+     * 13. 極簡單句診斷與純色塊標記渲染 (支援多色整合判定)
      * ========================================================================= */
     function triggerAiCritiqueCurrentOutfit() {
       const payload = buildOutfitPayload(currentOutfit, currentSeason, currentLayerCount);
@@ -3005,26 +3564,32 @@
       if (!hasBottom) missingDeduction += 15;
       if (!hasShoes) missingDeduction += 10;
 
-      const neutrals = pieces.filter(p => p.color.colorType === 'neutral' || p.color.colorType === 'earth');
-      const accents = pieces.filter(p => p.color.colorType === 'accent' && (p.color.chroma > 0.12 || p.color.hsl[1] > 0.35));
+      // 提取全體色彩 (包含拼接色)
+      const allActiveColors = [];
+      pieces.forEach(p => {
+        const cols = p.colors && p.colors.length > 0 ? p.colors : [p.color];
+        cols.forEach(c => allActiveColors.push(c));
+      });
+
+      const neutrals = allActiveColors.filter(c => c.colorType === 'neutral' || c.colorType === 'earth');
+      const accents = allActiveColors.filter(c => c.colorType === 'accent' && (c.chroma > 0.12 || c.s > 0.35));
 
       let oneLineHtml = "";
 
-      // 極簡單句與色塊生成邏輯
       if (accents.length === 0) {
         baseScore = 92;
         oneLineHtml = `全套中性與大地色系構築，極簡協調。`;
       } else if (accents.length === 1) {
         baseScore = 95;
-        const chip = createColorChipHtml(accents[0].color);
+        const chip = createColorChipHtml(accents[0]);
         oneLineHtml = `以 ${chip} 為單一視覺亮點，搭配中性底盤，配比和諧。`;
       } else if (accents.length === 2) {
-        const c1 = accents[0].color;
-        const c2 = accents[1].color;
+        const c1 = accents[0];
+        const c2 = accents[1];
         const chip1 = createColorChipHtml(c1);
         const chip2 = createColorChipHtml(c2);
 
-        const diffH = Math.abs(c1.hsl[0] - c2.hsl[0]);
+        const diffH = Math.abs(c1.h - c2.h);
         const hueDist = Math.min(diffH, 360 - diffH);
 
         if (hueDist <= 45) {
@@ -3032,7 +3597,7 @@
           oneLineHtml = `${chip1} 與 ${chip2} 為相鄰和諧色，過渡自然。`;
         } else {
           if (neutrals.length >= 1) {
-            baseScore = 72;
+            baseScore = 74;
             oneLineHtml = `${chip1} 與 ${chip2} 形成撞色對比，依託中性色調和。`;
           } else {
             baseScore = 55;
@@ -3041,8 +3606,8 @@
         }
       } else {
         baseScore = 40;
-        const chips = accents.map(a => createColorChipHtml(a.color)).join(' ');
-        oneLineHtml = `過多亮色 ${chips} 同時出現，視覺失衡。`;
+        const chips = accents.map(a => createColorChipHtml(a)).join(' ');
+        oneLineHtml = `過多亮色 ${chips} 同時出現，視覺略顯繁複。`;
       }
 
       // 風格衝突微調
@@ -3072,7 +3637,7 @@
     }
 
     /* =========================================================================
-     * 13. WALK-IN CLOSET
+     * 14. WALK-IN CLOSET 管理
      * ========================================================================= */
     function openClosetModal() {
       document.getElementById('closetModal').classList.add('open');
@@ -3115,6 +3680,19 @@
 
       grid.innerHTML = items.map(item => {
         const sList = item.seasons || ['spring', 'summer', 'autumn', 'winter'];
+        const colors = item.colors && item.colors.length > 0 ? item.colors : [item.color];
+
+        const colorsHtml = colors.map((c, cIdx) => `
+          <div class="cabinet-color-row">
+            <label class="cabinet-color-label">
+              <input type="color" value="${c.hex}" class="cabinet-color-picker" onchange="updateCabinetItemColor('${item.id}', ${cIdx}, this.value)">
+              <span class="cabinet-color-dot" style="background:${c.hex};"></span>
+              <span class="cabinet-color-name">${cIdx===0?'主':'拼'}: ${c.name}</span>
+            </label>
+            ${cIdx > 0 ? `<button type="button" class="swatch-btn-action" onclick="removeCabinetColor('${item.id}', ${cIdx})">✕</button>` : ''}
+          </div>
+        `).join('');
+
         return `
           <div class="cabinet-item-card">
             <button class="cabinet-del-btn" onclick="deleteFromCloset('${item.id}')">✕</button>
@@ -3123,13 +3701,12 @@
             </div>
             <div class="cabinet-item-name" title="${item.name}">${item.name}</div>
             
-            <div class="cabinet-color-row">
-              <label class="cabinet-color-label">
-                <input type="color" value="${item.color.hex}" class="cabinet-color-picker" onchange="updateItemColor('${item.id}', this.value)">
-                <span class="cabinet-color-dot" style="background:${item.color.hex};"></span>
-                <span class="cabinet-color-name">${item.color.name}</span>
-              </label>
-              <button type="button" class="cabinet-recalc-btn" onclick="recalcItemColor('${item.id}')">↺ 重測色</button>
+            <div class="cabinet-colors-list">
+              ${colorsHtml}
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:2px;">
+                ${colors.length < 2 ? `<button type="button" class="cabinet-recalc-btn" onclick="addCabinetSecondaryColor('${item.id}')">+ 拼色</button>` : '<span></span>'}
+                <button type="button" class="cabinet-recalc-btn" onclick="recalcItemColor('${item.id}')">↺ 重測色</button>
+              </div>
             </div>
 
             <div class="cabinet-season-chips">
@@ -3154,6 +3731,56 @@
       }).join('');
     }
 
+    async function updateCabinetItemColor(id, colorIndex, hexValue) {
+      const item = myWardrobe.find(x => x.id === id);
+      if (!item) return;
+
+      const hex = hexValue.toUpperCase();
+      const r = parseInt(hex.substr(1, 2), 16);
+      const g = parseInt(hex.substr(3, 2), 16);
+      const b = parseInt(hex.substr(5, 2), 16);
+      const info = getAccurateColorInfo(r, g, b);
+
+      if (!item.colors) item.colors = [item.color];
+      item.colors[colorIndex] = info;
+      item.color = item.colors[0];
+      item.userConfirmed = true;
+
+      await dbSaveItem(item);
+      renderClosetCompartments();
+      renderOutfitViewLocal();
+      showToast(`色彩已修訂為【${info.name}】`);
+    }
+
+    async function addCabinetSecondaryColor(id) {
+      const item = myWardrobe.find(x => x.id === id);
+      if (!item) return;
+      if (!item.colors) item.colors = [item.color];
+      if (item.colors.length >= 2) return;
+
+      item.colors.push(getAccurateColorInfo(200, 200, 205));
+      item.userConfirmed = true;
+
+      await dbSaveItem(item);
+      renderClosetCompartments();
+      renderOutfitViewLocal();
+      showToast("已新增次色拼色");
+    }
+
+    async function removeCabinetColor(id, colorIndex) {
+      const item = myWardrobe.find(x => x.id === id);
+      if (!item || !item.colors || item.colors.length <= 1) return;
+
+      item.colors.splice(colorIndex, 1);
+      item.color = item.colors[0];
+      item.userConfirmed = true;
+
+      await dbSaveItem(item);
+      renderClosetCompartments();
+      renderOutfitViewLocal();
+      showToast("已移除拼色");
+    }
+
     async function toggleCabinetItemSeason(id, season) {
       const item = myWardrobe.find(x => x.id === id);
       if (!item) return;
@@ -3172,37 +3799,14 @@
       showToast(`季節屬性已修訂`);
     }
 
-    async function updateItemColor(id, hexValue) {
-      const item = myWardrobe.find(x => x.id === id);
-      if (!item) return;
-
-      const hex = hexValue.toUpperCase();
-      const r = parseInt(hex.substr(1, 2), 16);
-      const g = parseInt(hex.substr(3, 2), 16);
-      const b = parseInt(hex.substr(5, 2), 16);
-      const info = getAccurateColorInfo(r, g, b);
-
-      item.color = { hex, ...info };
-      item.userConfirmed = true;
-      await dbSaveItem(item);
-
-      if (lastRecordedItem && lastRecordedItem.id === id) {
-        lastRecordedItem = item;
-        renderRecentCardUi(item);
-      }
-
-      renderClosetCompartments();
-      renderOutfitViewLocal();
-      showToast(`色彩已更新為【${info.name}】`);
-    }
-
     async function recalcItemColor(id) {
       const item = myWardrobe.find(x => x.id === id);
       if (!item || !item.img) return;
 
-      showToast(`重新校正中...`);
-      const newColor = await extractColorFromImageUrl(item.img);
-      item.color = newColor;
+      showToast(`重新校正主次色彩中...`);
+      const newColors = await extractColorsFromImageUrl(item.img);
+      item.colors = newColors;
+      item.color = newColors[0];
       await dbSaveItem(item);
 
       if (lastRecordedItem && lastRecordedItem.id === id) {
@@ -3212,7 +3816,7 @@
 
       renderClosetCompartments();
       renderOutfitViewLocal();
-      showToast(`已校正為【${newColor.name}】`);
+      showToast(`色彩已校準 (${newColors.map(c=>c.name).join('+')})`);
     }
 
     async function recalcAllWardrobeColors() {
@@ -3223,7 +3827,9 @@
       showToast("正在重新校正全部色彩...");
       for (let item of myWardrobe) {
         if (item.img) {
-          item.color = await extractColorFromImageUrl(item.img);
+          const colors = await extractColorsFromImageUrl(item.img);
+          item.colors = colors;
+          item.color = colors[0];
           await dbSaveItem(item);
         }
       }
