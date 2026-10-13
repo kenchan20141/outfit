@@ -22,11 +22,11 @@
       --accent: #E5E5EB;
       
       /* 高訂品類專屬識別色 */
-      --cat-outer: #C5A880;     /* 外套大衣 - 典雅金棕 */
-      --cat-top: #8AA39B;       /* 上裝內搭 - 鼠尾草綠 */
-      --cat-pants: #7B92A8;     /* 褲裝 - 板岩青藍 */
-      --cat-skirt: #B0899E;     /* 裙裝 - 煙粉灰紫 */
-      --cat-shoes: #C7A27C;     /* 鞋履 - 暖銅駝色 */
+      --cat-outer: #C5A880;     /* 外套大衣 */
+      --cat-top: #8AA39B;       /* 上裝內搭 */
+      --cat-pants: #7B92A8;     /* 褲裝 */
+      --cat-skirt: #B0899E;     /* 裙裝 */
+      --cat-shoes: #C7A27C;     /* 鞋履 */
 
       /* 人體動態調色 */
       --c-outer: #282830;
@@ -468,9 +468,8 @@
     }
 
     .color-picker-input {
-      -webkit-appearance: none;
-      -moz-appearance: none;
       appearance: none;
+      -webkit-appearance: none;
       width: 24px;
       height: 24px;
       border: 1px solid var(--border-focus);
@@ -624,13 +623,11 @@
       gap: 8px;
       font-weight: 600;
       transition: all 0.25s;
-      box-shadow: 0 0 12px rgba(197, 168, 128, 0.15);
     }
 
     .ai-magic-btn:hover {
       background: var(--cat-outer);
       color: var(--bg);
-      box-shadow: 0 0 20px rgba(197, 168, 128, 0.35);
     }
 
     .ai-analyze-btn {
@@ -772,11 +769,6 @@
       animation: cardFadeIn 0.3s ease;
     }
 
-    .outfit-card.is-locked {
-      border-color: var(--cat-outer);
-      background: #141318;
-    }
-
     @keyframes cardFadeIn {
       from { opacity: 0.3; transform: translateY(4px); }
       to { opacity: 1; transform: translateY(0); }
@@ -867,31 +859,24 @@
       color: var(--muted);
     }
 
-    /* 評析面板 */
+    /* 極簡評析面板 */
     .analysis-panel {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 4px;
-      padding: 20px;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-      position: relative;
-    }
-
-    @media (min-width: 768px) {
-      .analysis-panel {
-        grid-template-columns: 1fr 1.3fr;
-      }
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
 
     .spectrum-bar {
       display: flex;
-      height: 16px;
+      height: 10px;
       border-radius: 2px;
       overflow: hidden;
       border: 1px solid var(--border);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .spectrum-segment {
@@ -913,65 +898,21 @@
       color: var(--muted);
     }
 
-    .style-verdict-box {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 10px;
-      position: relative;
-    }
-
-    @media (min-width: 768px) {
-      .style-verdict-box {
-        padding-left: 20px;
-        border-left: 1px solid var(--border);
-      }
-    }
-
-    .style-verdict-header {
+    .verdict-minimal-box {
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .style-verdict-tag {
-      font-size: 0.58rem;
-      letter-spacing: 0.22em;
-      color: var(--cat-outer);
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .ai-engine-badge {
-      font-size: 0.52rem;
-      padding: 2px 8px;
-      border-radius: 10px;
-      background: rgba(197, 168, 128, 0.12);
-      border: 1px solid rgba(197, 168, 128, 0.3);
-      color: var(--cat-outer);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .ai-engine-badge.loading {
-      animation: pulseBadge 1.2s infinite ease-in-out;
-    }
-
-    @keyframes pulseBadge {
-      0% { opacity: 0.4; }
-      50% { opacity: 1; border-color: var(--accent); color: #fff; }
-      100% { opacity: 0.4; }
+      gap: 12px;
     }
 
     .style-match-score {
       font-size: 0.65rem;
       letter-spacing: 0.1em;
       font-weight: 600;
-      padding: 2px 8px;
+      padding: 3px 10px;
       border-radius: 12px;
       border: 1px solid;
     }
@@ -994,45 +935,37 @@
       border-color: rgba(224, 108, 117, 0.45);
     }
 
-    .verdict-dimensions-container {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .dimension-pill-row {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 0.68rem;
-      line-height: 1.5;
-    }
-
-    .dim-sub-title {
-      font-size: 0.58rem;
-      letter-spacing: 0.14em;
-      color: var(--muted);
-      text-transform: uppercase;
+    .style-verdict-text {
+      font-size: 0.78rem;
+      color: var(--text);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
-    .style-verdict-text {
-      font-size: 0.82rem;
-      letter-spacing: 0.02em;
+    /* 視覺化配色膠囊標籤 */
+    .color-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 7px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 500;
       color: var(--text);
-      line-height: 1.6;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.02);
-      padding: 10px 12px;
-      border-radius: 3px;
-      border: 1px solid rgba(255, 255, 255, 0.04);
     }
 
-    /* MODAL: ITEM SELECTOR PICKER */
+    .color-chip-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* MODAL: ITEM PICKER */
     .picker-modal-overlay {
       position: fixed;
       inset: 0;
@@ -1077,13 +1010,6 @@
       color: var(--cat-outer);
     }
 
-    .picker-title-wrap p {
-      font-size: 0.58rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      margin-top: 2px;
-    }
-
     .picker-grid-scroll {
       padding: 18px;
       overflow-y: auto;
@@ -1102,7 +1028,6 @@
       flex-direction: column;
       gap: 6px;
       transition: all 0.2s;
-      position: relative;
     }
 
     .picker-option-card:hover {
@@ -1145,7 +1070,7 @@
       color: var(--muted);
     }
 
-    /* MODAL: WALK-IN CLOSET OVERVIEW */
+    /* MODAL: WALK-IN CLOSET */
     .closet-modal-overlay {
       position: fixed;
       inset: 0;
@@ -1193,13 +1118,6 @@
       text-transform: uppercase;
       font-weight: 400;
       color: var(--cat-outer);
-    }
-
-    .closet-title-wrap p {
-      font-size: 0.58rem;
-      letter-spacing: 0.18em;
-      color: var(--muted);
-      margin-top: 2px;
     }
 
     .closet-close-btn {
@@ -1308,7 +1226,7 @@
       aspect-ratio: 1;
       background: #14141A;
       border-radius: 2px;
-      display: center;
+      display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
@@ -1380,11 +1298,6 @@
       transition: all 0.2s;
     }
 
-    .cabinet-recalc-btn:hover {
-      color: var(--cat-outer);
-      border-color: var(--cat-outer);
-    }
-
     .cabinet-season-chips {
       display: flex;
       gap: 4px;
@@ -1420,7 +1333,6 @@
       font-size: 0.54rem;
       color: var(--muted);
       white-space: nowrap;
-      letter-spacing: 0.05em;
     }
 
     .drawer-reassign-select {
@@ -1433,11 +1345,6 @@
       cursor: pointer;
       outline: none;
       flex: 1;
-      transition: border-color 0.2s;
-    }
-
-    .drawer-reassign-select:focus {
-      border-color: var(--cat-outer);
     }
 
     .cabinet-del-btn {
@@ -1471,7 +1378,6 @@
       padding: 24px;
       text-align: center;
       border-radius: 3px;
-      letter-spacing: 0.1em;
     }
 
     /* TOAST */
@@ -1488,7 +1394,6 @@
       font-size: 0.7rem;
       display: none;
       z-index: 2000;
-      letter-spacing: 0.08em;
       box-shadow: 0 10px 30px rgba(0,0,0,0.8);
     }
   </style>
@@ -1558,7 +1463,7 @@
         <div class="editorial-lead-wrap">
           <h3 class="editorial-h3">智能前景濾鏡 · 排除背景雜色</h3>
           <p class="editorial-desc">
-            自動過濾背板雜色，並以大模型判定品類、風格基調與適用季節（鞋履、褲裝默認四季適配，上裝支援秋冬疊穿）。色彩提取將純靠 Canvas 物理演算法。
+            自動過濾背板雜色，並以模型判定品類與季節。色彩提取純靠 Canvas 物理演算法。
           </p>
         </div>
 
@@ -1577,10 +1482,10 @@
           <div class="recent-edit-group">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <label class="recent-label">主體顏色校正 (已排除背景)</label>
-              <button type="button" class="recalc-btn" onclick="recalcRecentItemColor()">↺ 排除背景重取色</button>
+              <button type="button" class="recalc-btn" onclick="recalcRecentItemColor()">↺ 重取色</button>
             </div>
             <div class="color-picker-row">
-              <input type="color" id="recentColorPicker" class="color-picker-input" onchange="handleRecentColorPickerChange(this.value)" title="點選色盤微調">
+              <input type="color" id="recentColorPicker" class="color-picker-input" onchange="handleRecentColorPickerChange(this.value)">
               <span id="recentColorName" class="recent-color-name">-</span>
               <span id="recentColorHex" class="recent-color-hex">-</span>
             </div>
@@ -1609,7 +1514,7 @@
           </div>
 
           <div class="recent-edit-group">
-            <label class="recent-label">適用季節 (可多選，點擊切換)</label>
+            <label class="recent-label">適用季節</label>
             <div class="recent-pills-grid">
               <button type="button" class="recent-season-pill" id="pillSeasonSpring" onclick="toggleRecentSeason('spring')">春 SPRING</button>
               <button type="button" class="recent-season-pill" id="pillSeasonSummer" onclick="toggleRecentSeason('summer')">夏 SUMMER</button>
@@ -1632,16 +1537,15 @@
   <!-- VIEW 02: STYLING & MANNEQUIN -->
   <section id="view-style" class="view-content">
     
-    <!-- 季節、層次與色彩引擎控制器 -->
     <div class="controls-shelf">
       <div class="shelf-row">
         <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
           <span class="shelf-label">季節:</span>
           <div class="season-pills">
-            <button class="season-btn active" id="btnSeasonSpring" onclick="selectSeason('spring')">春 SPRING</button>
-            <button class="season-btn" id="btnSeasonSummer" onclick="selectSeason('summer')">夏 SUMMER</button>
-            <button class="season-btn" id="btnSeasonAutumn" onclick="selectSeason('autumn')">秋 AUTUMN</button>
-            <button class="season-btn" id="btnSeasonWinter" onclick="selectSeason('winter')">冬 WINTER</button>
+            <button class="season-btn active" id="btnSeasonSpring" onclick="selectSeason('spring')">春</button>
+            <button class="season-btn" id="btnSeasonSummer" onclick="selectSeason('summer')">夏</button>
+            <button class="season-btn" id="btnSeasonAutumn" onclick="selectSeason('autumn')">秋</button>
+            <button class="season-btn" id="btnSeasonWinter" onclick="selectSeason('winter')">冬</button>
           </div>
         </div>
 
@@ -1650,16 +1554,12 @@
           <div id="layerOptionsContainer" style="display:flex; gap:6px;"></div>
         </div>
 
-        <!-- 兩大核心主動按鈕：色彩引擎推薦 + Canvas 診斷現時穿搭 -->
         <div class="actions-cluster">
-          <button class="ai-magic-btn" id="btnAiRecommend" onclick="triggerAiSmartRecommendation()" title="將全衣櫥物理色彩提交給 Canvas 色彩學引擎，挑選符合 60-30-10 法則的高分組合">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span>✨ 色彩引擎智能推薦</span>
+          <button class="ai-magic-btn" id="btnAiRecommend" onclick="triggerAiSmartRecommendation()">
+            智能推薦
           </button>
-
-          <button class="ai-analyze-btn" id="btnAiAnalyze" onclick="triggerAiCritiqueCurrentOutfit()" title="手動更換後，由 Canvas 物理演算法計算色彩配比與美學分數">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <span>🔍 診斷現時穿搭 (Canvas)</span>
+          <button class="ai-analyze-btn" id="btnAiAnalyze" onclick="triggerAiCritiqueCurrentOutfit()">
+            穿搭診斷
           </button>
         </div>
       </div>
@@ -1671,7 +1571,7 @@
       <!-- 人體穿搭圖 -->
       <div class="mannequin-panel">
         <div class="mannequin-top-info">
-          <span class="mannequin-heading">人體色彩穿搭圖</span>
+          <span class="mannequin-heading">色彩穿搭構圖</span>
           <span class="mannequin-layer-tag" id="mannequinStatusTag">雙層疊穿 · 褲裝</span>
         </div>
 
@@ -1681,36 +1581,30 @@
             <ellipse cx="100" cy="38" rx="13" ry="18" fill="#1C1C22"/>
             <path d="M94 54 L94 68 L106 68 L106 54 Z" fill="#18181E"/>
 
-            <!-- 1. 單層上裝 -->
             <g id="layerSingleTop" style="display: none;">
               <path d="M88 68 Q100 78 112 68 L126 94 L138 122 L124 126 L118 102 L116 166 L84 166 L82 102 L76 126 L62 122 L74 94 Z" fill="var(--c-outer)"/>
             </g>
 
-            <!-- 2. 裡層內搭 -->
             <g id="layerInner" style="display: none;">
               <path id="pathInnerBody" d="M91 68 Q100 76 109 68 L107 142 L93 142 Z" fill="var(--c-inner)"/>
             </g>
 
-            <!-- 3. 中層開衫 -->
             <g id="layerMid" style="display: none;">
               <path d="M86 70 L93 148 L99 148 L95 72 Z" fill="var(--c-mid)"/>
               <path d="M114 70 L107 148 L101 148 L105 72 Z" fill="var(--c-mid)"/>
             </g>
 
-            <!-- 4. 外層外套 -->
             <g id="layerOuter" style="display: none;">
               <path d="M91 68 L58 88 L46 195 L58 198 L68 122 L82 154 L88 154 L84 72 Z" fill="var(--c-outer)"/>
               <path d="M109 68 L142 88 L154 195 L142 198 L132 122 L118 154 L112 154 L116 72 Z" fill="var(--c-outer)"/>
             </g>
 
-            <!-- 下裝 A: 褲裝 -->
             <g id="layerPants" style="display: block;">
               <path d="M78 166 L122 166 L122 172 L78 172 Z" fill="#131317"/>
               <path d="M78 172 L97 174 L95 385 L76 385 Z" fill="var(--c-bottom)"/>
               <path d="M103 174 L122 172 L124 385 L105 385 Z" fill="var(--c-bottom)"/>
             </g>
 
-            <!-- 下裝 B: 裙裝 -->
             <g id="layerSkirt" style="display: none;">
               <path d="M78 166 L122 166 L122 172 L78 172 Z" fill="#131317"/>
               <path d="M78 172 L122 172 L138 296 L62 296 Z" fill="var(--c-bottom)"/>
@@ -1718,7 +1612,6 @@
               <path d="M108 296 L118 296 L119 385 L109 385 Z" fill="#191920"/>
             </g>
 
-            <!-- 鞋履 -->
             <g id="layerShoes">
               <path d="M75 385 L95 387 L96 422 L68 422 Q66 400 75 385 Z" fill="var(--c-shoes)"/>
               <path d="M125 385 L105 387 L104 422 L132 422 Q134 400 125 385 Z" fill="var(--c-shoes)"/>
@@ -1733,39 +1626,18 @@
       <div class="outfit-display-wrap">
         <div class="cards-responsive-grid" id="outfitCardsContainer"></div>
 
-        <!-- 色彩光譜與 Canvas 色彩學診斷面板 -->
+        <!-- 極簡色彩光譜與單句評析面板 -->
         <div class="analysis-panel">
           <div>
-            <div style="font-size:0.58rem; letter-spacing:0.2em; color:var(--muted); text-transform:uppercase; margin-bottom:10px;">
-              色彩光譜佔比
-            </div>
             <div class="spectrum-bar" id="paletteSpectrum"></div>
             <div class="color-tags" id="paletteTags"></div>
           </div>
 
-          <div class="style-verdict-box">
-            <div class="style-verdict-header">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <span class="style-verdict-tag">色彩學與風格調性深度診斷</span>
-                <span class="ai-engine-badge" id="aiStatusBadge">等待指令中</span>
-              </div>
-              <span class="style-match-score" id="styleMatchScore">契合度 --</span>
-            </div>
-
-            <div class="verdict-dimensions-container" id="verdictDimensions">
-              <div class="dimension-pill-row" id="colorClashRow" style="display:none;">
-                <span class="dim-sub-title">◈ Canvas 色彩學配匹度</span>
-                <span id="colorClashText" style="color:var(--text); opacity:0.9;">-</span>
-              </div>
-              <div class="dimension-pill-row" id="styleClashRow" style="display:none;">
-                <span class="dim-sub-title">◈ 風格與氣質調性</span>
-                <span id="styleClashText" style="color:var(--text); opacity:0.9;">-</span>
-              </div>
-            </div>
-
+          <div class="verdict-minimal-box">
             <div class="style-verdict-text" id="styleVerdictText">
-              💡 點擊「✨ 色彩引擎智能推薦」自動獲取高分穿搭，或點擊單品相片手動替換後，點選「🔍 診斷現時穿搭 (Canvas)」。
+              <span style="color:var(--muted); font-size:0.75rem;">尚未診斷</span>
             </div>
+            <span class="style-match-score" id="styleMatchScore">--</span>
           </div>
         </div>
 
@@ -1781,7 +1653,6 @@
       <div class="picker-header">
         <div class="picker-title-wrap">
           <h3 id="pickerModalTitle">替換單品</h3>
-          <p id="pickerModalSubtitle">點選以更換此部位的衣服，變更時不會自動運行分析</p>
         </div>
         <button class="closet-close-btn" onclick="closeItemPicker()">✕</button>
       </div>
@@ -1789,58 +1660,35 @@
     </div>
   </div>
 
-  <!-- MODAL: WALK-IN CLOSET OVERVIEW -->
+  <!-- MODAL: WALK-IN CLOSET -->
   <div class="closet-modal-overlay" id="closetModal">
     <div class="closet-wardrobe-container">
       <div class="closet-header">
         <div class="closet-title-wrap">
           <h2>ATELIER WALK-IN CLOSET</h2>
-          <p>私人典藏實體衣櫥 · 獨立分門別類</p>
+          <p>私人典藏實體衣櫥</p>
         </div>
         <div style="display:flex; align-items:center; gap:10px;">
-          <button class="action-btn" onclick="recalcAllWardrobeColors()" style="padding:6px 14px; font-size:0.6rem; border-color:var(--cat-outer); color:var(--cat-outer);" title="重新提取所有衣物本體顏色，徹底排除背景色">
-            ↺ 一鍵重校全部色彩
+          <button class="action-btn" onclick="recalcAllWardrobeColors()" style="padding:6px 14px; font-size:0.6rem; border-color:var(--cat-outer); color:var(--cat-outer);">
+            ↺ 重校全部色彩
           </button>
           <button class="closet-close-btn" onclick="closeClosetModal()">✕</button>
         </div>
       </div>
 
       <div class="closet-stats-bar">
-        <div class="stat-pill">
-          <span>全部單品:</span>
-          <strong id="statTotal">0</strong>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-dot" style="background:var(--cat-outer);"></span>
-          <span>外套:</span>
-          <strong id="statOuter">0</strong>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-dot" style="background:var(--cat-top);"></span>
-          <span>上裝:</span>
-          <strong id="statTop">0</strong>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-dot" style="background:var(--cat-pants);"></span>
-          <span>褲裝:</span>
-          <strong id="statPants">0</strong>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-dot" style="background:var(--cat-skirt);"></span>
-          <span>裙裝:</span>
-          <strong id="statSkirt">0</strong>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-dot" style="background:var(--cat-shoes);"></span>
-          <span>鞋履:</span>
-          <strong id="statShoes">0</strong>
-        </div>
+        <div class="stat-pill"><span>全部單品:</span> <strong id="statTotal">0</strong></div>
+        <div class="stat-pill"><span class="stat-dot" style="background:var(--cat-outer);"></span><span>外套:</span> <strong id="statOuter">0</strong></div>
+        <div class="stat-pill"><span class="stat-dot" style="background:var(--cat-top);"></span><span>上裝:</span> <strong id="statTop">0</strong></div>
+        <div class="stat-pill"><span class="stat-dot" style="background:var(--cat-pants);"></span><span>褲裝:</span> <strong id="statPants">0</strong></div>
+        <div class="stat-pill"><span class="stat-dot" style="background:var(--cat-skirt);"></span><span>裙裝:</span> <strong id="statSkirt">0</strong></div>
+        <div class="stat-pill"><span class="stat-dot" style="background:var(--cat-shoes);"></span><span>鞋履:</span> <strong id="statShoes">0</strong></div>
       </div>
 
       <div class="closet-compartments-scroll">
         <div class="cabinet-section theme-outer">
           <div class="cabinet-section-title" style="color:var(--cat-outer);">
-            <span>01 / COATS & JACKETS (外套大衣)</span>
+            <span>01 / COATS & JACKETS</span>
             <span id="countOuter">0 件</span>
           </div>
           <div class="cabinet-grid" id="cabinetOuter"></div>
@@ -1848,7 +1696,7 @@
 
         <div class="cabinet-section theme-top">
           <div class="cabinet-section-title" style="color:var(--cat-top);">
-            <span>02 / TOPS & INNERS (上裝內搭)</span>
+            <span>02 / TOPS & INNERS</span>
             <span id="countTop">0 件</span>
           </div>
           <div class="cabinet-grid" id="cabinetTop"></div>
@@ -1856,7 +1704,7 @@
 
         <div class="cabinet-section theme-pants">
           <div class="cabinet-section-title" style="color:var(--cat-pants);">
-            <span>03 / TROUSERS (褲裝系列)</span>
+            <span>03 / TROUSERS</span>
             <span id="countPants">0 件</span>
           </div>
           <div class="cabinet-grid" id="cabinetPants"></div>
@@ -1864,7 +1712,7 @@
 
         <div class="cabinet-section theme-skirt">
           <div class="cabinet-section-title" style="color:var(--cat-skirt);">
-            <span>04 / SKIRTS (裙裝系列)</span>
+            <span>04 / SKIRTS</span>
             <span id="countSkirts">0 件</span>
           </div>
           <div class="cabinet-grid" id="cabinetSkirts"></div>
@@ -1872,7 +1720,7 @@
 
         <div class="cabinet-section theme-shoes">
           <div class="cabinet-section-title" style="color:var(--cat-shoes);">
-            <span>05 / FOOTWEAR (鞋履系列)</span>
+            <span>05 / FOOTWEAR</span>
             <span id="countShoes">0 件</span>
           </div>
           <div class="cabinet-grid" id="cabinetShoes"></div>
@@ -1885,7 +1733,7 @@
 
   <script>
     /* =========================================================================
-     * 後端 APPS SCRIPT URL 配置 (僅用於新相片風格與品類標註)
+     * 後端 APPS SCRIPT URL 配置
      * ========================================================================= */
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbynICiCLu7C7hMEQ43_A4vWYt2avl5MHPMAScX85AjqOzC_DtElkPROIqk1nnsZxeQ2/exec";
 
@@ -1901,26 +1749,15 @@
     }
 
     /* =========================================================================
-     * 1. 雙重強制品類與季節/風格校驗
+     * 1. 品類校驗與風格判定
      * ========================================================================= */
     function verifyAndCorrectDrawer(name, currentDrawer) {
       const lower = (name || "").toLowerCase().trim();
-
-      if (/鞋|靴|皮鞋|球鞋|馬丁|高跟|波鞋|運動鞋|布鞋|涼鞋|拖鞋|boot|shoe|sneaker|loafer/i.test(lower)) {
-        return 'shoes';
-      }
-      if (/褲|西褲|牛仔褲|工裝褲|短褲|長褲|休閒褲|trousers|pants|jeans|shorts/i.test(lower)) {
-        return 'pants';
-      }
-      if (/裙|半身裙|連衣裙|長裙|短裙|百褶裙|skirt|dress/i.test(lower)) {
-        return 'skirt';
-      }
-      if (/外套|大衣|夾克|西裝|風衣|羽絨|皮衣|開衫|jacket|coat|blazer|parka/i.test(lower)) {
-        return 'outer';
-      }
-      if (/t恤|恤|馬球|polo|襯衫|襯衣|背心|衛衣|毛衣|打底|top|shirt|tee|sweater/i.test(lower)) {
-        return 'top';
-      }
+      if (/鞋|靴|皮鞋|球鞋|馬丁|高跟|波鞋|運動鞋|布鞋|涼鞋|拖鞋|boot|shoe|sneaker|loafer/i.test(lower)) return 'shoes';
+      if (/褲|西褲|牛仔褲|工裝褲|短褲|長褲|休閒褲|trousers|pants|jeans|shorts/i.test(lower)) return 'pants';
+      if (/裙|半身裙|連衣裙|長裙|短裙|百褶裙|skirt|dress/i.test(lower)) return 'skirt';
+      if (/外套|大衣|夾克|西裝|風衣|羽絨|皮衣|開衫|jacket|coat|blazer|parka/i.test(lower)) return 'outer';
+      if (/t恤|恤|馬球|polo|襯衫|襯衣|背心|衛衣|毛衣|打底|top|shirt|tee|sweater/i.test(lower)) return 'top';
       return currentDrawer || 'top';
     }
 
@@ -2034,7 +1871,7 @@
     }
 
     /* =========================================================================
-     * 3. 精確色彩學分析模型（Canvas 空間像素提取）
+     * 3. 精確色彩學分析模型（徹底消除「個性原色」，全面自然色相標註）
      * ========================================================================= */
     function rgbToHsl(r, g, b) {
       r /= 255; g /= 255; b /= 255;
@@ -2066,45 +1903,42 @@
     function getAccurateColorInfo(r, g, b) {
       const [h, s, l] = rgbToHsl(r, g, b);
       const chroma = calculatePerceptualChroma(r, g, b);
-      let name = '原色調';
+      let name = '';
       let colorType = 'accent';
 
-      if (l < 0.14) {
+      // 1. 中性黑白灰判定
+      if (l < 0.15) {
         name = '炭黑'; colorType = 'neutral';
       } else if (l > 0.88 && s < 0.20) {
-        name = '象牙白'; colorType = 'neutral';
-      } else if (s < 0.15 || chroma < 0.08) {
+        name = '米白'; colorType = 'neutral';
+      } else if (s < 0.14 || chroma < 0.08) {
         name = l > 0.65 ? '淺灰' : (l > 0.35 ? '煙灰' : '深灰');
         colorType = 'neutral';
-      } else if (h >= 28 && h <= 58 && l > 0.55 && s < 0.48) {
-        name = l > 0.72 ? '燕麥米色' : '淺卡其';
+      }
+      // 2. 大地色系 (卡其/米褐/深棕)
+      else if (h >= 24 && h <= 58 && l > 0.52 && s < 0.50) {
+        name = l > 0.72 ? '燕麥米色' : '卡其棕';
         colorType = 'earth';
       } else if (h >= 12 && h <= 45 && l < 0.52) {
-        if (l < 0.24) { name = '濃黑咖啡棕'; }
-        else if (l < 0.38) { name = '焦糖深棕'; }
-        else { name = '復古棕'; }
+        name = l < 0.25 ? '濃黑咖啡棕' : '復古深棕';
         colorType = 'earth';
-      } else if (h >= 185 && h <= 255) {
-        if (l < 0.26) {
+      }
+      // 3. 藍色與海軍深藍
+      else if (h >= 185 && h <= 255) {
+        if (l < 0.28) {
           name = '海軍深藍';
           colorType = 'earth';
-        } else if (s > 0.32 && l < 0.55) {
-          name = '丹寧靛藍';
-          colorType = 'accent';
+        } else if (s < 0.35) {
+          name = '霧霾藍';
+          colorType = 'neutral';
         } else {
           name = '丹寧藍';
           colorType = 'accent';
         }
-      } else if (h >= 40 && h <= 66) {
-        if (chroma > 0.45 || s > 0.65) {
-          name = '明亮黃';
-          colorType = 'accent';
-        } else {
-          name = '芥末黃';
-          colorType = 'accent';
-        }
-      } else if (h > 68 && h < 185) {
-        if (s < 0.30) {
+      }
+      // 4. 綠色系
+      else if (h > 68 && h < 185) {
+        if (s < 0.28) {
           name = '鼠尾草綠';
           colorType = 'earth';
         } else if (l < 0.30) {
@@ -2114,7 +1948,17 @@
           name = '森綠';
           colorType = 'accent';
         }
-      } else if (h < 26 || h > 340) {
+      }
+      // 5. 黃橙色系
+      else if (h >= 40 && h <= 68) {
+        name = s > 0.6 ? '明亮黃' : '芥末黃';
+        colorType = 'accent';
+      } else if (h >= 15 && h < 40) {
+        name = '陶土橙';
+        colorType = 'accent';
+      }
+      // 6. 紅色與酒紅、粉色
+      else if (h < 15 || h > 340) {
         if (l < 0.26) {
           name = '深酒紅';
           colorType = 'earth';
@@ -2122,11 +1966,16 @@
           name = '煙粉';
           colorType = 'earth';
         } else {
-          name = (chroma > 0.38 || s > 0.60) ? '正紅色' : '磚紅';
+          name = s > 0.55 ? '正紅' : '磚紅';
           colorType = 'accent';
         }
+      }
+      // 7. 紫色與洋紅 (徹底填補「個性原色」缺口)
+      else if (h >= 256 && h <= 310) {
+        name = l < 0.35 ? '暗紫' : '薰衣草紫';
+        colorType = 'accent';
       } else {
-        name = '個性原色';
+        name = '洋紅';
         colorType = 'accent';
       }
 
@@ -2451,14 +2300,13 @@
     }
 
     /* =========================================================================
-     * 7. 智能錄入與結構化提取 (拍照時仍運用 AI 判定品類與風格)
+     * 7. 智能錄入與結構化提取
      * ========================================================================= */
     async function processAndStoreImage(originalBase64) {
       const laser = document.getElementById('scanLaser');
       laser.style.display = 'block';
-      showToast('精準前景分離與特徵辨識中...');
+      showToast('精準分離與特徵辨識中...');
 
-      // 完全由 Canvas 負責色彩提取
       const { cleanUrl, accurateColor } = await processOriginalImageAndExtractColor(originalBase64);
 
       const img = document.getElementById('capturedImage');
@@ -2467,19 +2315,16 @@
       img.style.display = 'block';
       hint.style.display = 'none';
 
-      // 讓 AI 只負責判斷款式，杜絕其判斷色彩
-      const prompt = `你是頂尖服裝造型顧問。請精確分析圖片衣物，僅回傳標準 JSON（無 markdown，無任何額外字元）：
+      const prompt = `你是頂尖服裝造型顧問。請精確分析圖片衣物，僅回傳標準 JSON（無 markdown）：
 {
   "name": "中文衣物名稱 (例如: 深藍牛仔外套 / 羊絨立領毛衣 / 工裝束腳褲 / 德訓皮鞋)",
   "drawer": "outer" 或 "top" 或 "pants" 或 "skirt" 或 "shoes",
   "style": "smart" 或 "casual" 或 "workwear" 或 "elegant" 或 "minimal",
   "seasons": ["spring", "summer", "autumn", "winter"],
   "thickness": "light" 或 "medium" 或 "heavy"
-}
-絕對準則：鞋靴填 "shoes"；長短褲填 "pants"；外套大衣填 "outer"；內搭短袖填 "top"；鞋履與褲裝默認四季適配。`;
+}`;
 
       let parsed = null;
-
       try {
         const data = await callBackendAi({
           model: "glm-4v-flash",
@@ -2524,7 +2369,7 @@
         name: parsed.name,
         drawer: finalDrawer,
         style: style,
-        color: accurateColor, // Canvas 提取的客觀色彩
+        color: accurateColor,
         seasons: finalSeasons,
         thickness: parsed.thickness || 'medium',
         createdAt: Date.now(),
@@ -2538,7 +2383,7 @@
       lastRecordedItem = newItem;
       renderRecentCardUi(newItem);
 
-      showToast(`已成功錄入「${newItem.name}」(${newItem.color.name})！`);
+      showToast(`已錄入「${newItem.name}」(${newItem.color.name})`);
     }
 
     function extractJson(text) {
@@ -2590,7 +2435,7 @@
       const idx = lastRecordedItem.seasons.indexOf(season);
       if (idx > -1) {
         if (lastRecordedItem.seasons.length > 1) lastRecordedItem.seasons.splice(idx, 1);
-        else return showToast("至少需保留一個適用季節");
+        else return showToast("至少需保留一個季節");
       } else {
         lastRecordedItem.seasons.push(season);
       }
@@ -2627,7 +2472,7 @@
       if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
 
       renderRecentCardUi(lastRecordedItem);
-      showToast("單品名稱已更新！");
+      showToast("單品名稱已更新");
     }
 
     async function handleRecentColorPickerChange(newHex) {
@@ -2651,7 +2496,7 @@
 
     async function recalcRecentItemColor() {
       if (!lastRecordedItem || !lastRecordedItem.img) return;
-      showToast("正在排除背景重新萃取前景色彩...");
+      showToast("重新萃取色彩中...");
       const newColor = await extractColorFromImageUrl(lastRecordedItem.img);
       lastRecordedItem.color = newColor;
       await dbSaveItem(lastRecordedItem);
@@ -2660,7 +2505,7 @@
       if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
 
       renderRecentCardUi(lastRecordedItem);
-      showToast(`已成功重新抓取顏色為【${newColor.name}】(${newColor.hex})`);
+      showToast(`色彩已更新為【${newColor.name}】`);
     }
 
     async function handleRecentDrawerChange(newDrawer) {
@@ -2675,12 +2520,12 @@
 
       renderRecentCardUi(lastRecordedItem);
       updateWardrobeCountUi();
-      showToast(`已成功修正分區為【${CAT_LABELS[newDrawer]}】！`);
+      showToast(`已修正為【${CAT_LABELS[newDrawer]}】`);
     }
 
     function goToStyling() {
       if (myWardrobe.length === 0) {
-        showToast("衣櫥目前為空，請先拍照或上傳衣物！");
+        showToast("衣櫥目前為空，請先錄入衣物");
         return;
       }
       switchView('style');
@@ -2728,7 +2573,7 @@
         document.getElementById('outfitCardsContainer').innerHTML = `
           <div class="outfit-card empty-slot" style="grid-column: 1 / -1;">
             <div style="font-size:0.75rem; color:var(--muted); line-height:1.8;">
-              衣櫥目前無單品。<br>請切換至「01 拍照錄入」建立典藏。
+              衣櫥目前無單品。請至「01 拍照錄入」建立典藏。
             </div>
           </div>
         `;
@@ -2782,21 +2627,10 @@
     }
 
     function resetAnalysisPanelToIdle() {
-      const aiBadge = document.getElementById('aiStatusBadge');
-      aiBadge.className = 'ai-engine-badge';
-      aiBadge.innerText = '等待指令中';
-
-      document.getElementById('styleMatchScore').innerText = '契合度 --';
+      document.getElementById('styleMatchScore').innerText = '--';
       document.getElementById('styleMatchScore').className = 'style-match-score';
-
-      document.getElementById('colorClashRow').style.display = 'none';
-      document.getElementById('styleClashRow').style.display = 'none';
-
       document.getElementById('styleVerdictText').innerHTML = `
-        <span style="font-size:0.78rem; color:var(--muted); line-height:1.6;">
-          💡 點擊上方<strong>「✨ 色彩引擎智能推薦」</strong>自動獲取高分穿搭；<br>
-          或點擊卡片相片手動替換，選定後點擊<strong>「🔍 診斷現時穿搭 (Canvas)」</strong>進行客觀評分。
-        </span>
+        <span style="color:var(--muted); font-size:0.75rem;">尚未診斷</span>
       `;
     }
 
@@ -2813,13 +2647,13 @@
 
       const ratio = (100 / items.length).toFixed(1) + '%';
       spectrum.innerHTML = items.map(it => `
-        <div class="spectrum-segment" style="width:${ratio}; background:${it.color.hex};" title="${it.color.name}"></div>
+        <div class="spectrum-segment" style="width:${ratio}; background:${it.color.hex};"></div>
       `).join('');
 
       tags.innerHTML = items.map(it => `
         <div class="tag-item">
-          <span style="width:7px; height:7px; border-radius:50%; background:${it.color.hex}"></span>
-          <span>${it.color.name} (${ratio})</span>
+          <span style="width:6px; height:6px; border-radius:50%; background:${it.color.hex}"></span>
+          <span>${it.color.name}</span>
         </div>
       `).join('');
     }
@@ -2863,8 +2697,7 @@
         card.innerHTML = `
           <div style="font-size:0.58rem; letter-spacing:0.18em; color:${themeColor}; text-transform:uppercase;">${roleTitle}</div>
           <div style="font-size:0.68rem; color:var(--muted); margin-top:6px;">未配置單品</div>
-          <div style="font-size:0.58rem; color:var(--muted); margin-top:2px;">${missingTip}</div>
-          <button class="action-btn" style="margin-top:10px; font-size:0.58rem; padding:4px 10px;" onclick="openItemPicker('${roleKey}')">點擊選擇</button>
+          <button class="action-btn" style="margin-top:10px; font-size:0.58rem; padding:4px 10px;" onclick="openItemPicker('${roleKey}')">選擇</button>
         `;
         return card;
       }
@@ -2872,22 +2705,22 @@
       card.innerHTML = `
         <div class="card-meta-bar">
           <span style="color:${themeColor}">${roleTitle}</span>
-          <span style="font-size:0.55rem; color:var(--muted); letter-spacing:0.05em;">[點圖可替換]</span>
+          <span style="font-size:0.55rem; color:var(--muted);">[替換]</span>
         </div>
-        <div class="card-photo-box" onclick="openItemPicker('${roleKey}')" title="點擊更換為其他同類衣物">
+        <div class="card-photo-box" onclick="openItemPicker('${roleKey}')">
           <img class="card-photo" src="${item.img}" alt="${item.name}">
           <div class="click-replace-hint">
             <svg viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-            <span>點選同類更換</span>
+            <span>更換</span>
           </div>
         </div>
         <div class="card-title" title="${item.name}">${item.name}</div>
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <div class="card-color-indicator">
             <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${item.color.hex}"></span>
-            <span>${item.color.hex} · ${item.color.name}</span>
+            <span>${item.color.name}</span>
           </div>
-          <span style="font-size:0.55rem; color:var(--muted); letter-spacing:0.05em;">[${STYLE_LABELS[item.style] || '休閒'}]</span>
+          <span style="font-size:0.55rem; color:var(--muted);">[${STYLE_LABELS[item.style] || '休閒'}]</span>
         </div>
       `;
       return card;
@@ -2984,7 +2817,7 @@
     }
 
     /* =========================================================================
-     * 10. 點擊圖片手動替換同類單品
+     * 10. 點擊圖片手動替換單品
      * ========================================================================= */
     function openItemPicker(roleKey) {
       currentPickerSlot = roleKey;
@@ -2993,11 +2826,11 @@
       const grid = document.getElementById('pickerGrid');
 
       const roleTitles = {
-        outer: currentLayerCount === 1 ? '替換單穿上裝' : '替換外層外套/大衣',
+        outer: currentLayerCount === 1 ? '替換單穿上裝' : '替換外層外套',
         mid: '替換中層開衫',
         inner: '替換底層內搭',
-        bottom: '替換下裝系列',
-        shoes: '替換鞋履系列'
+        bottom: '替換下裝',
+        shoes: '替換鞋履'
       };
 
       title.innerText = roleTitles[roleKey] || '替換單品';
@@ -3018,7 +2851,7 @@
       }
 
       if (candidates.length === 0) {
-        grid.innerHTML = `<div style="grid-column: 1 / -1; font-size:0.75rem; color:var(--muted); text-align:center; padding:30px;">該類別目前無適用於【${currentSeason}】季的備用衣物</div>`;
+        grid.innerHTML = `<div style="grid-column: 1 / -1; font-size:0.75rem; color:var(--muted); text-align:center; padding:30px;">該分區暫無適用單品</div>`;
       } else {
         const currentSelectedId = currentOutfit[roleKey] ? currentOutfit[roleKey].id : null;
         grid.innerHTML = candidates.map(item => {
@@ -3052,19 +2885,11 @@
       renderOutfitCardsUi();
       renderSpectrumBar(currentOutfit);
 
-      const aiBadge = document.getElementById('aiStatusBadge');
-      aiBadge.className = 'ai-engine-badge';
-      aiBadge.innerText = '等待 Canvas 診斷';
-
-      document.getElementById('styleMatchScore').innerText = '待診斷';
+      document.getElementById('styleMatchScore').innerText = '--';
       document.getElementById('styleMatchScore').className = 'style-match-score';
-      document.getElementById('colorClashRow').style.display = 'none';
-      document.getElementById('styleClashRow').style.display = 'none';
       document.getElementById('styleVerdictText').innerHTML = `
-        <span>已更換為【${selected.name}】。您可以繼續切換其他單品，調整完畢後請點擊上方<strong>「🔍 診斷現時穿搭 (Canvas)」</strong>。</span>
+        <span style="color:var(--muted); font-size:0.75rem;">已更換為「${selected.name}」，待診斷</span>
       `;
-
-      showToast(`已手動更換部位單品為「${selected.name}」`);
     }
 
     function closeItemPicker() {
@@ -3073,66 +2898,30 @@
     }
 
     /* =========================================================================
-     * 11. 功能一：Canvas 物理引擎智能推薦高契合穿搭 (本地純邏輯，無AI)
+     * 11. 智能推薦組合
      * ========================================================================= */
     async function triggerAiSmartRecommendation() {
       if (myWardrobe.length === 0) {
-        showToast("衣櫥目前為空，請先錄入衣物");
+        showToast("衣櫥目前為空");
         return;
       }
 
       const availableItems = myWardrobe.filter(x => isItemSuitableForSeason(x, currentSeason, ''));
       if (availableItems.length < 2) {
-        showToast("當季單品數量過少，請多錄入幾件衣物以供挑選");
+        showToast("當季單品數量不足");
         return;
       }
 
-      const btn = document.getElementById('btnAiRecommend');
-      const aiBadge = document.getElementById('aiStatusBadge');
-      btn.style.opacity = '0.5';
-      btn.style.pointerEvents = 'none';
-      aiBadge.classList.add('loading');
-      aiBadge.innerText = 'Canvas 色彩演算推薦中...';
-
-      showToast("引擎正在對當季所有衣物的物理色彩進行美學矩陣演算...");
-
-      // 模擬運算體驗
-      await new Promise(r => setTimeout(r, 600));
-
       const bestCombination = generateLocalSmartRecommendation();
-
-      btn.style.opacity = '1';
-      btn.style.pointerEvents = 'auto';
-      aiBadge.classList.remove('loading');
 
       if (bestCombination) {
         currentOutfit = bestCombination.outfit;
         updateMannequin(currentLayerCount, currentOutfit.outer, currentOutfit.mid, currentOutfit.inner, currentOutfit.bottom, currentOutfit.shoes);
         renderOutfitCardsUi();
         renderSpectrumBar(currentOutfit);
-
-        let finalScore = bestCombination.critique.score;
-        let finalStatus = bestCombination.critique.status;
-
-        if (finalScore < 65) {
-          aiBadge.innerText = '當季庫存有限';
-        } else if (finalScore >= 78) {
-          aiBadge.innerText = '推薦典範';
-          showToast("✨ 已推薦高契合度搭配！");
-        } else {
-          aiBadge.innerText = '日常實穿組合';
-          showToast("✨ 已推薦實穿搭配！");
-        }
-        
-        updateAnalysisPanelWithResult({
-          score: finalScore,
-          status: finalStatus,
-          colorClash: bestCombination.critique.colorFact,
-          styleClash: bestCombination.critique.styleFact,
-          verdict: bestCombination.critique.verdict
-        });
+        renderMinimalVerdictUi(bestCombination.critique);
       } else {
-        showToast("無法生成推薦，請確認衣櫥單品完整度");
+        showToast("無法生成推薦組合");
       }
     }
 
@@ -3148,8 +2937,7 @@
       let bestCritique = null;
       let bestScore = -1;
 
-      // 透過隨機取樣組合尋找最高分穿搭
-      const maxIters = 80;
+      const maxIters = 60;
       for (let i = 0; i < maxIters; i++) {
         let candidate = { outer: null, mid: null, inner: null, bottom: null, shoes: null };
         candidate.bottom = bottoms[Math.floor(Math.random() * bottoms.length)];
@@ -3185,134 +2973,90 @@
       }
 
       if (!bestOutfit || !bestCritique) return null;
-      
-      bestCritique.verdict = `【色彩學引擎推薦】${bestCritique.colorFact}。${bestCritique.styleFact}。`;
       return { outfit: bestOutfit, critique: bestCritique };
     }
 
     /* =========================================================================
-     * 12. 功能二：Canvas 物理演算法診斷當前穿搭 (本地純邏輯，無AI)
+     * 12. 極簡單句診斷與純色塊標記渲染
      * ========================================================================= */
-    async function triggerAiCritiqueCurrentOutfit() {
+    function triggerAiCritiqueCurrentOutfit() {
       const payload = buildOutfitPayload(currentOutfit, currentSeason, currentLayerCount);
 
       if (!payload.pieces || payload.pieces.length === 0) {
-        showToast("當前無單品可診斷");
+        showToast("無單品可診斷");
         return;
       }
 
-      const btn = document.getElementById('btnAiAnalyze');
-      const aiBadge = document.getElementById('aiStatusBadge');
-      btn.style.opacity = '0.5';
-      btn.style.pointerEvents = 'none';
-      aiBadge.classList.add('loading');
-      aiBadge.innerText = 'Canvas 色彩學演算中...';
-
-      showToast("正在運用 Canvas 物理色彩演算法進行客觀診斷...");
-
-      await new Promise(r => setTimeout(r, 600));
-
       const canvasResult = computeDynamicHeuristicCritique(payload);
+      renderMinimalVerdictUi(canvasResult);
+    }
 
-      btn.style.opacity = '1';
-      btn.style.pointerEvents = 'auto';
-      aiBadge.classList.remove('loading');
-      aiBadge.innerText = 'CANVAS 核心主導評析';
-
-      updateAnalysisPanelWithResult({
-        score: canvasResult.score,
-        status: canvasResult.status,
-        colorClash: canvasResult.colorFact,
-        styleClash: canvasResult.styleFact,
-        verdict: `【系統客觀診斷】${canvasResult.colorFact}。${canvasResult.missingTip}`
-      });
-
-      showToast("穿搭診斷完成！");
+    function createColorChipHtml(color) {
+      return `<span class="color-chip"><span class="color-chip-dot" style="background:${color.hex};"></span>${color.name}</span>`;
     }
 
     function computeDynamicHeuristicCritique(payload) {
       const pieces = payload.pieces || [];
       let baseScore = 90;
-      let colorIssues = [];
-      let harmonies = [];
-      let styleIssues = [];
+      let missingDeduction = 0;
 
-      // 1. 完整度審查
       const hasBottom = pieces.some(p => p.category === 'pants' || p.category === 'skirt');
       const hasShoes = pieces.some(p => p.category === 'shoes');
-      let missingDeduction = 0;
       if (!hasBottom) missingDeduction += 15;
       if (!hasShoes) missingDeduction += 10;
 
-      // 2. 物理色彩分群（嚴格依賴 Canvas 提取的 chroma 與 colorType）
       const neutrals = pieces.filter(p => p.color.colorType === 'neutral' || p.color.colorType === 'earth');
       const accents = pieces.filter(p => p.color.colorType === 'accent' && (p.color.chroma > 0.12 || p.color.hsl[1] > 0.35));
 
-      // 3. Canvas 核心色彩邏輯判斷
+      let oneLineHtml = "";
+
+      // 極簡單句與色塊生成邏輯
       if (accents.length === 0) {
         baseScore = 92;
-        harmonies.push("全套以黑白灰或大地色構築，呈現極簡冷淡的高級同色系氛圍");
+        oneLineHtml = `全套中性與大地色系構築，極簡協調。`;
       } else if (accents.length === 1) {
         baseScore = 95;
-        harmonies.push(`【${accents[0].color.name}】作為唯一視覺亮點，配合扎實的中性/大地色底盤，符合 60-30-10 經典配比，極致和諧`);
+        const chip = createColorChipHtml(accents[0].color);
+        oneLineHtml = `以 ${chip} 為單一視覺亮點，搭配中性底盤，配比和諧。`;
       } else if (accents.length === 2) {
-        const h1 = accents[0].color.hsl[0];
-        const h2 = accents[1].color.hsl[0];
-        const diffH = Math.abs(h1 - h2);
+        const c1 = accents[0].color;
+        const c2 = accents[1].color;
+        const chip1 = createColorChipHtml(c1);
+        const chip2 = createColorChipHtml(c2);
+
+        const diffH = Math.abs(c1.hsl[0] - c2.hsl[0]);
         const hueDist = Math.min(diffH, 360 - diffH);
 
         if (hueDist <= 45) {
-          baseScore = 85;
-          harmonies.push(`【${accents[0].color.name}】與【${accents[1].color.name}】屬於相鄰和諧色系，色彩層次流暢`);
+          baseScore = 86;
+          oneLineHtml = `${chip1} 與 ${chip2} 為相鄰和諧色，過渡自然。`;
         } else {
           if (neutrals.length >= 1) {
             baseScore = 72;
-            harmonies.push(`【${accents[0].color.name}】與【${accents[1].color.name}】形成鮮明撞色對比，依託中性色過渡勉強調和`);
+            oneLineHtml = `${chip1} 與 ${chip2} 形成撞色對比，依託中性色調和。`;
           } else {
             baseScore = 55;
-            colorIssues.push(`色彩警報：【${accents[0].color.name}】與【${accents[1].color.name}】強烈對抗，且缺乏足夠的中性色緩衝，易顯雜亂`);
+            oneLineHtml = `${chip1} 與 ${chip2} 對抗過強，缺乏中性色過渡。`;
           }
         }
       } else {
         baseScore = 40;
-        colorIssues.push(`色彩災難：全身出現 ${accents.map(a => a.color.name).join('、')} 等過多搶眼色彩，視覺焦點激烈混亂，嚴重失衡`);
+        const chips = accents.map(a => createColorChipHtml(a.color)).join(' ');
+        oneLineHtml = `過多亮色 ${chips} 同時出現，視覺失衡。`;
       }
 
-      // 4. 針對特殊撞色予以懲罰 (例如避免系統認為某些飽和大地色與不相干亮色硬搭)
-      if (accents.length > 0 && neutrals.length > 0) {
-          // 例如亮粉配深啡可能存在飽和與明度極端落差
-          const avgAccentChroma = accents.reduce((sum, p) => sum + p.color.chroma, 0) / accents.length;
-          const earthCount = neutrals.filter(p => p.color.colorType === 'earth').length;
-          if (avgAccentChroma > 0.4 && earthCount >= 2) {
-              baseScore -= 5;
-              colorIssues.push("極高飽和度色彩與大地色系同時出現，視覺上可能顯得突兀");
-          }
-      }
-
-      // 5. 風格語境校驗
+      // 風格衝突微調
       const styles = pieces.map(p => p.style);
       if (styles.includes('workwear') && styles.includes('elegant')) {
-        baseScore -= 15;
-        styleIssues.push("風格割裂：工裝粗獷質感與優雅輕柔氣質在同一套搭配中衝突");
-      } else if (styles.includes('minimal') && styles.includes('workwear')) {
-        baseScore -= 8;
-        styleIssues.push("風格混搭：極簡冷淡與工裝戰術的混搭具挑戰性，需謹慎");
+        baseScore -= 12;
+        oneLineHtml += "（工裝與優雅氣質略有衝突）";
       }
 
-      // 6. 結算最終分數
       const finalScore = Math.max(35, Math.min(98, baseScore - missingDeduction));
-      const status = finalScore >= 78 ? 'good' : (finalScore >= 65 ? 'warn' : 'bad');
-
-      return {
-        score: finalScore,
-        status: status,
-        colorFact: colorIssues.length > 0 ? colorIssues.join('；') : harmonies.join('；'),
-        styleFact: styleIssues.length > 0 ? styleIssues.join('；') : "單品風格語境和諧相融，未見顯著突兀感",
-        missingTip: missingDeduction > 0 ? "（造型缺少鞋履或下身，完整度不足已扣分）" : ""
-      };
+      return { score: finalScore, html: oneLineHtml };
     }
 
-    function updateAnalysisPanelWithResult(res) {
+    function renderMinimalVerdictUi(res) {
       const scoreElem = document.getElementById('styleMatchScore');
       scoreElem.innerText = `契合度 ${res.score}%`;
 
@@ -3324,40 +3068,11 @@
         scoreElem.className = 'style-match-score score-bad';
       }
 
-      const colorRow = document.getElementById('colorClashRow');
-      const styleRow = document.getElementById('styleClashRow');
-      const colorText = document.getElementById('colorClashText');
-      const styleText = document.getElementById('styleClashText');
-
-      if (res.colorClash) {
-        colorRow.style.display = 'flex';
-        colorText.innerText = res.colorClash;
-      } else {
-        colorRow.style.display = 'none';
-      }
-
-      if (res.styleClash) {
-        styleRow.style.display = 'flex';
-        styleText.innerText = res.styleClash;
-      } else {
-        styleRow.style.display = 'none';
-      }
-
-      let indicatorSvg = '';
-      if (res.score < 65) {
-        indicatorSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E06C75" stroke-width="2.2" style="flex-shrink:0; margin-top:2px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
-      } else if (res.score < 78) {
-        indicatorSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E5C07B" stroke-width="2.2" style="flex-shrink:0; margin-top:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
-      } else {
-        indicatorSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#98C379" stroke-width="2.2" style="flex-shrink:0; margin-top:2px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
-      }
-
-      const cleanVerdict = (res.verdict || '').replace(/^[❌⚠️✨\s]+/, '');
-      document.getElementById('styleVerdictText').innerHTML = `${indicatorSvg}<span>${cleanVerdict}</span>`;
+      document.getElementById('styleVerdictText').innerHTML = res.html;
     }
 
     /* =========================================================================
-     * 13. WALK-IN CLOSET MODAL
+     * 13. WALK-IN CLOSET
      * ========================================================================= */
     function openClosetModal() {
       document.getElementById('closetModal').classList.add('open');
@@ -3402,19 +3117,19 @@
         const sList = item.seasons || ['spring', 'summer', 'autumn', 'winter'];
         return `
           <div class="cabinet-item-card">
-            <button class="cabinet-del-btn" onclick="deleteFromCloset('${item.id}')" title="移除單品">✕</button>
+            <button class="cabinet-del-btn" onclick="deleteFromCloset('${item.id}')">✕</button>
             <div class="cabinet-thumb-wrap">
               <img class="cabinet-thumb" src="${item.img}" alt="${item.name}">
             </div>
             <div class="cabinet-item-name" title="${item.name}">${item.name}</div>
             
             <div class="cabinet-color-row">
-              <label class="cabinet-color-label" title="點擊自訂色彩">
+              <label class="cabinet-color-label">
                 <input type="color" value="${item.color.hex}" class="cabinet-color-picker" onchange="updateItemColor('${item.id}', this.value)">
                 <span class="cabinet-color-dot" style="background:${item.color.hex};"></span>
                 <span class="cabinet-color-name">${item.color.name}</span>
               </label>
-              <button type="button" class="cabinet-recalc-btn" onclick="recalcItemColor('${item.id}')" title="排除背景重新測色">↺ 重測色</button>
+              <button type="button" class="cabinet-recalc-btn" onclick="recalcItemColor('${item.id}')">↺ 重測色</button>
             </div>
 
             <div class="cabinet-season-chips">
@@ -3426,7 +3141,7 @@
 
             <div class="cabinet-controls-row">
               <span class="drawer-reassign-label">分區:</span>
-              <select class="drawer-reassign-select" onchange="reassignItemDrawer('${item.id}', this.value)" title="修訂所屬類別">
+              <select class="drawer-reassign-select" onchange="reassignItemDrawer('${item.id}', this.value)">
                 <option value="outer" ${item.drawer==='outer'?'selected':''}>外套大衣</option>
                 <option value="top" ${item.drawer==='top'?'selected':''}>上裝內搭</option>
                 <option value="pants" ${item.drawer==='pants'?'selected':''}>褲裝系列</option>
@@ -3446,7 +3161,7 @@
       const idx = item.seasons.indexOf(season);
       if (idx > -1) {
         if (item.seasons.length > 1) item.seasons.splice(idx, 1);
-        else return showToast("至少需保留一個適用季節");
+        else return showToast("至少需保留一個季節");
       } else {
         item.seasons.push(season);
       }
@@ -3454,7 +3169,7 @@
       await dbSaveItem(item);
       renderClosetCompartments();
       renderOutfitViewLocal();
-      showToast(`「${item.name}」季節屬性已修訂`);
+      showToast(`季節屬性已修訂`);
     }
 
     async function updateItemColor(id, hexValue) {
@@ -3478,14 +3193,14 @@
 
       renderClosetCompartments();
       renderOutfitViewLocal();
-      showToast(`已更新「${item.name}」色彩為【${info.name}】(${hex})`);
+      showToast(`色彩已更新為【${info.name}】`);
     }
 
     async function recalcItemColor(id) {
       const item = myWardrobe.find(x => x.id === id);
       if (!item || !item.img) return;
 
-      showToast(`正在剔除背景重新分析「${item.name}」色彩...`);
+      showToast(`重新校正中...`);
       const newColor = await extractColorFromImageUrl(item.img);
       item.color = newColor;
       await dbSaveItem(item);
@@ -3497,7 +3212,7 @@
 
       renderClosetCompartments();
       renderOutfitViewLocal();
-      showToast(`「${item.name}」已重新校正色彩為【${newColor.name}】(${newColor.hex})`);
+      showToast(`已校正為【${newColor.name}】`);
     }
 
     async function recalcAllWardrobeColors() {
@@ -3505,7 +3220,7 @@
         showToast("衣櫥內暫無單品");
         return;
       }
-      showToast("正在逐一排除背景並重新校正全部色彩...");
+      showToast("正在重新校正全部色彩...");
       for (let item of myWardrobe) {
         if (item.img) {
           item.color = await extractColorFromImageUrl(item.img);
@@ -3514,7 +3229,7 @@
       }
       renderClosetCompartments();
       renderOutfitViewLocal();
-      showToast("全部單品已完成色彩重校，已徹底濾除背景！");
+      showToast("全部單品色彩校正完成");
     }
 
     async function reassignItemDrawer(id, newDrawer) {
@@ -3534,7 +3249,7 @@
       renderClosetCompartments();
       renderOutfitViewLocal();
       updateWardrobeCountUi();
-      showToast(`已成功將「${item.name}」移至【${CAT_LABELS[newDrawer]}】！`);
+      showToast(`已移至【${CAT_LABELS[newDrawer]}】`);
     }
 
     async function deleteFromCloset(id) {
@@ -3547,14 +3262,14 @@
       updateWardrobeCountUi();
       renderClosetCompartments();
       renderOutfitViewLocal();
-      showToast("已從典藏庫移除該單品");
+      showToast("已移除該單品");
     }
 
     function showToast(text) {
       const t = document.getElementById('toast');
       t.innerText = text;
       t.style.display = 'block';
-      setTimeout(() => { t.style.display = 'none'; }, 2800);
+      setTimeout(() => { t.style.display = 'none'; }, 2400);
     }
   </script>
 </body>
