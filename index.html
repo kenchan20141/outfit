@@ -2385,9 +2385,10 @@
       return harmonizeSeasons(s);
     }
 
-    function isItemSuitableForSeason(item, season, role) {
-      if (!item) return false;
-      if (item.drawer === 'belt' || item.drawer === 'watch' || item.drawer === 'shoes' || item.drawer === 'pants') return true;
+function isItemSuitableForSeason(item, season, role) {
+  if (!item) return false;
+  // 確認這一行包含 shoes（已包含即可保持不變）：
+  if (item.drawer === 'belt' || item.drawer === 'watch' || item.drawer === 'shoes' || item.drawer === 'pants') return true;
       
       const seasons = harmonizeSeasons(item.seasons || inferItemSeasons(item.name, item.drawer));
       
@@ -2822,7 +2823,13 @@
             item.style = inferItemStyle(item.name, item.drawer);
             changed = true;
           }
-          item.seasons = harmonizeSeasons(item.seasons || inferItemSeasons(item.name, item.drawer));
+        // 若為鞋履、腰帶、手錶，強制永久賦予一年四季
+if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch') {
+  item.seasons = ['spring', 'summer', 'autumn', 'winter'];
+  changed = true;
+} else {
+  item.seasons = harmonizeSeasons(item.seasons || inferItemSeasons(item.name, item.drawer));
+}
           
           if (!item.colors || item.colors.length === 0) {
             item.colors = [item.color || getAccurateColorInfo(34, 38, 48)];
@@ -3056,9 +3063,14 @@
           const parsed = extractJson(data.choices[0].message.content);
           if (parsed) {
             item.name = parsed.name || item.name;
-            item.drawer = verifyAndCorrectDrawer(parsed.name, parsed.drawer);
-            item.style = parsed.style || inferItemStyle(item.name, item.drawer);
-            item.seasons = harmonizeSeasons(parsed.seasons || inferItemSeasons(item.name, item.drawer));
+          item.drawer = verifyAndCorrectDrawer(parsed.name, parsed.drawer);
+item.style = parsed.style || inferItemStyle(item.name, item.drawer);
+// 鞋履、腰帶、手錶無論 AI 判斷為何，均強制歸為一年四季
+if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch') {
+  item.seasons = ['spring', 'summer', 'autumn', 'winter'];
+} else {
+  item.seasons = harmonizeSeasons(parsed.seasons || inferItemSeasons(item.name, item.drawer));
+}
           }
         }
       } catch (err) {
