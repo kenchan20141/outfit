@@ -522,7 +522,7 @@
     .color-swatch-row {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       background: #111116;
       border: 1px solid var(--border);
       padding: 6px 10px;
@@ -556,7 +556,7 @@
       font-size: 0.58rem;
       color: var(--cat-outer);
       letter-spacing: 0.1em;
-      min-width: 32px;
+      min-width: 28px;
     }
 
     .recent-color-name {
@@ -577,13 +577,30 @@
       border: none;
       color: var(--muted);
       cursor: pointer;
-      font-size: 0.75rem;
-      padding: 2px 6px;
-      transition: color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+
+    .swatch-btn-action svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.7;
     }
 
     .swatch-btn-action:hover {
+      color: var(--cat-outer);
+      background: rgba(197, 168, 128, 0.1);
+    }
+
+    .swatch-btn-action.del-action:hover {
       color: #E06C75;
+      background: rgba(224, 108, 117, 0.1);
     }
 
     .add-secondary-color-btn {
@@ -770,7 +787,7 @@
       }
     }
 
-    /* 手機版排版：自然由上至下排列 (1.衣服 ➔ 2.人形圖 ➔ 3.色彩分析) */
+    /* 手機版排版：自然由上至下排列 */
     @media (max-width: 919px) {
       .style-main-layout {
         display: flex;
@@ -1082,7 +1099,7 @@
       display: inline-block;
     }
 
-    /* 抽卡過渡動效 */
+    /* 抽卡動效 */
     @keyframes shuffleFlash {
       0% { opacity: 0.3; transform: scale(0.97); filter: blur(2px); }
       50% { opacity: 0.7; transform: scale(1.01); filter: blur(1px); }
@@ -1513,7 +1530,7 @@
       border-radius: 3px;
     }
 
-    /* MODAL: LOOKBOOK (私享典藏改版) */
+    /* MODAL: LOOKBOOK */
     .lookbook-modal-overlay {
       position: fixed;
       inset: 0;
@@ -1677,6 +1694,153 @@
       color: #E06C75;
     }
 
+    /* =========================================================================
+     * MODAL: 滴管/漏管取色器 (EYEDROPPER CANVAS MODAL)
+     * ========================================================================= */
+    .eyedropper-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 4, 6, 0.88);
+      backdrop-filter: blur(16px);
+      z-index: 1200;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .eyedropper-modal-overlay.open {
+      display: flex;
+    }
+
+    .eyedropper-container {
+      background: #0E0E13;
+      border: 1px solid var(--border);
+      width: 100%;
+      max-width: 600px;
+      max-height: 85vh;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+    }
+
+    .eyedropper-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #121218;
+    }
+
+    .eyedropper-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .eyedropper-title {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      color: var(--cat-outer);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .eyedropper-sub {
+      font-size: 0.58rem;
+      color: var(--muted);
+    }
+
+    .eyedropper-current-preview {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #181822;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .eyedropper-preview-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.4);
+      background: transparent;
+    }
+
+    .eyedropper-preview-text {
+      font-size: 0.65rem;
+      font-family: monospace;
+      color: var(--text);
+    }
+
+    .eyedropper-canvas-wrap {
+      flex: 1;
+      padding: 16px;
+      background: #08080C;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+      cursor: crosshair;
+      user-select: none;
+      touch-action: none;
+    }
+
+    #eyedropperCanvas {
+      max-width: 100%;
+      max-height: 55vh;
+      object-fit: contain;
+      border-radius: 3px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    }
+
+    /* 放大鏡準心 (Loupe) */
+    .eyedropper-loupe {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #FFF;
+      box-shadow: 0 0 12px rgba(0,0,0,0.8), inset 0 0 4px rgba(0,0,0,0.5);
+      pointer-events: none;
+      display: none;
+      transform: translate(-50%, -50%);
+      background-repeat: no-repeat;
+      z-index: 10;
+    }
+
+    .loupe-reticle {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loupe-reticle::before {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 2px #000;
+    }
+
+    .loupe-reticle::after {
+      content: '';
+      position: absolute;
+      width: 1px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 2px #000;
+    }
+
     /* TOAST */
     #toast {
       position: fixed;
@@ -1769,7 +1933,7 @@
           <div class="batch-thumbs-scroll" id="batchThumbsScroll"></div>
         </div>
 
-        <!-- 錄入編輯卡片 -->
+        <!-- 錄入編輯卡片 (主色、次色皆支援調色與滴管取色) -->
         <div class="recent-scanned-card" id="recentCard">
           <div class="recent-card-header">
             <span id="recentCatTag" style="color:var(--cat-outer); font-weight:600;">-</span>
@@ -1780,10 +1944,10 @@
             <input type="text" id="recentNameInput" class="recent-input" placeholder="單品名稱" onchange="handleRecentNameChange(this.value)">
           </div>
 
-          <!-- 多色編輯器 -->
+          <!-- 多色編輯器 (主色與次色) -->
           <div class="recent-edit-group">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <label class="recent-label">色彩光譜</label>
+              <label class="recent-label">色彩光譜 (主色 / 次色)</label>
               <button type="button" class="recalc-btn" onclick="recalcRecentItemColor()">↺ 重取色</button>
             </div>
             <div class="color-swatches-box" id="recentColorSwatchesBox"></div>
@@ -2072,7 +2236,6 @@
           <div class="cabinet-grid" id="cabinetShoes"></div>
         </div>
 
-        <!-- 新增腰帶專區 -->
         <div class="cabinet-section theme-belt">
           <div class="cabinet-section-title" style="color:var(--cat-belt);">
             <span>BELTS & ACCESSORIES</span>
@@ -2081,7 +2244,6 @@
           <div class="cabinet-grid" id="cabinetBelt"></div>
         </div>
 
-        <!-- 新增腕錶專區 -->
         <div class="cabinet-section theme-watch">
           <div class="cabinet-section-title" style="color:var(--cat-watch);">
             <span>HOROLOGY & WATCHES</span>
@@ -2106,7 +2268,6 @@
         </div>
       </div>
 
-      <!-- 季節與層數導航列 (春秋嚴格互通) -->
       <div class="lookbook-nav-bar">
         <div class="lookbook-filter-group" id="lbSeasonFilters">
           <button class="lb-filter-btn active" data-season="spring" onclick="setLookbookSeasonFilter('spring')">春 / 秋</button>
@@ -2122,6 +2283,30 @@
       </div>
 
       <div class="lookbook-scroll" id="lookbookGrid"></div>
+    </div>
+  </div>
+
+  <!-- MODAL: 滴管/漏管取色器 (EYEDROPPER CANVAS MODAL) -->
+  <div class="eyedropper-modal-overlay" id="eyedropperModal">
+    <div class="eyedropper-container">
+      <div class="eyedropper-header">
+        <div class="eyedropper-title-wrap">
+          <span class="eyedropper-title" id="eyedropperTargetTitle">滴管取色</span>
+          <span class="eyedropper-sub">請在圖片上移動並點擊，直接提取色彩</span>
+        </div>
+        <div class="eyedropper-current-preview">
+          <div class="eyedropper-preview-dot" id="eyedropperPreviewDot"></div>
+          <span class="eyedropper-preview-text" id="eyedropperPreviewText">#000000</span>
+        </div>
+        <button class="closet-close-btn" onclick="closeEyedropperModal()">✕</button>
+      </div>
+
+      <div class="eyedropper-canvas-wrap" id="eyedropperCanvasWrap">
+        <canvas id="eyedropperCanvas"></canvas>
+        <div class="eyedropper-loupe" id="eyedropperLoupe">
+          <div class="loupe-reticle"></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2145,28 +2330,20 @@
     }
 
     /* =========================================================================
-     * 1. 品類精確校驗、春秋徹底聯動與內搭厚度守衛
+     * 1. 品類校驗、春秋徹底聯動與內搭厚度守衛
      * ========================================================================= */
     function verifyAndCorrectDrawer(name, currentDrawer) {
       const lower = (name || "").toLowerCase().trim();
-      // 1. 腕錶
       if (/錶|手表|手錶|腕錶|機械錶|石英錶|watch|casio|rolex|omega/i.test(lower)) return 'watch';
-      // 2. 皮帶
       if (/皮帶|腰帶|腰鏈|褲帶|belt/i.test(lower)) return 'belt';
-      // 3. 鞋履
       if (/鞋|靴|皮鞋|球鞋|馬丁|高跟|波鞋|運動鞋|布鞋|涼鞋|拖鞋|boot|shoe|sneaker|loafer/i.test(lower)) return 'shoes';
-      // 4. 褲裝
       if (/褲|西褲|牛仔褲|工裝褲|短褲|長褲|休閒褲|trousers|pants|jeans|shorts/i.test(lower)) return 'pants';
-      // 5. 裙裝
       if (/裙|半身裙|連衣裙|長裙|短裙|百褶裙|skirt|dress/i.test(lower)) return 'skirt';
-      // 6. 毛衣/衛衣/羊絨/開衫 等厚重衣服只可作為外套大衣，嚴格不劃為內搭
       if (/毛衣|羊絨|針織衫|衛衣|連帽衫|線衫|厚開衫|外套|大衣|夾克|西裝|風衣|羽絨|皮衣|開衫|jacket|coat|blazer|parka|sweater|cardigan|hoodie/i.test(lower)) return 'outer';
-      // 7. 純打底、薄短袖、襯衣
       if (/t恤|恤|馬球|polo|襯衫|襯衣|背心|吊帶|打底|top|shirt|tee/i.test(lower)) return 'top';
       return currentDrawer || 'top';
     }
 
-    // 春秋不分：只要有春必有秋，有秋必有春
     function harmonizeSeasons(seasons) {
       const set = new Set(seasons || ['spring', 'autumn', 'summer', 'winter']);
       if (set.has('spring') || set.has('autumn')) {
@@ -2176,7 +2353,6 @@
       return Array.from(set);
     }
 
-    // 判斷衣服是否不適合做內搭（毛衣、厚針織、衛衣等只可作外層）
     function isUnsuitableForInner(item) {
       if (!item) return false;
       if (item.drawer === 'outer') return true;
@@ -2186,7 +2362,6 @@
 
     function inferItemSeasons(name, drawer) {
       const lower = (name || '').toLowerCase();
-      // 皮帶與腕錶、鞋履一年四季均通用
       if (drawer === 'belt' || drawer === 'watch' || drawer === 'shoes') {
         return ['spring', 'summer', 'autumn', 'winter'];
       }
@@ -2212,12 +2387,10 @@
 
     function isItemSuitableForSeason(item, season, role) {
       if (!item) return false;
-      // 皮帶、手錶、鞋履、長褲四季皆宜
       if (item.drawer === 'belt' || item.drawer === 'watch' || item.drawer === 'shoes' || item.drawer === 'pants') return true;
       
       const seasons = harmonizeSeasons(item.seasons || inferItemSeasons(item.name, item.drawer));
       
-      // 春秋互通
       if (season === 'spring' || season === 'autumn') {
         if (seasons.includes('spring') || seasons.includes('autumn')) return true;
       }
@@ -2256,7 +2429,7 @@
     /* =========================================================================
      * 2. INDEXED DB 原生持久化儲存
      * ========================================================================= */
-    const DB_NAME = "LAllureWardrobeDB_v17";
+    const DB_NAME = "LAllureWardrobeDB_v18";
     const DB_VERSION = 1;
     const STORE_CLOTHES = "clothes";
     const STORE_LOOKS = "saved_looks";
@@ -2622,7 +2795,15 @@
 
     // 私享典藏當前過濾器
     let lookbookSeasonFilter = 'spring';
-    let lookbookLayerFilter = 0; // 0 代表全部
+    let lookbookLayerFilter = 0;
+
+    // 滴管取色上下文狀態
+    let eyedropperContext = {
+      targetType: 'recent', // 'recent' or 'closet'
+      itemId: null,
+      colorIndex: 0,
+      imageSrc: ''
+    };
 
     window.addEventListener('DOMContentLoaded', async () => {
       try {
@@ -2663,6 +2844,8 @@
       if (myWardrobe.length > 0) {
         renderOutfitViewLocal();
       }
+
+      initEyedropperCanvasEvents();
     });
 
     function updateWardrobeCountUi() {
@@ -2739,7 +2922,7 @@
     }
 
     /* =========================================================================
-     * 6. 批量上傳與節流處理
+     * 6. 批量上傳與錄入卡片
      * ========================================================================= */
     async function handleBatchFileUpload(e) {
       const files = Array.from(e.target.files || []);
@@ -2975,17 +3158,25 @@
       document.getElementById('pillSeasonWinter').classList.toggle('active', sList.includes('winter'));
     }
 
+    // 渲染主色與次色（皆配備調色盤與滴管取色）
     function renderRecentColorSwatches(item) {
       const box = document.getElementById('recentColorSwatchesBox');
       const colors = item.colors || [item.color];
 
       box.innerHTML = colors.map((c, idx) => `
         <div class="color-swatch-row">
-          <input type="color" value="${c.hex}" class="color-picker-input" onchange="handleRecentColorChange(${idx}, this.value)">
-          <span class="swatch-role-tag">${idx === 0 ? '主' : '拼'}</span>
+          <input type="color" value="${c.hex}" class="color-picker-input" title="手動調色" onchange="handleRecentColorChange(${idx}, this.value)">
+          <button type="button" class="swatch-btn-action" onclick="openEyedropperForRecentItem(${idx})" title="用滴管在圖片提取此色彩">
+            <svg viewBox="0 0 24 24"><path d="m14 7 3-3a2.1 2.1 0 0 1 3 3l-3 3"/><path d="m9 12 7-7 3 3-7 7"/><path d="m12 15 2 2-7.5 7.5c-1 1-2.5 1-3.5 0s-1-2.5 0-3.5L10.5 13.5l1.5 1.5"/></svg>
+          </button>
+          <span class="swatch-role-tag">${idx === 0 ? '主色' : '次色'}</span>
           <span class="recent-color-name">${c.name}</span>
           <span class="recent-color-hex">${c.hex}</span>
-          ${idx > 0 ? `<button type="button" class="swatch-btn-action" onclick="removeRecentColor(${idx})">✕</button>` : ''}
+          ${idx > 0 ? `
+            <button type="button" class="swatch-btn-action del-action" onclick="removeRecentColor(${idx})" title="刪除拼色">
+              <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          ` : ''}
         </div>
       `).join('');
 
@@ -3010,7 +3201,7 @@
       if (idx !== -1) myWardrobe[idx] = lastRecordedItem;
 
       renderRecentColorSwatches(lastRecordedItem);
-      showToast(`${info.name}`);
+      showToast(`${info.name} (${info.hex})`);
     }
 
     async function addRecentSecondaryColor() {
@@ -3041,7 +3232,6 @@
       renderRecentColorSwatches(lastRecordedItem);
     }
 
-    // 春與秋徹底互通聯動
     async function toggleRecentSeason(season) {
       if (!lastRecordedItem) return;
       let s = new Set(lastRecordedItem.seasons || []);
@@ -3140,7 +3330,7 @@
     }
 
     /* =========================================================================
-     * 7. 穿搭季節與層次控制器 (春秋同享相同規則)
+     * 7. 穿搭季節與層次控制器
      * ========================================================================= */
     function selectSeason(season) {
       currentSeason = season;
@@ -3174,7 +3364,7 @@
     }
 
     /* =========================================================================
-     * 8. 穿搭組裝、毛衣內搭防護與皮帶/手錶精準匹配
+     * 8. 穿搭組裝與分層架構
      * ========================================================================= */
     function renderOutfitViewLocal() {
       if (myWardrobe.length === 0) {
@@ -3189,7 +3379,6 @@
       }
 
       const outers = myWardrobe.filter(x => x.drawer === 'outer' && isItemSuitableForSeason(x, currentSeason, 'outer'));
-      // 內搭嚴格防護：毛衣、衛衣、厚款絕不可作為 tops 內搭
       const tops = myWardrobe.filter(x => x.drawer === 'top' && !isUnsuitableForInner(x) && isItemSuitableForSeason(x, currentSeason, 'top'));
       const bottoms = myWardrobe.filter(x => (x.drawer === 'pants' || x.drawer === 'skirt') && isItemSuitableForSeason(x, currentSeason, 'bottom'));
       const shoesList = myWardrobe.filter(x => x.drawer === 'shoes' && isItemSuitableForSeason(x, currentSeason, 'shoes'));
@@ -3214,7 +3403,7 @@
         if (currentOutfit.shoes) assignedIds.add(currentOutfit.shoes.id);
       }
 
-      // 3. 腰帶 (四季可用)
+      // 3. 腰帶
       if (currentOutfit.belt && !assignedIds.has(currentOutfit.belt.id)) {
         assignedIds.add(currentOutfit.belt.id);
       } else {
@@ -3222,7 +3411,7 @@
         if (currentOutfit.belt) assignedIds.add(currentOutfit.belt.id);
       }
 
-      // 4. 腕錶 (四季可用)
+      // 4. 腕錶
       if (currentOutfit.watch && !assignedIds.has(currentOutfit.watch.id)) {
         assignedIds.add(currentOutfit.watch.id);
       } else {
@@ -3230,7 +3419,7 @@
         if (currentOutfit.watch) assignedIds.add(currentOutfit.watch.id);
       }
 
-      // 5. 上身與分層架構 (毛衣類絕不可出現在 inner)
+      // 5. 上裝與外套配置
       if (currentLayerCount === 1) {
         if (currentOutfit.outer && currentOutfit.outer.drawer === 'top' && !isUnsuitableForInner(currentOutfit.outer) && isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer') && !assignedIds.has(currentOutfit.outer.id)) {
           assignedIds.add(currentOutfit.outer.id);
@@ -3241,14 +3430,12 @@
         currentOutfit.mid = null;
         currentOutfit.inner = null;
       } else if (currentLayerCount === 2) {
-        // 外層：只能是 outer (毛衣在此大顯身手)
         if (currentOutfit.outer && currentOutfit.outer.drawer === 'outer' && isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer') && !assignedIds.has(currentOutfit.outer.id)) {
           assignedIds.add(currentOutfit.outer.id);
         } else {
           currentOutfit.outer = outers.find(o => !assignedIds.has(o.id)) || null;
           if (currentOutfit.outer) assignedIds.add(currentOutfit.outer.id);
         }
-        // 內搭：絕對不可為毛衣或厚裝
         if (currentOutfit.inner && currentOutfit.inner.drawer === 'top' && !isUnsuitableForInner(currentOutfit.inner) && isItemSuitableForSeason(currentOutfit.inner, currentSeason, 'inner') && !assignedIds.has(currentOutfit.inner.id)) {
           assignedIds.add(currentOutfit.inner.id);
         } else {
@@ -3257,21 +3444,18 @@
         }
         currentOutfit.mid = null;
       } else if (currentLayerCount === 3) {
-        // 外層
         if (currentOutfit.outer && currentOutfit.outer.drawer === 'outer' && isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer') && !assignedIds.has(currentOutfit.outer.id)) {
           assignedIds.add(currentOutfit.outer.id);
         } else {
           currentOutfit.outer = outers.find(o => !assignedIds.has(o.id)) || null;
           if (currentOutfit.outer) assignedIds.add(currentOutfit.outer.id);
         }
-        // 內搭 (最貼身：不可為毛衣)
         if (currentOutfit.inner && currentOutfit.inner.drawer === 'top' && !isUnsuitableForInner(currentOutfit.inner) && isItemSuitableForSeason(currentOutfit.inner, currentSeason, 'inner') && !assignedIds.has(currentOutfit.inner.id)) {
           assignedIds.add(currentOutfit.inner.id);
         } else {
           currentOutfit.inner = tops.find(t => !assignedIds.has(t.id)) || null;
           if (currentOutfit.inner) assignedIds.add(currentOutfit.inner.id);
         }
-        // 中層 (中層保暖)
         if (currentOutfit.mid && isItemSuitableForSeason(currentOutfit.mid, currentSeason, 'mid') && !assignedIds.has(currentOutfit.mid.id)) {
           assignedIds.add(currentOutfit.mid.id);
         } else {
@@ -3343,8 +3527,6 @@
       const bottomRole = isSkirt ? '裙裝' : '褲裝';
       cardsContainer.appendChild(createRealCard('bottom', bottomRole, currentOutfit.bottom, isSkirt ? 'skirt' : 'pants'));
       cardsContainer.appendChild(createRealCard('shoes', '鞋履', currentOutfit.shoes, 'shoes'));
-      
-      // 專屬皮帶與手錶卡片
       cardsContainer.appendChild(createRealCard('belt', '腰帶', currentOutfit.belt, 'belt'));
       cardsContainer.appendChild(createRealCard('watch', '腕錶', currentOutfit.watch, 'watch'));
     }
@@ -3520,7 +3702,7 @@
     }
 
     /* =========================================================================
-     * 9. 點擊替換單品 (毛衣嚴格禁止出現在內搭選項中)
+     * 9. 點擊替換單品
      * ========================================================================= */
     function openItemPicker(roleKey) {
       currentPickerSlot = roleKey;
@@ -3559,7 +3741,6 @@
       } else if (roleKey === 'mid') {
         candidates = candidates.filter(x => x.drawer === 'top' || x.drawer === 'outer');
       } else if (roleKey === 'inner') {
-        // 嚴格過濾：毛衣、衛衣、厚款絕不可作為內搭
         candidates = candidates.filter(x => x.drawer === 'top' && !isUnsuitableForInner(x));
       } else if (roleKey === 'bottom') {
         candidates = candidates.filter(x => x.drawer === 'pants' || x.drawer === 'skirt');
@@ -3616,7 +3797,7 @@
     }
 
     /* =========================================================================
-     * 10. 私享典藏收藏與抽取 (春秋互通防重)
+     * 10. 私享典藏收藏與抽取
      * ========================================================================= */
     async function saveCurrentLook() {
       const activePieces = Object.values(currentOutfit).filter(Boolean);
@@ -3635,7 +3816,6 @@
         const sameWatch = (l.outfit?.watch?.id || null) === (currentOutfit.watch?.id || null);
         const sameLayers = l.layerCount === currentLayerCount;
         
-        // 春秋完全視為互通一體
         const sameSeason = (l.season === currentSeason) || 
           ((currentSeason === 'spring' || currentSeason === 'autumn') && (l.season === 'spring' || l.season === 'autumn'));
 
@@ -3671,7 +3851,6 @@
         return;
       }
 
-      // 抽取符合當前季節或春秋互通的典藏
       let candidates = mySavedLooks.filter(l => {
         if (currentSeason === 'spring' || currentSeason === 'autumn') {
           return l.season === 'spring' || l.season === 'autumn';
@@ -3834,7 +4013,7 @@
     }
 
     /* =========================================================================
-     * 11. 美學推薦（含皮帶腕錶、毛衣外穿特權與春秋統一）
+     * 11. 美學推薦
      * ========================================================================= */
     async function triggerAiSmartRecommendation() {
       if (myWardrobe.length === 0) {
@@ -3960,7 +4139,7 @@
     }
 
     /* =========================================================================
-     * 12. 日常化口吻的色彩穿搭審美診斷 (含皮帶腕錶皮質色彩呼應)
+     * 12. 日常化口吻的色彩穿搭審美診斷
      * ========================================================================= */
     function buildOutfitPayload(items, season, layers) {
       const pieces = [];
@@ -4050,7 +4229,6 @@
         oneLineHtml = `身上亮色偏多（${chips}），視覺焦點分散，建議換成一兩件素色單品會更俐落。`;
       }
 
-      // 皮帶與鞋履皮質顏色呼應分析 (紳士講究)
       const beltPiece = pieces.find(p => p.category === 'belt');
       const shoePiece = pieces.find(p => p.category === 'shoes');
       if (beltPiece && shoePiece) {
@@ -4092,7 +4270,7 @@
     }
 
     /* =========================================================================
-     * 13. WALK-IN CLOSET 管理 (含皮帶與手錶分區)
+     * 13. WALK-IN CLOSET 管理
      * ========================================================================= */
     function openClosetModal() {
       document.getElementById('closetModal').classList.add('open');
@@ -4146,12 +4324,21 @@
 
         const colorsHtml = colors.map((c, cIdx) => `
           <div class="cabinet-color-row">
-            <label class="cabinet-color-label">
+            <label class="cabinet-color-label" title="手動選擇調色盤">
               <input type="color" value="${c.hex}" class="cabinet-color-picker" onchange="updateCabinetItemColor('${item.id}', ${cIdx}, this.value)">
               <span class="cabinet-color-dot" style="background:${c.hex};"></span>
               <span class="cabinet-color-name">${c.name}</span>
             </label>
-            ${cIdx > 0 ? `<button type="button" class="swatch-btn-action" onclick="removeCabinetColor('${item.id}', ${cIdx})">✕</button>` : ''}
+            <div style="display:flex; align-items:center; gap:2px;">
+              <button type="button" class="swatch-btn-action" onclick="openEyedropperForClosetItem('${item.id}', ${cIdx})" title="滴管提取圖片顏色">
+                <svg viewBox="0 0 24 24"><path d="m14 7 3-3a2.1 2.1 0 0 1 3 3l-3 3"/><path d="m9 12 7-7 3 3-7 7"/><path d="m12 15 2 2-7.5 7.5c-1 1-2.5 1-3.5 0s-1-2.5 0-3.5L10.5 13.5l1.5 1.5"/></svg>
+              </button>
+              ${cIdx > 0 ? `
+                <button type="button" class="swatch-btn-action del-action" onclick="removeCabinetColor('${item.id}', ${cIdx})" title="刪除拼色">
+                  <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              ` : ''}
+            </div>
           </div>
         `).join('');
 
@@ -4211,7 +4398,7 @@
       await dbSaveItem(item);
       renderClosetCompartments();
       renderOutfitViewLocal();
-      showToast(`${info.name}`);
+      showToast(`${info.name} (${info.hex})`);
     }
 
     async function addCabinetSecondaryColor(id) {
@@ -4241,7 +4428,6 @@
       renderOutfitViewLocal();
     }
 
-    // 春秋無分聯動
     async function toggleCabinetItemSeason(id, season) {
       const item = myWardrobe.find(x => x.id === id);
       if (!item) return;
@@ -4344,6 +4530,152 @@
       renderBatchQueueUi();
       renderOutfitViewLocal();
       showToast("已移除");
+    }
+
+    /* =========================================================================
+     * 14. 滴管/漏管畫布取色器核心引擎 (EYEDROPPER ENGINE)
+     * ========================================================================= */
+    function openEyedropperForRecentItem(colorIndex) {
+      if (!lastRecordedItem || !lastRecordedItem.img) {
+        showToast("無單品圖片可供取色");
+        return;
+      }
+      eyedropperContext = {
+        targetType: 'recent',
+        itemId: lastRecordedItem.id,
+        colorIndex: colorIndex,
+        imageSrc: lastRecordedItem.img
+      };
+      launchEyedropperModal(colorIndex === 0 ? '修訂主色 (滴管提取)' : '修訂次色 (滴管提取)');
+    }
+
+    function openEyedropperForClosetItem(itemId, colorIndex) {
+      const item = myWardrobe.find(x => x.id === itemId);
+      if (!item || !item.img) {
+        showToast("無單品圖片可供取色");
+        return;
+      }
+      eyedropperContext = {
+        targetType: 'closet',
+        itemId: itemId,
+        colorIndex: colorIndex,
+        imageSrc: item.img
+      };
+      launchEyedropperModal(colorIndex === 0 ? `修訂 ${item.name} 主色` : `修訂 ${item.name} 次色`);
+    }
+
+    function launchEyedropperModal(titleText) {
+      const modal = document.getElementById('eyedropperModal');
+      const titleElem = document.getElementById('eyedropperTargetTitle');
+      titleElem.innerText = titleText;
+
+      const canvas = document.getElementById('eyedropperCanvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+
+      img.onload = () => {
+        canvas.width = img.naturalWidth || img.width;
+        canvas.height = img.naturalHeight || img.height;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+
+        modal.classList.add('open');
+      };
+
+      img.onerror = () => {
+        showToast("圖片載入失敗，無法取色");
+      };
+
+      img.src = eyedropperContext.imageSrc;
+    }
+
+    function closeEyedropperModal() {
+      document.getElementById('eyedropperModal').classList.remove('open');
+      const loupe = document.getElementById('eyedropperLoupe');
+      if (loupe) loupe.style.display = 'none';
+    }
+
+    function initEyedropperCanvasEvents() {
+      const canvas = document.getElementById('eyedropperCanvas');
+      const wrap = document.getElementById('eyedropperCanvasWrap');
+      const loupe = document.getElementById('eyedropperLoupe');
+      const dot = document.getElementById('eyedropperPreviewDot');
+      const txt = document.getElementById('eyedropperPreviewText');
+
+      function sampleColorAtEvent(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        if (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom) {
+          loupe.style.display = 'none';
+          return null;
+        }
+
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+
+        const x = Math.floor((clientX - rect.left) * scaleX);
+        const y = Math.floor((clientY - rect.top) * scaleY);
+
+        const ctx = canvas.getContext('2d');
+        const pixel = ctx.getImageData(x, y, 1, 1).data;
+        const r = pixel[0], g = pixel[1], b = pixel[2], a = pixel[3];
+
+        if (a < 15) return null;
+
+        const colorInfo = getAccurateColorInfo(r, g, b);
+
+        dot.style.background = colorInfo.hex;
+        txt.innerText = `${colorInfo.hex} · ${colorInfo.name}`;
+
+        const wrapRect = wrap.getBoundingClientRect();
+        const loupeX = clientX - wrapRect.left;
+        const loupeY = clientY - wrapRect.top - 46;
+
+        loupe.style.left = `${loupeX}px`;
+        loupe.style.top = `${loupeY}px`;
+        loupe.style.display = 'block';
+        loupe.style.borderColor = colorInfo.hex;
+        loupe.style.backgroundColor = colorInfo.hex;
+
+        return colorInfo;
+      }
+
+      wrap.addEventListener('mousemove', (e) => {
+        sampleColorAtEvent(e);
+      });
+
+      wrap.addEventListener('mouseleave', () => {
+        loupe.style.display = 'none';
+      });
+
+      wrap.addEventListener('touchmove', (e) => {
+        sampleColorAtEvent(e);
+      }, { passive: true });
+
+      wrap.addEventListener('touchend', (e) => {
+        loupe.style.display = 'none';
+      });
+
+      // 點擊確認取色並寫入
+      wrap.addEventListener('click', (e) => {
+        const picked = sampleColorAtEvent(e);
+        if (picked) {
+          commitEyedropperColor(picked);
+        }
+      });
+    }
+
+    async function commitEyedropperColor(colorInfo) {
+      if (eyedropperContext.targetType === 'recent') {
+        await handleRecentColorChange(eyedropperContext.colorIndex, colorInfo.hex);
+      } else if (eyedropperContext.targetType === 'closet') {
+        await updateCabinetItemColor(eyedropperContext.itemId, eyedropperContext.colorIndex, colorInfo.hex);
+      }
+      closeEyedropperModal();
+      showToast(`滴管已提取: ${colorInfo.name} (${colorInfo.hex})`);
     }
 
     function showToast(text) {
