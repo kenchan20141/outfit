@@ -28,6 +28,10 @@
       --cat-belt: #A89078;
       --cat-watch: #9AA0A6;
 
+      /* 人體擬真膚色 */
+      --c-skin: #D8AC8E;
+      --c-skin-shadow: #C69A7C;
+
       /* 人體動態調色 (嚴格主色) */
       --c-outer-1: #282830;
       --c-outer-2: #282830;
@@ -40,7 +44,7 @@
       --c-shoes-1: #111114;
       --c-shoes-2: #111114;
       --c-belt-1: #2E251E;
-      --c-watch-1: #4A4A55;
+      --c-watch-1: #C5A880;
     }
 
     * {
@@ -842,7 +846,7 @@
       transition: transform 0.3s ease;
     }
 
-    #mannequinSvg path, #mannequinSvg ellipse, #mannequinSvg rect {
+    #mannequinSvg path, #mannequinSvg ellipse, #mannequinSvg rect, #mannequinSvg circle {
       transition: fill 0.35s ease, opacity 0.35s ease;
     }
 
@@ -878,12 +882,6 @@
     }
 
     /* REAL OUTFIT CARDS */
-    .outfit-display-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
     .cards-responsive-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -1283,70 +1281,140 @@
       color: var(--cat-outer);
     }
 
-    .closet-stats-bar {
-      display: flex;
+    /* CLOSET CATEGORY HUB (品類入口視圖) */
+    .closet-hub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
       gap: 16px;
-      padding: 12px 24px;
-      background: #121217;
-      border-bottom: 1px solid var(--border);
-      overflow-x: auto;
-      align-items: center;
-    }
-
-    .stat-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.62rem;
-      letter-spacing: 0.1em;
-      white-space: nowrap;
-      color: var(--muted);
-    }
-
-    .stat-pill strong {
-      color: var(--text);
-      font-weight: 500;
-    }
-
-    .stat-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-    }
-
-    .closet-compartments-scroll {
-      flex: 1;
-      overflow-y: auto;
       padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
+      overflow-y: auto;
+      flex: 1;
     }
 
-    .cabinet-section {
+    .category-hub-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       gap: 14px;
-      padding-top: 14px;
-      border-top: 1px solid;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
     }
 
-    .cabinet-section.theme-outer { border-color: rgba(197, 168, 128, 0.25); }
-    .cabinet-section.theme-top { border-color: rgba(138, 163, 155, 0.25); }
-    .cabinet-section.theme-pants { border-color: rgba(123, 146, 168, 0.25); }
-    .cabinet-section.theme-skirt { border-color: rgba(176, 137, 158, 0.25); }
-    .cabinet-section.theme-shoes { border-color: rgba(199, 162, 124, 0.25); }
-    .cabinet-section.theme-belt { border-color: rgba(168, 144, 120, 0.25); }
-    .cabinet-section.theme-watch { border-color: rgba(154, 160, 166, 0.25); }
+    .category-hub-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--cat-accent-color, var(--cat-outer));
+      opacity: 0.85;
+      border-radius: 6px 6px 0 0;
+    }
 
-    .cabinet-section-title {
+    .category-hub-card:hover {
+      border-color: var(--cat-accent-color, var(--cat-outer));
+      transform: translateY(-3px);
+      background: #14141B;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.5);
+    }
+
+    .category-hub-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.66rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
+    }
+
+    .category-hub-icon-wrap {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cat-accent-color, var(--cat-outer));
+    }
+
+    .category-hub-icon-wrap svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.6;
+    }
+
+    .category-hub-count {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background: #181822;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .category-hub-title {
+      font-size: 0.95rem;
       font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--text);
+    }
+
+    .category-hub-sub {
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* CLOSET DETAIL VIEW (品類衣服詳情視圖) */
+    .closet-detail-container {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .closet-detail-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
+      background: #121218;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .closet-back-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 14px;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      border-radius: 20px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .closet-back-btn:hover {
+      border-color: var(--cat-outer);
+      color: var(--cat-outer);
+      background: rgba(197, 168, 128, 0.08);
+    }
+
+    .closet-detail-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
     }
 
     .cabinet-grid {
@@ -1522,10 +1590,10 @@
     }
 
     .empty-cabinet-slot {
-      font-size: 0.62rem;
+      font-size: 0.65rem;
       color: var(--muted);
       border: 1px dashed var(--border);
-      padding: 24px;
+      padding: 40px;
       text-align: center;
       border-radius: 3px;
     }
@@ -1694,9 +1762,7 @@
       color: #E06C75;
     }
 
-    /* =========================================================================
-     * MODAL: 滴管/漏管取色器 (EYEDROPPER CANVAS MODAL)
-     * ========================================================================= */
+    /* MODAL: EYEDROPPER CANVAS MODAL */
     .eyedropper-modal-overlay {
       position: fixed;
       inset: 0;
@@ -1933,7 +1999,7 @@
           <div class="batch-thumbs-scroll" id="batchThumbsScroll"></div>
         </div>
 
-        <!-- 錄入編輯卡片 (主色、次色皆支援調色與滴管取色) -->
+        <!-- 錄入編輯卡片 -->
         <div class="recent-scanned-card" id="recentCard">
           <div class="recent-card-header">
             <span id="recentCatTag" style="color:var(--cat-outer); font-weight:600;">-</span>
@@ -1944,7 +2010,7 @@
             <input type="text" id="recentNameInput" class="recent-input" placeholder="單品名稱" onchange="handleRecentNameChange(this.value)">
           </div>
 
-          <!-- 多色編輯器 (主色與次色) -->
+          <!-- 多色編輯器 -->
           <div class="recent-edit-group">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <label class="recent-label">色彩光譜 (主色 / 次色)</label>
@@ -1978,7 +2044,7 @@
             </div>
           </div>
 
-          <!-- 春秋純粹互通季節按鈕 -->
+          <!-- 春秋互通季節按鈕 -->
           <div class="recent-edit-group">
             <label class="recent-label">適用季節</label>
             <div class="recent-pills-grid">
@@ -2038,7 +2104,7 @@
       <!-- 1. 真實單品卡片 (置於最上方) -->
       <div class="cards-responsive-grid" id="outfitCardsContainer"></div>
       
-      <!-- 2. 人體穿搭圖 (嚴格主色呈現，含腰帶與腕錶配飾) -->
+      <!-- 2. 人體穿搭圖 (肉色肢體 + 實際顏色腕錶與腰帶) -->
       <div class="mannequin-panel">
         <div class="mannequin-top-info">
           <span class="mannequin-heading">構圖</span>
@@ -2072,19 +2138,20 @@
                 <stop offset="0%" stop-color="var(--c-shoes-1)"/>
                 <stop offset="100%" stop-color="var(--c-shoes-2)"/>
               </linearGradient>
-              <linearGradient id="gradBelt" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="var(--c-belt-1)"/>
-                <stop offset="100%" stop-color="var(--c-belt-1)"/>
-              </linearGradient>
-              <linearGradient id="gradWatch" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stop-color="var(--c-watch-1)"/>
-                <stop offset="100%" stop-color="var(--c-watch-1)"/>
-              </linearGradient>
             </defs>
 
+            <!-- 地面陰影 -->
             <ellipse cx="100" cy="466" rx="40" ry="3.5" fill="#000" opacity="0.5"/>
-            <ellipse cx="100" cy="38" rx="13" ry="18" fill="#1C1C22"/>
-            <path d="M94 54 L94 68 L106 68 L106 54 Z" fill="#18181E"/>
+
+            <!-- 人體肉色骨架 (頭部、頸部、雙臂手腕基底) -->
+            <g id="bodyBase">
+              <path d="M94 53 L94 69 L106 69 L106 53 Z" fill="var(--c-skin-shadow)"/>
+              <ellipse cx="100" cy="37" rx="13" ry="17.5" fill="var(--c-skin)"/>
+              <!-- 左手臂 (Mannequin's Right Arm) -->
+              <path d="M76 92 L56 142 L48 196 L57 197 L65 146 L82 96 Z" fill="var(--c-skin)"/>
+              <!-- 右手臂 (Mannequin's Left Arm) -->
+              <path d="M124 92 L144 142 L152 196 L143 197 L135 146 L118 96 Z" fill="var(--c-skin)"/>
+            </g>
 
             <g id="layerSingleTop" style="display: none;">
               <path d="M88 68 Q100 78 112 68 L126 94 L138 122 L124 126 L118 102 L116 166 L84 166 L82 102 L76 126 L62 122 L74 94 Z" fill="url(#gradSingleTop)"/>
@@ -2113,20 +2180,23 @@
             <g id="layerSkirt" style="display: none;">
               <path d="M78 166 L122 166 L122 172 L78 172 Z" fill="#131317"/>
               <path d="M78 172 L122 172 L138 296 L62 296 Z" fill="url(#gradBottom)"/>
-              <path d="M82 296 L92 296 L91 385 L81 385 Z" fill="#191920"/>
-              <path d="M108 296 L118 296 L119 385 L109 385 Z" fill="#191920"/>
+              <!-- 裙下肉色雙腿 -->
+              <path d="M82 296 L92 296 L91 385 L81 385 Z" fill="var(--c-skin)"/>
+              <path d="M108 296 L118 296 L119 385 L109 385 Z" fill="var(--c-skin)"/>
             </g>
 
-            <!-- 腰帶飾品層 -->
+            <!-- 腰帶飾品層 (實際顏色嚴格綁定) -->
             <g id="layerBelt" style="display: block;">
-              <path d="M78 166 L122 166 L122 172 L78 172 Z" fill="url(#gradBelt)"/>
-              <rect x="96" y="165" width="8" height="8" rx="1" fill="#C5A880" stroke="#0E0E13" stroke-width="0.8"/>
+              <path d="M78 165 L122 165 L122 173 L78 173 Z" fill="var(--c-belt-1)"/>
+              <rect x="96" y="164.5" width="8" height="9" rx="1" fill="#C5A880" stroke="#0E0E13" stroke-width="0.8"/>
             </g>
 
-            <!-- 手腕手錶飾品層 (左腕) -->
+            <!-- 腕錶飾品層 (左腕實際顏色嚴格綁定) -->
             <g id="layerWatch" style="display: block;">
-              <rect x="47" y="193" width="9" height="5" rx="1.5" fill="url(#gradWatch)" transform="rotate(-15 51 195)"/>
-              <circle cx="51.5" cy="195.5" r="2.8" fill="#1A1A22" stroke="#C5A880" stroke-width="0.7"/>
+              <rect x="46" y="191" width="11" height="9" rx="1.5" fill="var(--c-watch-1)" transform="rotate(-15 51 195)"/>
+              <circle cx="51.5" cy="195.5" r="4.5" fill="var(--c-watch-1)" stroke="#F0EFE9" stroke-width="0.7"/>
+              <circle cx="51.5" cy="195.5" r="2.8" fill="#181822" opacity="0.6"/>
+              <circle cx="51.5" cy="195.5" r="0.9" fill="#FFFFFF"/>
             </g>
 
             <g id="layerShoes">
@@ -2184,72 +2254,23 @@
         </div>
       </div>
 
-      <div class="closet-stats-bar">
-        <div class="stat-pill"><span>全部:</span> <strong id="statTotal">0</strong></div>
-        <div class="stat-pill"><span class="stat-dot" style="background:var(--cat-outer);"></span><span>外套:</span> <strong id="statOuter">0</strong></div>
-        <div class="stat-pill"><span class="stat-dot" style="background:var(--cat-top);"></span><span>上裝:</span> <strong id="statTop">0</strong></div>
-        <div class="stat-pill"><span class="stat-dot" style="background:var(--cat-pants);"></span><span>褲裝:</span> <strong id="statPants">0</strong></div>
-        <div class="stat-pill"><span class="stat-dot" style="background:var(--cat-skirt);"></span><span>裙裝:</span> <strong id="statSkirt">0</strong></div>
-        <div class="stat-pill"><span class="stat-dot" style="background:var(--cat-shoes);"></span><span>鞋履:</span> <strong id="statShoes">0</strong></div>
-        <div class="stat-pill"><span class="stat-dot" style="background:var(--cat-belt);"></span><span>腰帶:</span> <strong id="statBelt">0</strong></div>
-        <div class="stat-pill"><span class="stat-dot" style="background:var(--cat-watch);"></span><span>腕錶:</span> <strong id="statWatch">0</strong></div>
-      </div>
+      <!-- VIEW A: 品類導航中心 (CATEGORY HUB) -->
+      <div class="closet-hub-grid" id="closetCategoryHub"></div>
 
-      <div class="closet-compartments-scroll">
-        <div class="cabinet-section theme-outer">
-          <div class="cabinet-section-title" style="color:var(--cat-outer);">
-            <span>COATS & JACKETS (含毛衣/厚裝)</span>
-            <span id="countOuter">0</span>
+      <!-- VIEW B: 單一品類詳情檢視 (CATEGORY DETAIL) -->
+      <div class="closet-detail-container" id="closetDetailContainer">
+        <div class="closet-detail-bar">
+          <button class="closet-back-btn" onclick="backToClosetHub()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            返回品類
+          </button>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span id="closetDetailCatTitle" style="font-size:0.75rem; letter-spacing:0.16em; font-weight:600; text-transform:uppercase;">-</span>
+            <span id="closetDetailCatCount" style="font-size:0.6rem; color:var(--muted);">0 件單品</span>
           </div>
-          <div class="cabinet-grid" id="cabinetOuter"></div>
         </div>
-
-        <div class="cabinet-section theme-top">
-          <div class="cabinet-section-title" style="color:var(--cat-top);">
-            <span>TOPS & INNERS (單穿/內搭打底)</span>
-            <span id="countTop">0</span>
-          </div>
-          <div class="cabinet-grid" id="cabinetTop"></div>
-        </div>
-
-        <div class="cabinet-section theme-pants">
-          <div class="cabinet-section-title" style="color:var(--cat-pants);">
-            <span>TROUSERS</span>
-            <span id="countPants">0</span>
-          </div>
-          <div class="cabinet-grid" id="cabinetPants"></div>
-        </div>
-
-        <div class="cabinet-section theme-skirt">
-          <div class="cabinet-section-title" style="color:var(--cat-skirt);">
-            <span>SKIRTS</span>
-            <span id="countSkirts">0</span>
-          </div>
-          <div class="cabinet-grid" id="cabinetSkirts"></div>
-        </div>
-
-        <div class="cabinet-section theme-shoes">
-          <div class="cabinet-section-title" style="color:var(--cat-shoes);">
-            <span>FOOTWEAR</span>
-            <span id="countShoes">0</span>
-          </div>
-          <div class="cabinet-grid" id="cabinetShoes"></div>
-        </div>
-
-        <div class="cabinet-section theme-belt">
-          <div class="cabinet-section-title" style="color:var(--cat-belt);">
-            <span>BELTS & ACCESSORIES</span>
-            <span id="countBelt">0</span>
-          </div>
-          <div class="cabinet-grid" id="cabinetBelt"></div>
-        </div>
-
-        <div class="cabinet-section theme-watch">
-          <div class="cabinet-section-title" style="color:var(--cat-watch);">
-            <span>HOROLOGY & WATCHES</span>
-            <span id="countWatch">0</span>
-          </div>
-          <div class="cabinet-grid" id="cabinetWatch"></div>
+        <div class="closet-detail-scroll">
+          <div class="cabinet-grid" id="cabinetActiveGrid"></div>
         </div>
       </div>
     </div>
@@ -2286,7 +2307,7 @@
     </div>
   </div>
 
-  <!-- MODAL: 滴管/漏管取色器 (EYEDROPPER CANVAS MODAL) -->
+  <!-- MODAL: 滴管取色器 (EYEDROPPER CANVAS MODAL) -->
   <div class="eyedropper-modal-overlay" id="eyedropperModal">
     <div class="eyedropper-container">
       <div class="eyedropper-header">
@@ -2330,7 +2351,7 @@
     }
 
     /* =========================================================================
-     * 1. 品類校驗、春秋徹底聯動與內搭厚度守衛
+     * 1. 品類校驗、子類型識別與層次疊穿衝突防護
      * ========================================================================= */
     function verifyAndCorrectDrawer(name, currentDrawer) {
       const lower = (name || "").toLowerCase().trim();
@@ -2342,6 +2363,48 @@
       if (/毛衣|羊絨|針織衫|衛衣|連帽衫|線衫|厚開衫|外套|大衣|夾克|西裝|風衣|羽絨|皮衣|開衫|jacket|coat|blazer|parka|sweater|cardigan|hoodie/i.test(lower)) return 'outer';
       if (/t恤|恤|馬球|polo|襯衫|襯衣|背心|吊帶|打底|top|shirt|tee/i.test(lower)) return 'top';
       return currentDrawer || 'top';
+    }
+
+    // 提取精確子品類，用於防範襯衫配襯衫、T恤配T恤、毛衣配毛衣等不合理現象
+    function getUpperSubtype(item) {
+      if (!item) return 'none';
+      const name = (item.name || '').toLowerCase();
+      if (/襯衫|襯衣|襯|shirt|oxford|blouse/i.test(name)) return 'shirt';
+      if (/polo|馬球/i.test(name)) return 'polo';
+      if (/背心|馬甲|吊帶|vest|tank/i.test(name)) return 'vest';
+      if (/t恤|短袖|恤|tee|t-shirt/i.test(name)) return 'tee';
+      if (/衛衣|連帽衫|hoodie/i.test(name)) return 'hoodie';
+      if (/毛衣|羊絨|針織|線衫|sweater|knit|cardigan|厚開衫/i.test(name)) return 'sweater';
+      if (/西裝|西服|blazer/i.test(name)) return 'blazer';
+      if (/風衣|大衣|trench|overcoat/i.test(name)) return 'overcoat';
+      if (/羽絨|棉服|down/i.test(name)) return 'down';
+      if (/夾克|皮衣|jacket/i.test(name)) return 'jacket';
+      if (item.drawer === 'outer') return 'outer_generic';
+      return 'top_generic';
+    }
+
+    // 疊穿相容性判斷：不相容則回傳 true
+    function areSubtypesIncompatible(itemA, itemB) {
+      if (!itemA || !itemB) return false;
+      const subA = getUpperSubtype(itemA);
+      const subB = getUpperSubtype(itemB);
+      if (subA === 'none' || subB === 'none') return false;
+
+      // 同樣具體子類不可疊穿（如 襯衫+襯衫、T恤+T恤、毛衣+毛衣、背心+背心 等）
+      if (subA === subB) {
+        if (['shirt', 'tee', 'polo', 'vest', 'sweater', 'hoodie', 'blazer', 'down', 'overcoat'].includes(subA)) {
+          return true;
+        }
+      }
+      // 毛衣與衛衣不可互疊
+      if ((subA === 'sweater' && subB === 'hoodie') || (subA === 'hoodie' && subB === 'sweater')) {
+        return true;
+      }
+      // Polo衫與襯衫不可疊穿
+      if ((subA === 'polo' && subB === 'shirt') || (subA === 'shirt' && subB === 'polo')) {
+        return true;
+      }
+      return false;
     }
 
     function harmonizeSeasons(seasons) {
@@ -2385,10 +2448,9 @@
       return harmonizeSeasons(s);
     }
 
-function isItemSuitableForSeason(item, season, role) {
-  if (!item) return false;
-  // 確認這一行包含 shoes（已包含即可保持不變）：
-  if (item.drawer === 'belt' || item.drawer === 'watch' || item.drawer === 'shoes' || item.drawer === 'pants') return true;
+    function isItemSuitableForSeason(item, season, role) {
+      if (!item) return false;
+      if (item.drawer === 'belt' || item.drawer === 'watch' || item.drawer === 'shoes' || item.drawer === 'pants') return true;
       
       const seasons = harmonizeSeasons(item.seasons || inferItemSeasons(item.name, item.drawer));
       
@@ -2800,11 +2862,14 @@ function isItemSuitableForSeason(item, season, role) {
 
     // 滴管取色上下文狀態
     let eyedropperContext = {
-      targetType: 'recent', // 'recent' or 'closet'
+      targetType: 'recent',
       itemId: null,
       colorIndex: 0,
       imageSrc: ''
     };
+
+    // 衣櫥當前選取的品類（null 代表在 Category Hub 主選單）
+    let activeClosetCategory = null;
 
     window.addEventListener('DOMContentLoaded', async () => {
       try {
@@ -2823,13 +2888,12 @@ function isItemSuitableForSeason(item, season, role) {
             item.style = inferItemStyle(item.name, item.drawer);
             changed = true;
           }
-        // 若為鞋履、腰帶、手錶，強制永久賦予一年四季
-if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch') {
-  item.seasons = ['spring', 'summer', 'autumn', 'winter'];
-  changed = true;
-} else {
-  item.seasons = harmonizeSeasons(item.seasons || inferItemSeasons(item.name, item.drawer));
-}
+          if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch') {
+            item.seasons = ['spring', 'summer', 'autumn', 'winter'];
+            changed = true;
+          } else {
+            item.seasons = harmonizeSeasons(item.seasons || inferItemSeasons(item.name, item.drawer));
+          }
           
           if (!item.colors || item.colors.length === 0) {
             item.colors = [item.color || getAccurateColorInfo(34, 38, 48)];
@@ -3063,14 +3127,13 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
           const parsed = extractJson(data.choices[0].message.content);
           if (parsed) {
             item.name = parsed.name || item.name;
-          item.drawer = verifyAndCorrectDrawer(parsed.name, parsed.drawer);
-item.style = parsed.style || inferItemStyle(item.name, item.drawer);
-// 鞋履、腰帶、手錶無論 AI 判斷為何，均強制歸為一年四季
-if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch') {
-  item.seasons = ['spring', 'summer', 'autumn', 'winter'];
-} else {
-  item.seasons = harmonizeSeasons(parsed.seasons || inferItemSeasons(item.name, item.drawer));
-}
+            item.drawer = verifyAndCorrectDrawer(parsed.name, parsed.drawer);
+            item.style = parsed.style || inferItemStyle(item.name, item.drawer);
+            if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch') {
+              item.seasons = ['spring', 'summer', 'autumn', 'winter'];
+            } else {
+              item.seasons = harmonizeSeasons(parsed.seasons || inferItemSeasons(item.name, item.drawer));
+            }
           }
         }
       } catch (err) {
@@ -3170,7 +3233,6 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
       document.getElementById('pillSeasonWinter').classList.toggle('active', sList.includes('winter'));
     }
 
-    // 渲染主色與次色（皆配備調色盤與滴管取色）
     function renderRecentColorSwatches(item) {
       const box = document.getElementById('recentColorSwatchesBox');
       const colors = item.colors || [item.color];
@@ -3376,7 +3438,7 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
     }
 
     /* =========================================================================
-     * 8. 穿搭組裝與分層架構
+     * 8. 穿搭組裝與分層架構 (防同品類重複疊穿)
      * ========================================================================= */
     function renderOutfitViewLocal() {
       if (myWardrobe.length === 0) {
@@ -3431,7 +3493,7 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
         if (currentOutfit.watch) assignedIds.add(currentOutfit.watch.id);
       }
 
-      // 5. 上裝與外套配置
+      // 5. 上裝與外套配置 (嚴格防範同品類衝突疊加)
       if (currentLayerCount === 1) {
         if (currentOutfit.outer && currentOutfit.outer.drawer === 'top' && !isUnsuitableForInner(currentOutfit.outer) && isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer') && !assignedIds.has(currentOutfit.outer.id)) {
           assignedIds.add(currentOutfit.outer.id);
@@ -3442,36 +3504,41 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
         currentOutfit.mid = null;
         currentOutfit.inner = null;
       } else if (currentLayerCount === 2) {
+        // 先決定外套
         if (currentOutfit.outer && currentOutfit.outer.drawer === 'outer' && isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer') && !assignedIds.has(currentOutfit.outer.id)) {
           assignedIds.add(currentOutfit.outer.id);
         } else {
           currentOutfit.outer = outers.find(o => !assignedIds.has(o.id)) || null;
           if (currentOutfit.outer) assignedIds.add(currentOutfit.outer.id);
         }
-        if (currentOutfit.inner && currentOutfit.inner.drawer === 'top' && !isUnsuitableForInner(currentOutfit.inner) && isItemSuitableForSeason(currentOutfit.inner, currentSeason, 'inner') && !assignedIds.has(currentOutfit.inner.id)) {
+        // 內搭不可與外套子品類衝突
+        if (currentOutfit.inner && currentOutfit.inner.drawer === 'top' && !isUnsuitableForInner(currentOutfit.inner) && isItemSuitableForSeason(currentOutfit.inner, currentSeason, 'inner') && !assignedIds.has(currentOutfit.inner.id) && !areSubtypesIncompatible(currentOutfit.outer, currentOutfit.inner)) {
           assignedIds.add(currentOutfit.inner.id);
         } else {
-          currentOutfit.inner = tops.find(t => !assignedIds.has(t.id)) || null;
+          currentOutfit.inner = tops.find(t => !assignedIds.has(t.id) && !areSubtypesIncompatible(currentOutfit.outer, t)) || tops.find(t => !assignedIds.has(t.id)) || null;
           if (currentOutfit.inner) assignedIds.add(currentOutfit.inner.id);
         }
         currentOutfit.mid = null;
       } else if (currentLayerCount === 3) {
+        // 外套
         if (currentOutfit.outer && currentOutfit.outer.drawer === 'outer' && isItemSuitableForSeason(currentOutfit.outer, currentSeason, 'outer') && !assignedIds.has(currentOutfit.outer.id)) {
           assignedIds.add(currentOutfit.outer.id);
         } else {
           currentOutfit.outer = outers.find(o => !assignedIds.has(o.id)) || null;
           if (currentOutfit.outer) assignedIds.add(currentOutfit.outer.id);
         }
+        // 內搭
         if (currentOutfit.inner && currentOutfit.inner.drawer === 'top' && !isUnsuitableForInner(currentOutfit.inner) && isItemSuitableForSeason(currentOutfit.inner, currentSeason, 'inner') && !assignedIds.has(currentOutfit.inner.id)) {
           assignedIds.add(currentOutfit.inner.id);
         } else {
           currentOutfit.inner = tops.find(t => !assignedIds.has(t.id)) || null;
           if (currentOutfit.inner) assignedIds.add(currentOutfit.inner.id);
         }
-        if (currentOutfit.mid && isItemSuitableForSeason(currentOutfit.mid, currentSeason, 'mid') && !assignedIds.has(currentOutfit.mid.id)) {
+        // 中層：必須同時與 inner 和 outer 無衝突，且不能與 inner 重複
+        if (currentOutfit.mid && isItemSuitableForSeason(currentOutfit.mid, currentSeason, 'mid') && !assignedIds.has(currentOutfit.mid.id) && !areSubtypesIncompatible(currentOutfit.inner, currentOutfit.mid) && !areSubtypesIncompatible(currentOutfit.outer, currentOutfit.mid)) {
           assignedIds.add(currentOutfit.mid.id);
         } else {
-          currentOutfit.mid = myWardrobe.find(m => (m.drawer === 'top' || m.drawer === 'outer') && !assignedIds.has(m.id) && isItemSuitableForSeason(m, currentSeason, 'mid')) || null;
+          currentOutfit.mid = myWardrobe.find(m => (m.drawer === 'top' || m.drawer === 'outer') && !assignedIds.has(m.id) && isItemSuitableForSeason(m, currentSeason, 'mid') && !areSubtypesIncompatible(currentOutfit.inner, m) && !areSubtypesIncompatible(currentOutfit.outer, m)) || null;
           if (currentOutfit.mid) assignedIds.add(currentOutfit.mid.id);
         }
       }
@@ -3609,6 +3676,8 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
       const svgOuter = document.getElementById('layerOuter');
       const svgPants = document.getElementById('layerPants');
       const svgSkirt = document.getElementById('layerSkirt');
+      const svgBelt = document.getElementById('layerBelt');
+      const svgWatch = document.getElementById('layerWatch');
       const statusTag = document.getElementById('mannequinStatusTag');
 
       const cOuter = getItemPrimaryHex(outer, '#282830');
@@ -3617,7 +3686,7 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
       const cBottom = getItemPrimaryHex(bottom, '#1E1E26');
       const cShoes = getItemPrimaryHex(shoes, '#111114');
       const cBelt = getItemPrimaryHex(belt, '#2E251E');
-      const cWatch = getItemPrimaryHex(watch, '#4A4A55');
+      const cWatch = getItemPrimaryHex(watch, '#C5A880');
 
       document.documentElement.style.setProperty('--c-outer-1', cOuter);
       document.documentElement.style.setProperty('--c-outer-2', cOuter);
@@ -3657,6 +3726,10 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
         svgSkirt.style.display = 'none';
         svgPants.style.display = 'block';
       }
+
+      // 嚴格控制腰帶與手錶顯隱
+      if (svgBelt) svgBelt.style.display = belt ? 'block' : 'none';
+      if (svgWatch) svgWatch.style.display = watch ? 'block' : 'none';
 
       const bottomName = isSkirt ? '裙裝' : '褲裝';
       statusTag.innerText = `${layerCount}層 · ${bottomName}`;
@@ -3710,11 +3783,13 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
       document.getElementById('layerMid').style.display = 'none';
       document.getElementById('layerSkirt').style.display = 'none';
       document.getElementById('layerPants').style.display = 'block';
+      document.getElementById('layerBelt').style.display = 'none';
+      document.getElementById('layerWatch').style.display = 'none';
       document.getElementById('mannequinLegend').innerHTML = '';
     }
 
     /* =========================================================================
-     * 9. 點擊替換單品
+     * 9. 點擊替換單品 (結合子類型衝突過濾)
      * ========================================================================= */
     function openItemPicker(roleKey) {
       currentPickerSlot = roleKey;
@@ -3724,7 +3799,7 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
 
       const roleTitles = {
         outer: currentLayerCount === 1 ? '替換上裝' : '替換外套',
-        mid: '替換中層',
+        mid: '替換中層 (不可與內搭/外套衝突)',
         inner: '替換內搭 (不可為毛衣/厚款)',
         bottom: '替換下裝',
         shoes: '替換鞋履',
@@ -3747,13 +3822,26 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
       );
 
       if (roleKey === 'outer') {
-        candidates = currentLayerCount === 1 
-          ? candidates.filter(x => x.drawer === 'top' && !isUnsuitableForInner(x))
-          : candidates.filter(x => x.drawer === 'outer');
+        if (currentLayerCount === 1) {
+          candidates = candidates.filter(x => x.drawer === 'top' && !isUnsuitableForInner(x));
+        } else if (currentLayerCount === 2) {
+          candidates = candidates.filter(x => x.drawer === 'outer' && !areSubtypesIncompatible(x, currentOutfit.inner));
+        } else if (currentLayerCount === 3) {
+          candidates = candidates.filter(x => x.drawer === 'outer' && !areSubtypesIncompatible(x, currentOutfit.mid));
+        }
       } else if (roleKey === 'mid') {
-        candidates = candidates.filter(x => x.drawer === 'top' || x.drawer === 'outer');
+        candidates = candidates.filter(x => 
+          (x.drawer === 'top' || x.drawer === 'outer') &&
+          !areSubtypesIncompatible(x, currentOutfit.inner) &&
+          !areSubtypesIncompatible(x, currentOutfit.outer)
+        );
       } else if (roleKey === 'inner') {
-        candidates = candidates.filter(x => x.drawer === 'top' && !isUnsuitableForInner(x));
+        candidates = candidates.filter(x => {
+          if (x.drawer !== 'top' || isUnsuitableForInner(x)) return false;
+          if (currentLayerCount === 2 && areSubtypesIncompatible(currentOutfit.outer, x)) return false;
+          if (currentLayerCount === 3 && areSubtypesIncompatible(currentOutfit.mid, x)) return false;
+          return true;
+        });
       } else if (roleKey === 'bottom') {
         candidates = candidates.filter(x => x.drawer === 'pants' || x.drawer === 'skirt');
       } else if (roleKey === 'shoes') {
@@ -3765,7 +3853,7 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
       }
 
       if (candidates.length === 0) {
-        grid.innerHTML = `<div style="grid-column: 1 / -1; font-size:0.75rem; color:var(--muted); text-align:center; padding:30px;">暫無可用單品</div>`;
+        grid.innerHTML = `<div style="grid-column: 1 / -1; font-size:0.75rem; color:var(--muted); text-align:center; padding:30px;">暫無相容單品</div>`;
       } else {
         const currentSelectedId = currentOutfit[roleKey] ? currentOutfit[roleKey].id : null;
         grid.innerHTML = candidates.map(item => {
@@ -4025,7 +4113,7 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
     }
 
     /* =========================================================================
-     * 11. 美學推薦
+     * 11. 美學推薦 (嚴格防止不合理同品類疊加)
      * ========================================================================= */
     async function triggerAiSmartRecommendation() {
       if (myWardrobe.length === 0) {
@@ -4105,7 +4193,8 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
             candidate.outer = validOuters[Math.floor(Math.random() * validOuters.length)];
             usedIds.add(candidate.outer.id);
           }
-          const validTops = tops.filter(t => !usedIds.has(t.id));
+          // 內搭防衝突
+          const validTops = tops.filter(t => !usedIds.has(t.id) && !areSubtypesIncompatible(candidate.outer, t));
           if (validTops.length > 0) {
             candidate.inner = validTops[Math.floor(Math.random() * validTops.length)];
             usedIds.add(candidate.inner.id);
@@ -4121,7 +4210,14 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
             candidate.inner = validInners[Math.floor(Math.random() * validInners.length)];
             usedIds.add(candidate.inner.id);
           }
-          const validMids = myWardrobe.filter(m => (m.drawer === 'top' || m.drawer === 'outer') && !usedIds.has(m.id) && isItemSuitableForSeason(m, currentSeason, 'mid'));
+          // 中層防雙重衝突
+          const validMids = myWardrobe.filter(m => 
+            (m.drawer === 'top' || m.drawer === 'outer') && 
+            !usedIds.has(m.id) && 
+            isItemSuitableForSeason(m, currentSeason, 'mid') &&
+            !areSubtypesIncompatible(candidate.inner, m) &&
+            !areSubtypesIncompatible(candidate.outer, m)
+          );
           if (validMids.length > 0) {
             candidate.mid = validMids[Math.floor(Math.random() * validMids.length)];
             usedIds.add(candidate.mid.id);
@@ -4282,50 +4378,74 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
     }
 
     /* =========================================================================
-     * 13. WALK-IN CLOSET 管理
+     * 13. WALK-IN CLOSET 管理（先品類分類，點擊後查看具體衣服）
      * ========================================================================= */
+    const CLOSET_CATEGORY_CONFIG = [
+      { key: 'outer', title: '外套大衣', en: 'COATS & JACKETS', color: 'var(--cat-outer)', icon: '<path d="M16 3H8l-4 6 3 12h10l3-12-4-6z"/><line x1="12" y1="3" x2="12" y2="21"/>' },
+      { key: 'top', title: '上裝內搭', en: 'TOPS & INNERS', color: 'var(--cat-top)', icon: '<path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.5a2 2 0 0 0 1.94 1.67h1.4v9.14a2 2 0 0 0 2 2h8.8a2 2 0 0 0 2-2v-9.14h1.4a2 2 0 0 0 1.94-1.67l.58-3.5a2 2 0 0 0-1.34-2.23z"/>' },
+      { key: 'pants', title: '褲裝系列', en: 'TROUSERS & JEANS', color: 'var(--cat-pants)', icon: '<path d="M6 3h12v4l-1 14h-3.5l-1.5-10-1.5 10H7L6 7V3z"/>' },
+      { key: 'skirt', title: '裙裝系列', en: 'SKIRTS & DRESSES', color: 'var(--cat-skirt)', icon: '<path d="M8 3h8l4 18H4L8 3z"/>' },
+      { key: 'shoes', title: '鞋履系列', en: 'FOOTWEAR', color: 'var(--cat-shoes)', icon: '<path d="M4 17h16v3H4z"/><path d="M4 17V8a4 4 0 0 1 4-4h4v7l8 6"/>' },
+      { key: 'belt', title: '腰帶系列', en: 'BELTS & CORDS', color: 'var(--cat-belt)', icon: '<rect x="3" y="9" width="18" height="6" rx="1"/><rect x="8" y="7" width="8" height="10" rx="1"/>' },
+      { key: 'watch', title: '腕錶配飾', en: 'HOROLOGY & WATCHES', color: 'var(--cat-watch)', icon: '<circle cx="12" cy="12" r="7"/><path d="M12 9v3l2 2"/><path d="M9 2h6v3H9z"/><path d="M9 19h6v3H9z"/>' }
+    ];
+
     function openClosetModal() {
       document.getElementById('closetModal').classList.add('open');
-      renderClosetCompartments();
+      backToClosetHub();
     }
 
     function closeClosetModal() {
       document.getElementById('closetModal').classList.remove('open');
     }
 
-    function renderClosetCompartments() {
-      const outers = myWardrobe.filter(x => x.drawer === 'outer');
-      const tops = myWardrobe.filter(x => x.drawer === 'top');
-      const pants = myWardrobe.filter(x => x.drawer === 'pants');
-      const skirts = myWardrobe.filter(x => x.drawer === 'skirt');
-      const shoes = myWardrobe.filter(x => x.drawer === 'shoes');
-      const belts = myWardrobe.filter(x => x.drawer === 'belt');
-      const watches = myWardrobe.filter(x => x.drawer === 'watch');
-
-      document.getElementById('statTotal').innerText = myWardrobe.length;
-      document.getElementById('statOuter').innerText = outers.length;
-      document.getElementById('statTop').innerText = tops.length;
-      document.getElementById('statPants').innerText = pants.length;
-      document.getElementById('statSkirt').innerText = skirts.length;
-      document.getElementById('statShoes').innerText = shoes.length;
-      document.getElementById('statBelt').innerText = belts.length;
-      document.getElementById('statWatch').innerText = watches.length;
-
-      fillCabinetGrid('cabinetOuter', 'countOuter', outers);
-      fillCabinetGrid('cabinetTop', 'countTop', tops);
-      fillCabinetGrid('cabinetPants', 'countPants', pants);
-      fillCabinetGrid('cabinetSkirts', 'countSkirts', skirts);
-      fillCabinetGrid('cabinetShoes', 'countShoes', shoes);
-      fillCabinetGrid('cabinetBelt', 'countBelt', belts);
-      fillCabinetGrid('cabinetWatch', 'countWatch', watches);
+    function backToClosetHub() {
+      activeClosetCategory = null;
+      document.getElementById('closetCategoryHub').style.display = 'grid';
+      document.getElementById('closetDetailContainer').style.display = 'none';
+      renderClosetCategoryHub();
     }
 
-    function fillCabinetGrid(gridId, countId, items) {
-      document.getElementById(countId).innerText = items.length;
-      const grid = document.getElementById(gridId);
+    function renderClosetCategoryHub() {
+      const hub = document.getElementById('closetCategoryHub');
+      hub.innerHTML = CLOSET_CATEGORY_CONFIG.map(cfg => {
+        const count = myWardrobe.filter(x => x.drawer === cfg.key).length;
+        return `
+          <div class="category-hub-card" style="--cat-accent-color:${cfg.color};" onclick="openClosetCategory('${cfg.key}')">
+            <div class="category-hub-header">
+              <div class="category-hub-icon-wrap">
+                <svg viewBox="0 0 24 24">${cfg.icon}</svg>
+              </div>
+              <span class="category-hub-count">${count} 件</span>
+            </div>
+            <div>
+              <div class="category-hub-title">${cfg.title}</div>
+              <div class="category-hub-sub">${cfg.en}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
 
+    function openClosetCategory(drawerKey) {
+      activeClosetCategory = drawerKey;
+      document.getElementById('closetCategoryHub').style.display = 'none';
+      document.getElementById('closetDetailContainer').style.display = 'flex';
+      renderActiveCategoryItems();
+    }
+
+    function renderActiveCategoryItems() {
+      if (!activeClosetCategory) return;
+      const cfg = CLOSET_CATEGORY_CONFIG.find(c => c.key === activeClosetCategory) || { title: '單品列表', color: 'var(--cat-outer)' };
+      const items = myWardrobe.filter(x => x.drawer === activeClosetCategory);
+
+      document.getElementById('closetDetailCatTitle').innerText = cfg.title;
+      document.getElementById('closetDetailCatTitle').style.color = cfg.color;
+      document.getElementById('closetDetailCatCount').innerText = `${items.length} 件單品`;
+
+      const grid = document.getElementById('cabinetActiveGrid');
       if (items.length === 0) {
-        grid.innerHTML = `<div class="empty-cabinet-slot" style="grid-column: 1 / -1;">無單品</div>`;
+        grid.innerHTML = `<div class="empty-cabinet-slot" style="grid-column: 1 / -1;">該品類暫無任何單品</div>`;
         return;
       }
 
@@ -4408,7 +4528,7 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
       item.userConfirmed = true;
 
       await dbSaveItem(item);
-      renderClosetCompartments();
+      renderActiveCategoryItems();
       renderOutfitViewLocal();
       showToast(`${info.name} (${info.hex})`);
     }
@@ -4423,7 +4543,7 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
       item.userConfirmed = true;
 
       await dbSaveItem(item);
-      renderClosetCompartments();
+      renderActiveCategoryItems();
       renderOutfitViewLocal();
     }
 
@@ -4436,7 +4556,7 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
       item.userConfirmed = true;
 
       await dbSaveItem(item);
-      renderClosetCompartments();
+      renderActiveCategoryItems();
       renderOutfitViewLocal();
     }
 
@@ -4466,7 +4586,7 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
       item.seasons = Array.from(s);
       item.userConfirmed = true;
       await dbSaveItem(item);
-      renderClosetCompartments();
+      renderActiveCategoryItems();
       renderOutfitViewLocal();
     }
 
@@ -4485,7 +4605,7 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
         renderRecentCardUi(item);
       }
 
-      renderClosetCompartments();
+      renderActiveCategoryItems();
       renderOutfitViewLocal();
       showToast(`${newColors.map(c=>c.name).join('+')}`);
     }
@@ -4504,7 +4624,11 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
           await dbSaveItem(item);
         }
       }
-      renderClosetCompartments();
+      if (activeClosetCategory) {
+        renderActiveCategoryItems();
+      } else {
+        renderClosetCategoryHub();
+      }
       renderOutfitViewLocal();
       showToast("全庫色彩校正完成");
     }
@@ -4523,10 +4647,10 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
         renderRecentCardUi(item);
       }
 
-      renderClosetCompartments();
+      renderActiveCategoryItems();
       renderOutfitViewLocal();
       updateWardrobeCountUi();
-      showToast(`${CAT_LABELS[newDrawer]}`);
+      showToast(`已移動至 ${CAT_LABELS[newDrawer]}`);
     }
 
     async function deleteFromCloset(id) {
@@ -4538,14 +4662,14 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
         document.getElementById('recentCard').style.display = 'none';
       }
       updateWardrobeCountUi();
-      renderClosetCompartments();
+      renderActiveCategoryItems();
       renderBatchQueueUi();
       renderOutfitViewLocal();
       showToast("已移除");
     }
 
     /* =========================================================================
-     * 14. 滴管/漏管畫布取色器核心引擎 (EYEDROPPER ENGINE)
+     * 14. 滴管畫布取色器核心引擎 (EYEDROPPER ENGINE)
      * ========================================================================= */
     function openEyedropperForRecentItem(colorIndex) {
       if (!lastRecordedItem || !lastRecordedItem.img) {
@@ -4671,7 +4795,6 @@ if (item.drawer === 'shoes' || item.drawer === 'belt' || item.drawer === 'watch'
         loupe.style.display = 'none';
       });
 
-      // 點擊確認取色並寫入
       wrap.addEventListener('click', (e) => {
         const picked = sampleColorAtEvent(e);
         if (picked) {
